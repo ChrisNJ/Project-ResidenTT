@@ -17,7 +17,7 @@ app.use(express.json()); //req.body
 
 //if in production (deployment) then change main client path to build
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "clint/build")));
+  app.use(express.static(path.join(__dirname, "client/build")));
 }
 
 //Routes
