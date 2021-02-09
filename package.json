@@ -1,0 +1,31 @@
+{
+  "name": "project-residentt",
+  "version": "1.0.0",
+  "description": "Crime Prediction Website",
+  "main": "index.js",
+  "engines": {
+    "node": "12.18.4",
+    "npm": "6.14.8"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChrisNJ/Project-ResidenTT.git"
+  },
+  "author": "CDK Solutions: Christopher Joseph, Dexter Singh, Keronn Gill",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChrisNJ/Project-ResidenTT/issues"
+  },
+  "homepage": "https://github.com/ChrisNJ/Project-ResidenTT#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "pg": "^8.5.1",
+    "sequelize": "^6.5.0"
+  }
+}

@@ -1,0 +1,42 @@
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const path = require("path");
+
+const pool = require("./db");
+
+//port either uses heroku's port when deployed or 5000 for localhost
+const PORT = process.env.PORT || 5000;
+
+//Models
+const Crime = require("./models/CrimeReport");
+
+// app connection
+app.use(cors());
+app.use(express.json()); //req.body
+
+//if in production (deployment) then change main client path to build
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "clint/build")));
+}
+
+//Routes
+
+/* Crime Reports*/
+//route for crime data
+app.use("/crimereports", require("./routes/crimereports"));
+
+//if a route is requested that doesnt exist
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build/index.html"));
+  });
+} else {
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/public/index.html"));
+  });
+}
+
+app.listen(PORT, () => {
+  console.log(`Server is starting on port ${PORT}`);
+});
