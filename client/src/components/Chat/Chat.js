@@ -9,6 +9,9 @@ import config from "./config";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 
+import ReactDOM from "react-dom";
+import Modal from "@material-ui/core/Modal";
+
 const style = {
   margin: 0,
   top: "auto",
@@ -30,6 +33,7 @@ class ChatComponent extends Component {
     const { show } = this.state;
     this.setState({ show: !show });
   };
+
   render() {
     return (
       <div>
