@@ -18,15 +18,27 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* <div className="particle-container">
+        <div style={{ position: "absolute" }}>
           <Particles
+            height="100vh"
+            width="100vw"
             params={{
               particles: {
                 number: {
-                  value: 80,
+                  value: 100,
                 },
                 size: {
                   value: 3,
+                },
+                color: {
+                  value: "#ffffff",
+                },
+                line_linked: {
+                  enable: true,
+                  distance: 250,
+                  color: "#3a9bde",
+                  opacity: 0.4,
+                  width: 1,
                 },
               },
               interactivity: {
@@ -39,7 +51,7 @@ function App() {
               },
             }}
           />
-        </div> */}
+        </div>
         <SideBar />
         <SimpleModal />
         <Switch>
