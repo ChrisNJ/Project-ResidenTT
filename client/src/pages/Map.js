@@ -85,8 +85,7 @@ const Map = () => {
 
   return (
     <div className="container">
-      {/* AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg */}
-      <LoadScript googleMapsApiKey="">
+      <LoadScript googleMapsApiKey="AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg">
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
