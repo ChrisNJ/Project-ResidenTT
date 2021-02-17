@@ -8,8 +8,14 @@ class MessageParser {
   parse(message) {
     const lowerCaseMessage = message.toLowerCase();
 
-    if (lowerCaseMessage.includes("crime")) {
+    if (lowerCaseMessage.includes("horn")) {
       this.actionProvider.horn();
+    }
+    if (lowerCaseMessage.includes("residentt")) {
+      this.actionProvider.group();
+    }
+    if (lowerCaseMessage.includes("group member")) {
+      this.actionProvider.members();
     }
   }
 }

@@ -1,10 +1,10 @@
 import React from "react";
-
+import SimpleModal from "../components/Chat/Modal";
 const Home = () => {
-  return( 
-  <div>
-      This is the Home page
-  </div> 
+  return (
+    <div>
+      <SimpleModal />
+    </div>
   );
 };
 

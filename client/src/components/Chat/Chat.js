@@ -10,7 +10,6 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 
 import ReactDOM from "react-dom";
-import Modal from "@material-ui/core/Modal";
 
 const style = {
   margin: 0,

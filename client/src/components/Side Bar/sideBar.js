@@ -17,7 +17,6 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-import LocationIcon from "@material-ui/icons/LocationOn";
 import { withRouter } from "react-router-dom";
 import { Route, Switch, Router } from "react-router-dom";
 
@@ -100,11 +99,6 @@ const SideBar = (props) => {
       onClick: () => history.push("/"),
     },
     {
-      text: "Map",
-      icon: <LocationIcon />,
-      onClick: () => history.push("/map"),
-    },
-    {
       text: "About",
       icon: <MailIcon />,
       onClick: () => history.push("/about"),
@@ -113,6 +107,11 @@ const SideBar = (props) => {
       text: "Contact",
       icon: <MailIcon />,
       onClick: () => history.push("/contact"),
+    },
+    {
+      text: "Map",
+      icon: <MailIcon />,
+      onClick: () => history.push("/map"),
     },
   ];
 
@@ -158,18 +157,6 @@ const SideBar = (props) => {
             )}
           </IconButton>
         </div>
-        <Divider />
-        <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
         <List>
           {itemsList.map((item, index) => {
             const { text, icon, onClick } = item;

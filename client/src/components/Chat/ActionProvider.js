@@ -6,8 +6,18 @@ class ActionProvider {
   }
 
   horn() {
+    const greetingMessage = this.createChatBotMessage("That's Rough Buddy.");
+    this.updateChatbotState(greetingMessage);
+  }
+  group() {
     const greetingMessage = this.createChatBotMessage(
-      "Sorry to hear that, how may I assist you?"
+      "ResidenTT is a Crime Predication Application that uses a clustering algorith to predict when a where a crime may occur in the near or late future."
+    );
+    this.updateChatbotState(greetingMessage);
+  }
+  members() {
+    const greetingMessage = this.createChatBotMessage(
+      "The Group consists of Dexter Singh, Christopher Joseph and Keronn Gill"
     );
     this.updateChatbotState(greetingMessage);
   }
