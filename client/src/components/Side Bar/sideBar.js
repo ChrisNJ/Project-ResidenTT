@@ -135,7 +135,7 @@ const SideBar = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            ResidenTT Prediction App
+            ResidenTT
           </Typography>
         </Toolbar>
       </AppBar>

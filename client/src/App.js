@@ -18,7 +18,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <div className="particle-container">
+        {/* <div className="particle-container">
           <Particles
             params={{
               particles: {
@@ -39,7 +39,7 @@ function App() {
               },
             }}
           />
-        </div>
+        </div> */}
         <SideBar />
         <SimpleModal />
         <Switch>
