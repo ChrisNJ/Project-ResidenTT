@@ -36,10 +36,11 @@ router.get('/', (req, res) => {
         ]; 
         stories.push(data);
         //console.log(res.json); 
-
+        browser.close();
         } catch (err) {
             console.error(err);  
-        } 
+        }  
+        
     }
 
     async function crawlSite(){ 
@@ -74,9 +75,10 @@ router.get('/', (req, res) => {
 
             res.json(stories);
 
+            browser.close();
         } catch (err) {
             console.error(err);
-        }
+        } 
     } 
     
     crawlSite();   
