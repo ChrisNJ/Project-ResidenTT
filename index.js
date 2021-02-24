@@ -24,7 +24,9 @@ if (process.env.NODE_ENV === "production") {
 
 /* Crime Reports*/
 //route for crime data
-app.use("/crimereports", require("./routes/crimereports"));
+app.use("/crimereports", require("./routes/crimereports")); 
+app.use("/scrape", require("./routes/scrapper"));
+
 
 //if a route is requested that doesnt exist
 if (process.env.NODE_ENV === "production") {

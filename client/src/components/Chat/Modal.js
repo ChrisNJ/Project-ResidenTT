@@ -21,8 +21,8 @@ const style = {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "fixed",
-    top: "50%",
-    left: "50%",
+    top: "54%",
+    right: "-5%",
     /* bring your own prefixes */
     transform: "translate(-50%, -50%)",
   },
