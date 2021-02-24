@@ -16,27 +16,12 @@ class Feed extends Component {
       this.setState({
         scrappedLink : response.data
       })
-      //console.log(this.state.scrappedLink[0]); 
+      console.log(this.state.scrappedLink); 
       //this.getArticles();
     });
   }
 
-  // getArticles(){  
-  //   var list = [];
-  //   var re = new RegExp("^https://newsday.co.tt/..../../..///", "i");
-  //   for (var i=0;i<this.state.scrappedLink.length;i++){  
-  //     //console.log(this.state.scrappedLink[i]); 
-  //     var tmp = this.state.scrappedLink[i];
-  //     if (tmp.match("^https://newsday.co.tt/..../../../")){  
-  //       list.push(tmp);
-  //     }
-  //   }  
-  //   //console.log(list); 
-  //   this.setState({
-  //     stories : list
-  //   })
-  //   console.log(this.state.stories);
-  // }  
+
 
 
   render() { 

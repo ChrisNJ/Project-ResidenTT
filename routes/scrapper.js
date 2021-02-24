@@ -3,13 +3,19 @@ const router = require("express").Router();
 var stories = []; 
 var scrappedLink = []; 
 
+
+
 router.get('/', (req, res) => {  
-    const puppeteer =require('puppeteer'); 
+    const puppeteer = require('puppeteer-extra');  
+    const pluginStealth = require('puppeteer-extra-plugin-stealth');
+    puppeteer.use(pluginStealth());
   
     async function scrapeSite(url){ 
-    try{
+    try{ 
+        process.setMaxListeners(0);
         const browser = await puppeteer.launch(); 
-        const page = await browser.newPage(); 
+        const page = await browser.newPage();  
+        await page.setDefaultNavigationTimeout(0); 
     
         await page.goto(url); 
         const [el] = await page.$x('//*[@id="article-featured-image"]/img'); 
@@ -20,10 +26,17 @@ router.get('/', (req, res) => {
         const txt = await el2.getProperty('textContent'); 
         const title = await txt.jsonValue();  
 
-        //console.log(res.json);
-        console.log({srcText,title,url}); 
-    
-        browser.close();  
+        
+        var data = [
+            {
+                "img": srcTxt,
+                "title": title,
+                "url": url
+            }
+        ]; 
+        stories.push(data);
+        //console.log(res.json); 
+
         } catch (err) {
             console.error(err);  
         } 
@@ -43,7 +56,7 @@ router.get('/', (req, res) => {
             const hrefs2 = await Promise.all(
             propertyJsHandles.map(handle => handle.jsonValue()) 
             ); 
-            res.json(hrefs2); 
+            //res.json(hrefs2); 
             scrappedLink = hrefs2; 
             console.log(scrappedLink); 
 
@@ -57,7 +70,9 @@ router.get('/', (req, res) => {
             } 
             console.log(list);   
 
-            for(var j = 0; j<list.length;j++) scrapeSite(list[j]);
+            for(var j = 0; j<list.length;j++) scrapeSite(list[j]); 
+
+            res.json(stories);
 
         } catch (err) {
             console.error(err);
