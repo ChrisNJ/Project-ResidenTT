@@ -4,7 +4,6 @@ import {
   LoadScript,
   Marker,
   InfoWindow,
-  Circle,
 } from "@react-google-maps/api";
 
 const containerStyle = {
@@ -12,24 +11,32 @@ const containerStyle = {
   height: "60vh",
 };
 
-const center = {
-  lat: 10.66493623435229,
-  lng: -61.40035327985661,
-};
-
 const Map = () => {
   const [crimeData, setCrimeData] = useState([]);
+  const [center, setCenter] = useState({
+    lat: 10.66493623435229,
+    lng: -61.40035327985661,
+  });
   const [selected, setSelected] = useState({});
+  const [zoom, setZoom] = useState(9);
   const [currentPosition, setCurrentPosition] = useState({});
 
-  async function getCrimeData() {
+  const getCrimeData = async (range = 1) => {
     try {
-      const res = await fetch("/crimereports/", {
-        method: "GET",
-      });
+      let res;
+      if (range >= 1) {
+        const body = { range };
+
+        res = await fetch("/crimereports/", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+      }
 
       const parseData = await res.json();
-
       let newData = parseData.map((element) => {
         return {
           createdAt: element.createdAt,
@@ -52,7 +59,7 @@ const Map = () => {
     } catch (err) {
       console.error(err.message);
     }
-  }
+  };
 
   useEffect(() => {
     getCrimeData();
@@ -61,6 +68,11 @@ const Map = () => {
 
   const onSelect = (item) => {
     setSelected(item);
+
+    if (zoom < 12) {
+      setZoom(12);
+    }
+    setCenter(item.location);
   };
 
   const success = (position) => {
@@ -74,33 +86,23 @@ const Map = () => {
   return (
     <div className="container">
       <LoadScript googleMapsApiKey="AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg">
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={9}>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={zoom}
+        >
           {currentPosition.lat && (
-            <Circle
-              options={{
-                strokeColor: "white",
-                strokeOpacity: 1,
-                strokeWeight: 4,
-                fillColor: "#4287f5",
-                fillOpacity: 1,
-                radius: 2000,
-              }}
-              center={currentPosition}
+            <Marker
+              icon={"https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}
+              position={currentPosition}
             />
           )}
           {crimeData.map((item) => {
             return (
-              <Circle
+              <Marker
                 key={item.id}
-                options={{
-                  strokeColor: "white",
-                  strokeOpacity: 1,
-                  strokeWeight: 4,
-                  fillColor: "#e31414",
-                  fillOpacity: 1,
-                  radius: 2000,
-                }}
-                center={item.location}
+                icon={"https://maps.google.com/mapfiles/ms/icons/red-dot.png"}
+                position={item.location}
                 onClick={() => onSelect(item)}
               />
             );
@@ -111,11 +113,69 @@ const Map = () => {
               clickable={true}
               onCloseClick={() => setSelected({})}
             >
-              <p style={{ color: "black" }}>{selected.offences}</p>
+              <div>
+                <p style={{ color: "black" }}>
+                  <b>Offence:</b> {selected.offences}
+                </p>
+                <p style={{ color: "black" }}>
+                  <b>Date:</b> {selected.date}
+                </p>
+              </div>
             </InfoWindow>
           )}
         </GoogleMap>
       </LoadScript>
+      <div className="btn-group" role="group" aria-label="Basic example">
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => getCrimeData(1)}
+        >
+          3 Months
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => getCrimeData(2)}
+        >
+          6 Months
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => getCrimeData(3)}
+        >
+          1 Year
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => getCrimeData(4)}
+        >
+          2 Years
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => getCrimeData(5)}
+        >
+          3 Years
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => getCrimeData(6)}
+        >
+          4 Years
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => getCrimeData(7)}
+        >
+          5 Years
+        </button>
+      </div>
     </div>
   );
 };
