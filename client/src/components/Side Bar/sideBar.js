@@ -112,7 +112,12 @@ const SideBar = (props) => {
       text: "Map",
       icon: <MailIcon />,
       onClick: () => history.push("/map"),
-    },
+    }, 
+    {
+      text: "News Feed",
+      icon: <MailIcon />,
+      onClick: () => history.push("/feed")
+    }
   ];
 
   return (
