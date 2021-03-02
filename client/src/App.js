@@ -2,9 +2,10 @@ import "./App.css";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Map from "./pages/Map";
-import React from "react"; 
-import Feed from "./pages/NewsFeed"; 
+import Stats from "./pages/Stats";
+import Feed from "./pages/NewsFeed";
 
+import React from "react";
 import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import { Route, Switch } from "react-router-dom";
@@ -58,8 +59,9 @@ function App() {
         <Switch>
           <Route exact path="/about" render={(props) => <About {...props} />} />
           <Route exact path="/map" render={(props) => <Map {...props} />} />
+          <Route exact path="/stats" render={(props) => <Stats {...props} />} />
           <Route exact path="/" render={(props) => <Home {...props} />} />
-          <Route exact path="/feed" render={props => <Feed {...props} />} />
+          <Route exact path="/feed" render={(props) => <Feed {...props} />} />
         </Switch>
       </div>
     </Router>
