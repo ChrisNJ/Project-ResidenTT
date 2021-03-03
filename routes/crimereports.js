@@ -53,7 +53,6 @@ router.post("/", async (req, res) => {
       });
 
       if (reports) {
-        console.log(new Date(10));
         var results = [];
         var crimes = Object.values(reports);
         results.push(crimes.length);

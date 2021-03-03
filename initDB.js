@@ -8,11 +8,12 @@ const CrimeReport = require("./models/CrimeReport");
 
 // import xlsx to read the excel file and convert the columns to json format
 const XLSX = require("xlsx");
-const workbook = XLSX.readFile("crimereports.xlsx");
+const workbook = XLSX.readFile("crimereports1.xlsx");
 const sheet_name_list = workbook.SheetNames;
 crimereports = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
 // reads the json object and creates records in the CrimeReport table
+// crimereports.length
 for (var i = 0; i < crimereports.length; i++) {
   CrimeReport.create({
     date: new Date(crimereports[i].date),

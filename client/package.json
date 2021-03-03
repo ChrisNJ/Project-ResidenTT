@@ -11,17 +11,13 @@
     "@testing-library/user-event": "^12.6.3",
     "axios": "^0.21.1",
     "chart.js": "^2.9.4",
-    "cheerio": "^1.0.0-rc.5",
     "cors": "^2.8.5",
     "get-urls": "^10.0.0",
-    "got": "^11.8.1",
     "http2": "^3.3.7",
     "inline": "0.0.2",
     "jquery": "^3.5.1",
     "material-ui": "^0.20.2",
     "node-fetch": "^2.6.1",
-    "playwright": "^0.13.0",
-    "puppeteer": "^7.1.0",
     "react": "^17.0.1",
     "react-chartjs-2": "^2.11.1",
     "react-chatbot-kit": "^1.1.1",
@@ -57,5 +53,12 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "proxy": {
+    "/scrape": {
+      "target": "http://localhost:5000/"
+    },
+    "/crimereports/": {
+      "target": "http://localhost:5000/"
+    }
+  }
 }

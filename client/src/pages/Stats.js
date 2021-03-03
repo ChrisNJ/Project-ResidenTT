@@ -21,7 +21,7 @@ const Stats = () => {
       console.log(parseData);
       setCrimeData(parseData);
     } catch (err) {
-      console.error(err.message); 
+      console.error(err.message);
     }
   };
 
@@ -31,13 +31,17 @@ const Stats = () => {
 
   return (
     <div>
-      <h1 style={{ textAlign: "center" }}>Stats</h1>
+      <br />
+      <h1 style={{ textAlign: "center" }}>
+        Trinidad and Tobago 2020 Crime Statistics
+      </h1>
+      <br />
       <div className="row justify-content-md-center">
         <div className="col col-lg-8">
           <Bar
             data={{
               labels: [
-                "Total Crimes",
+                "TOTAL CRIMES",
                 "WOUNDING/SHOOTING",
                 "ROBBERY",
                 "POSS OF NARCOTICS FOR TRAFFICKING",
@@ -97,6 +101,10 @@ const Stats = () => {
                 ],
                 xAxes: [
                   {
+                    ticks: {
+                      fontColor: "lightgray",
+                      fontSize: 12,
+                    },
                     gridLines: {
                       color: "rgba(213, 221, 223, 0.3)",
                     },

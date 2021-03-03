@@ -4,6 +4,7 @@ import {
   LoadScript,
   Marker,
   InfoWindow,
+  MarkerClusterer,
 } from "@react-google-maps/api";
 
 const containerStyle = {
@@ -54,7 +55,7 @@ const Map = () => {
           },
         };
       });
-
+      console.log(newData);
       setCrimeData(newData);
     } catch (err) {
       console.error(err.message);
@@ -69,10 +70,10 @@ const Map = () => {
   const onSelect = (item) => {
     setSelected(item);
 
-    if (zoom < 12) {
-      setZoom(12);
-    }
-    setCenter(item.location);
+    // if (zoom < 12) {
+    //   setZoom(12);
+    // }
+    // setCenter(item.location);
   };
 
   const success = (position) => {
@@ -83,98 +84,133 @@ const Map = () => {
     setCurrentPosition(currentPosition);
   };
 
+  const options = {
+    imagePath:
+      "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+  };
+
+  function createKey(location) {
+    return location.lat + location.lng;
+  }
+
   return (
-    <div className="container">
-      <LoadScript googleMapsApiKey="AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg">
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={zoom}
-        >
-          {currentPosition.lat && (
-            <Marker
-              icon={"https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}
-              position={currentPosition}
-            />
-          )}
-          {crimeData.map((item) => {
-            return (
+    <div>
+      <br />
+      <h1 style={{ textAlign: "center" }}>Trinidad and Tobago Crime Map</h1>
+      <br />
+      <div className="container">
+        <LoadScript googleMapsApiKey="AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg">
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={zoom}
+          >
+            {currentPosition.lat && (
               <Marker
-                key={item.id}
-                icon={"https://maps.google.com/mapfiles/ms/icons/red-dot.png"}
-                position={item.location}
-                onClick={() => onSelect(item)}
+                icon={"https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}
+                position={currentPosition}
               />
-            );
-          })}
-          {selected.location && (
-            <InfoWindow
-              position={selected.location}
-              clickable={true}
-              onCloseClick={() => setSelected({})}
-            >
-              <div>
-                <p style={{ color: "black" }}>
-                  <b>Offence:</b> {selected.offences}
-                </p>
-                <p style={{ color: "black" }}>
-                  <b>Date:</b> {selected.date}
-                </p>
-              </div>
-            </InfoWindow>
-          )}
-        </GoogleMap>
-      </LoadScript>
-      <div className="btn-group" role="group" aria-label="Basic example">
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(1)}
-        >
-          3 Months
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(2)}
-        >
-          6 Months
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(3)}
-        >
-          1 Year
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(4)}
-        >
-          2 Years
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(5)}
-        >
-          3 Years
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(6)}
-        >
-          4 Years
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(7)}
-        >
-          5 Years
-        </button>
+            )}
+            <MarkerClusterer options={options}>
+              {(clusterer) =>
+                // {currentPosition.lat && (
+                //   <Marker
+                //     icon={"https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}
+                //     position={currentPosition}
+                //   />
+                // )}
+                // {crimeData.map((item) => {
+                //   return (
+                //     <Marker
+                //       key={item.id}
+                //       icon={"https://maps.google.com/mapfiles/ms/icons/red-dot.png"}
+                //       position={item.location}
+                //       onClick={() => onSelect(item)}
+                //     />
+                //   );
+                // })}
+                // {selected.location && (
+                //   <InfoWindow
+                //     position={selected.location}
+                //     clickable={true}
+                //     onCloseClick={() => setSelected({})}
+                //   >
+                //     <div>
+                //       <p style={{ color: "black" }}>
+                //         <b>Offence:</b> {selected.offences}
+                //       </p>
+                //       <p style={{ color: "black" }}>
+                //         <b>Date:</b> {selected.date}
+                //       </p>
+                //     </div>
+                //   </InfoWindow>
+                // )}
+                crimeData.map((item) => (
+                  <Marker
+                    icon={
+                      "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                    }
+                    key={item.id}
+                    position={item.location}
+                    clusterer={clusterer}
+                  />
+                ))
+              }
+            </MarkerClusterer>
+          </GoogleMap>
+        </LoadScript>
+
+        <div className="btn-group" role="group" aria-label="Basic example">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => getCrimeData(1)}
+          >
+            3 Months
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => getCrimeData(2)}
+          >
+            6 Months
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => getCrimeData(3)}
+          >
+            1 Year
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => getCrimeData(4)}
+          >
+            2 Years
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => getCrimeData(5)}
+          >
+            3 Years
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => getCrimeData(6)}
+          >
+            4 Years
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => getCrimeData(7)}
+          >
+            5 Years
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -3,7 +3,16 @@ import SimpleModal from "../components/Chat/Modal";
 const Home = () => {
   return (
     <div>
-      <h2>Welcome to ResidenTT (a crime predition app)</h2>
+      <div
+        // class="d-flex flex-column  min-vh-100 justify-content-center align-items-center"
+        style={{ position: "absolute", left: "40%", top: "40%" }}
+      >
+        <h1 class="align-middle">Welcome to ResidenTT</h1>
+        <h3 class="align-middle">a crime prediction app</h3>
+        <a href="/map" class="btn btn-outline-primary" role="button">
+          Crime Map
+        </a>
+      </div>
       <SimpleModal />
     </div>
   );
