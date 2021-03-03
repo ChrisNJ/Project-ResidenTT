@@ -1,15 +1,26 @@
 .App {
   background-color: #181515;
-  /* background-color: #d5dddf; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-size: calc(10px + 2vmin);
+  /* font-size: calc(10px + 2vmin); */
   color: white;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
+
+/* .navbar-custom {
+  background-color: #3f51b5;
+}
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+  color: rgb(171, 175, 177);
+}
+
+.navbar-custom .navbar-nav .nav-link {
+  color: rgb(171, 175, 177);
+} */
 
 /* 
 .particle-container {
