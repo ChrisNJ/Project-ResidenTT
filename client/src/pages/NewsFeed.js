@@ -49,7 +49,7 @@ class Feed extends Component {
     var data = this.state.scrappedLink; 
     console.log(data)
     return data.map (el => ( 
-      <div style={{ display:'flex', justifyContent:'center' }}>
+      <div style={{ display:'flex', justifyContent:'center' , paddingTop: '10px'}}>
           <Card className={classes.root}>
             <CardActionArea>
               <CardMedia
@@ -69,12 +69,9 @@ class Feed extends Component {
                 </Typography> */}
               </CardContent>
             </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Share
-              </Button> 
-              <Button size="small" color="primary">
-                Learn More
+            <CardActions style={{justifyContent: 'center'}}>
+              <Button size="small" color="primary" target="_blank" href={el[0].url}>
+                Read More
               </Button>
             </CardActions>
           </Card>
