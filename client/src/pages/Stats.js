@@ -21,7 +21,7 @@ const Stats = () => {
       console.log(parseData);
       setCrimeData(parseData);
     } catch (err) {
-      console.error(err.message);
+      console.error(err.message); 
     }
   };
 

@@ -44,7 +44,7 @@ class Feed extends Component {
   }
 
 
-  render() {     
+  render() {      
     const {classes} = this.props; 
     var data = this.state.scrappedLink; 
     console.log(data)

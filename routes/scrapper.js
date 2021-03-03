@@ -5,23 +5,32 @@ var scrappedLink = [];
 
 
 
+
 router.get('/', (req, res) => {  
     const puppeteer = require('puppeteer-extra');  
     const pluginStealth = require('puppeteer-extra-plugin-stealth');
-    puppeteer.use(pluginStealth());
-  
+    puppeteer.use(pluginStealth());  
+ 
     async function scrapeSite(url){ 
-    try{ 
+    try{  
+        const browser = await puppeteer.launch({
+            userDataDir: 'C:\\tmp\\pptr', 
+            slowmo: 250, 
+            ignoreDefaultArgs: ['--disable-extensions'],
+            args: ['--no-sandbox']
+        }); 
         process.setMaxListeners(0);
-        const browser = await puppeteer.launch(); 
+        
         const page = await browser.newPage();  
         await page.setDefaultNavigationTimeout(0); 
     
-        await page.goto(url); 
+        await page.goto(url);   
+
         const [el] = await page.$x('//*[@id="article-featured-image"]/img'); 
         const src = await el.getProperty('src'); 
         const srcTxt = await src.jsonValue();  
-
+        
+        
         const [el2] = await page.$x('//*[@id="page-content"]/div/article/header/h1'); 
         const txt = await el2.getProperty('textContent'); 
         const title = await txt.jsonValue();  
@@ -44,8 +53,14 @@ router.get('/', (req, res) => {
     }
 
     async function crawlSite(){ 
-        try{
-            const browser = await puppeteer.launch();
+        try{  
+            process.setMaxListeners(0);
+            const browser = await puppeteer.launch({
+                userDataDir: './myUserDataDir', 
+                slowmo: 250, 
+                ignoreDefaultArgs: ['--disable-extensions'],
+                args: ['--no-sandbox']
+            }); 
             const [page] = await browser.pages();
 
             await page.goto('https://newsday.co.tt/latest/'); 
@@ -59,7 +74,7 @@ router.get('/', (req, res) => {
             ); 
             //res.json(hrefs2); 
             scrappedLink = hrefs2; 
-            console.log(scrappedLink); 
+            //console.log(scrappedLink);  
 
             var list = [];
             for (var i=0;i<scrappedLink.length;i++){  
@@ -87,5 +102,4 @@ router.get('/', (req, res) => {
   
   
   
-
 module.exports = router;

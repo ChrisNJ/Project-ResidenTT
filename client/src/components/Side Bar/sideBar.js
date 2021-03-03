@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     textTransform: `uppercase`,
     color: `white`
   }
-});
+}); 
 
 const navLinks = [ 
   { title: `Home`, path: `/` },
