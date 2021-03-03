@@ -53,12 +53,14 @@
       "last 1 safari version"
     ]
   },
-  "proxy": {
-    "/scrape": {
-      "target": "http://localhost:5000/"
+  "proxy": { 
+    "/scrape": { 
+      "target" : "http://localhost:5000/"
     },
-    "/crimereports/": {
-      "target": "http://localhost:5000/"
+    "/crimereports/" : {
+      "target" : "http://localhost:5000/"
     }
-  }
+
+    
+  } 
 }
