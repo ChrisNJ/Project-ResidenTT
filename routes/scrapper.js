@@ -59,10 +59,10 @@ router.get('/', (req, res) => {
             process.setMaxListeners(0); 
             
             const browser = await puppeteer.launch({
-                userDataDir: './myUserDataDir', 
                 slowmo: 250, 
                 ignoreDefaultArgs: ['--disable-extensions'],
-                args: ['--no-sandbox']
+                args: ['--no-sandbox','--disable-setuid-sandbox'] 
+                
             }); 
             const [page] = await browser.pages();
             await page.setDefaultNavigationTimeout(0); 
