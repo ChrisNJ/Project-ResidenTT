@@ -64,13 +64,7 @@ const Sidebar = () => {
       class="navbar navbar-expand-lg navbar-dark bg-primary"
       style={{ height: "100px !important" }}
     >
-      <a class="navbar-brand" href="#">
-        {/* <img
-          src="https://res.cloudinary.com/dtqlgbedo/image/upload/v1614766622/info3604project/logo_ekkdfw.png"
-          width="30"
-          height="30"
-          alt=""
-        /> */}
+      <a class="navbar-brand" href="/">
         <img
           src="https://res.cloudinary.com/dtqlgbedo/image/upload/v1614766666/info3604project/favicon_inm9xs.png"
           width="30"

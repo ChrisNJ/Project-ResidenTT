@@ -4,8 +4,8 @@ const Home = () => {
   return (
     <div>
       <div
-        // class="d-flex flex-column  min-vh-100 justify-content-center align-items-center"
-        style={{ position: "absolute", left: "40%", top: "40%" }}
+        class="d-flex flex-column  min-vh-100 justify-content-center align-items-center"
+        style={{ position: "relative" }}
       >
         <h1 class="align-middle">Welcome to ResidenTT</h1>
         <h3 class="align-middle">a crime prediction app</h3>
