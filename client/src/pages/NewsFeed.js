@@ -38,7 +38,7 @@ class Feed extends Component {
       this.setState({
         scrappedLink : response.data
       })
-      console.log(this.state.scrappedLink); 
+      //console.log(this.state.scrappedLink); 
       //this.getArticles();
     });
   }
@@ -47,37 +47,36 @@ class Feed extends Component {
   render() {      
     const {classes} = this.props; 
     var data = this.state.scrappedLink; 
-    console.log(data)
-    return data.map (el => ( 
-      <div style={{ display:'flex', justifyContent:'center' , paddingTop: '10px'}}>
-          <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                alt="Contemplative Reptile"
-                height="140"
-                image = {el[0].img}
-                title= {el[0].title} 
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {el[0].title}
-                </Typography>
-                {/* <Typography variant="body2" color="textSecondary" component="p">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                  across all continents except Antarctica
-                </Typography> */}
-              </CardContent>
-            </CardActionArea>
-            <CardActions style={{justifyContent: 'center'}}>
-              <Button size="small" color="primary" target="_blank" href={el[0].url}>
-                Read More
-              </Button>
-            </CardActions>
-          </Card>
-      </div>
-    )); 
-  }
+    console.log(data)  
+      return data.map(cards => (
+        <div style={{ display:'flex', justifyContent:'center' , paddingTop: '10px'}}>
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  alt="Contemplative Reptile"
+                  height="140"
+                  image = {cards[3]}
+                  title= {cards[1]} 
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    { cards[1]}
+                  </Typography>
+                  {/* <Typography variant="body2" color="textSecondary" component="p">
+                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                    across all continents except Antarctica
+                  </Typography> */}
+                </CardContent>
+              </CardActionArea>
+              <CardActions style={{justifyContent: 'center'}}>
+                <Button size="small" color="primary" target="_blank" href={cards[4]}>
+                  Read More
+                </Button>
+              </CardActions>
+            </Card>
+        </div>   
+    ))}
 }
  
 export default withStyles(useStyles)(Feed);
