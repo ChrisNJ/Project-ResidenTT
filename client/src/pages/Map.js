@@ -13,18 +13,20 @@ const containerStyle = {
 };
 
 const Map = () => {
+  const [loading, setLoading] = useState(false);
   const [crimeData, setCrimeData] = useState([]);
-  const [center, setCenter] = useState({
+  const center = {
     lat: 10.66493623435229,
     lng: -61.40035327985661,
-  });
+  };
+  const zoom = 9;
   const [selected, setSelected] = useState({});
-  const [zoom, setZoom] = useState(9);
   const [currentPosition, setCurrentPosition] = useState({});
 
   const getCrimeData = async (range = 1) => {
     try {
       let res;
+      setLoading(true);
       if (range >= 1) {
         const body = { range };
 
@@ -55,8 +57,8 @@ const Map = () => {
           },
         };
       });
-      console.log(newData);
       setCrimeData(newData);
+      setLoading(false);
     } catch (err) {
       console.error(err.message);
     }
@@ -69,11 +71,6 @@ const Map = () => {
 
   const onSelect = (item) => {
     setSelected(item);
-
-    // if (zoom < 12) {
-    //   setZoom(12);
-    // }
-    // setCenter(item.location);
   };
 
   const success = (position) => {
@@ -89,9 +86,9 @@ const Map = () => {
       "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
   };
 
-  function createKey(location) {
-    return location.lat + location.lng;
-  }
+  // function createKey(location) {
+  //   return location.lat + location.lng;
+  // }
 
   return (
     <div>
@@ -100,64 +97,71 @@ const Map = () => {
       <br />
       <div className="container">
         <LoadScript googleMapsApiKey="AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg">
-          <GoogleMap
-            mapContainerStyle={containerStyle}
-            center={center}
-            zoom={zoom}
-          >
-            {currentPosition.lat && (
-              <Marker
-                icon={"https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}
-                position={currentPosition}
-              />
-            )}
-            <MarkerClusterer options={options}>
-              {(clusterer) =>
-                // {currentPosition.lat && (
-                //   <Marker
-                //     icon={"https://maps.google.com/mapfiles/ms/icons/blue-dot.png"}
-                //     position={currentPosition}
-                //   />
-                // )}
-                // {crimeData.map((item) => {
-                //   return (
-                //     <Marker
-                //       key={item.id}
-                //       icon={"https://maps.google.com/mapfiles/ms/icons/red-dot.png"}
-                //       position={item.location}
-                //       onClick={() => onSelect(item)}
-                //     />
-                //   );
-                // })}
-                // {selected.location && (
-                //   <InfoWindow
-                //     position={selected.location}
-                //     clickable={true}
-                //     onCloseClick={() => setSelected({})}
-                //   >
-                //     <div>
-                //       <p style={{ color: "black" }}>
-                //         <b>Offence:</b> {selected.offences}
-                //       </p>
-                //       <p style={{ color: "black" }}>
-                //         <b>Date:</b> {selected.date}
-                //       </p>
-                //     </div>
-                //   </InfoWindow>
-                // )}
-                crimeData.map((item) => (
-                  <Marker
-                    icon={
-                      "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
-                    }
-                    key={item.id}
-                    position={item.location}
-                    clusterer={clusterer}
-                  />
-                ))
-              }
-            </MarkerClusterer>
-          </GoogleMap>
+          {loading ? (
+            <div className="container text-center">
+              <div
+                className="spinner-grow text-info"
+                role="status"
+                style={{
+                  width: "4rem",
+                  height: "4rem",
+                }}
+              >
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={center}
+              zoom={zoom}
+            >
+              {currentPosition.lat && (
+                <Marker
+                  icon={
+                    "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                  }
+                  position={currentPosition}
+                  onClick={() => onSelect(currentPosition)}
+                />
+              )}
+
+              <MarkerClusterer options={options}>
+                {(clusterer) =>
+                  crimeData.map((item) => (
+                    <Marker
+                      icon={
+                        "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                      }
+                      key={item.id}
+                      position={item.location}
+                      clusterer={clusterer}
+                      onClick={() => onSelect(item)}
+                    />
+                  ))
+                }
+              </MarkerClusterer>
+              {selected.location && (
+                <InfoWindow
+                  position={selected.location}
+                  clickable={true}
+                  onCloseClick={() => setSelected({})}
+                >
+                  <div>
+                    <p style={{ color: "black" }}>
+                      <b>Offence:</b> {selected.offences}
+                    </p>
+                    <p style={{ color: "black" }}>
+                      <b>Date:</b> {selected.date}
+                    </p>
+                    <p style={{ color: "black" }}>
+                      <b>Time:</b> {selected.time}
+                    </p>
+                  </div>
+                </InfoWindow>
+              )}
+            </GoogleMap>
+          )}
         </LoadScript>
 
         <div className="btn-group" role="group" aria-label="Basic example">
