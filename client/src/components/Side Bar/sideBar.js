@@ -1,30 +1,4 @@
 import * as React from "react";
-// import {
-//   AppBar,
-//   Toolbar,
-//   IconButton,
-//   List,
-//   ListItem,
-//   ListItemText,
-//   Container
-// } from "@material-ui/core";
-// import { Home } from "@material-ui/icons";
-// import { makeStyles } from "@material-ui/core/styles";
-// const useStyles = makeStyles({
-//   navbarDisplayFlex: {
-//     display: `flex`,
-//     justifyContent: `center`
-//   },
-//   navDisplayFlex: {
-//     display: `flex`,
-//     justifyContent: `space-between`
-//   },
-//   linkText: {
-//     textDecoration: `none`,
-//     textTransform: `uppercase`,
-//     color: `white`
-//   }
-// });
 
 const navLinks = [
   { title: `Home`, path: `/` },
@@ -33,33 +7,17 @@ const navLinks = [
   { title: `News Feed`, path: `/feed` },
 ];
 
-const Sidebar = () => {
-  // const classes = useStyles();
+const Sidebar = (props) => {
+  // const { history } = props;
+
+  // const navLinks = [
+  //   { title: `Home`, onClick: () => history.push("/") },
+  //   { title: `Map`, onClick: () => history.push("/map") },
+  //   { title: `Statistics`, onClick: () => history.push("/stats") },
+  //   { title: `News Feed`, onClick: () => history.push("/feed") },
+  // ];
 
   return (
-    // <AppBar position="relative">
-    //   <Toolbar>
-
-    //     <Container maxWidth="md" className={classes.navbarDisplayFlex}>
-    //       <List
-    //         component="nav"
-    //         aria-labelledby="main navigation"
-    //         className={classes.navDisplayFlex}
-
-    //       >
-    //         {navLinks.map(({ title, path }) => (
-    //           <a href={path} key={title} className={classes.linkText}>
-    //             <ListItem button>
-    //               <ListItemText primary={title} />
-    //             </ListItem>
-    //           </a>
-
-    //         ))}
-    //       </List>
-    //     </Container>
-
-    //   </Toolbar>
-    // </AppBar>
     <nav
       class="navbar navbar-expand-lg navbar-dark bg-primary"
       style={{ height: "100px !important" }}

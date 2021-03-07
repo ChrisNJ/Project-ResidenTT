@@ -15,10 +15,10 @@ const containerStyle = {
 const Map = () => {
   const [loading, setLoading] = useState(false);
   const [crimeData, setCrimeData] = useState([]);
-  const center = {
+  const [center, setCenter] = useState({
     lat: 10.66493623435229,
     lng: -61.40035327985661,
-  };
+  });
   const zoom = 9;
   const [selected, setSelected] = useState({});
   const [currentPosition, setCurrentPosition] = useState({});
@@ -71,6 +71,7 @@ const Map = () => {
 
   const onSelect = (item) => {
     setSelected(item);
+    setCenter(item.location);
   };
 
   const success = (position) => {
@@ -85,10 +86,6 @@ const Map = () => {
     imagePath:
       "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
   };
-
-  // function createKey(location) {
-  //   return location.lat + location.lng;
-  // }
 
   return (
     <div>
