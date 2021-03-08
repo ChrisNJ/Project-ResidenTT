@@ -8,7 +8,9 @@ var links = []
 
 router.get('/', (req, res) => {    
 
-
+    stories = [] 
+    scrappedLink = [] 
+    links = []
     const puppeteer = require('puppeteer-extra');  
     const pluginStealth = require('puppeteer-extra-plugin-stealth');
     puppeteer.use(pluginStealth());  

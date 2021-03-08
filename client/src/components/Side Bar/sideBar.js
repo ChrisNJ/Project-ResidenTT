@@ -1,14 +1,15 @@
-import * as React from "react";
+import * as React from "react"; 
+import { Route , withRouter} from 'react-router-dom';
 
-const navLinks = [
-  { title: `Home`, path: `/` },
-  { title: `Map`, path: `/map` },
-  { title: `Statistics`, path: `/stats` },
-  { title: `News Feed`, path: `/feed` },
-];
+// const navLinks = [
+//   { title: `Home`, path: `/` },
+//   { title: `Map`, path: `/map` },
+//   { title: `Statistics`, path: `/stats` },
+//   { title: `News Feed`, path: `/feed` },
+// ];
 
 const Sidebar = (props) => {
-  // const { history } = props;
+  const { history } = props;
 
   // const navLinks = [
   //   { title: `Home`, onClick: () => history.push("/") },
@@ -45,16 +46,13 @@ const Sidebar = (props) => {
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          {navLinks.map(({ title, path }) => (
-            <li class="nav-item">
-              <a class="nav-link" href={path}>
-                {title}
-              </a>
-            </li>
-          ))}
+            <li class="nav-item" onClick={() => history.push('/') }>Home</li>  
+            <li class="nav-item" onClick={() => history.push('/map') }>Map</li>  
+            <li class="nav-item" onClick={() => history.push('/stats') }>Statistics</li>  
+            <li class="nav-item" onClick={() => history.push('/feed') }>News Feed</li>  
         </ul>
       </div>
     </nav>
   );
 };
-export default Sidebar;
+export default withRouter(Sidebar);
