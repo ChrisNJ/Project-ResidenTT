@@ -6,6 +6,7 @@ import {
   InfoWindow,
   MarkerClusterer,
 } from "@react-google-maps/api";
+require("dotenv").config();
 
 const containerStyle = {
   width: "100%",
@@ -93,7 +94,7 @@ const Map = () => {
       <h1 style={{ textAlign: "center" }}>Trinidad and Tobago Crime Map</h1>
       <br />
       <div className="container">
-        <LoadScript googleMapsApiKey="AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg">
+        <LoadScript googleMapsApiKey={process.env.REACT_APP_mapKey}>
           {loading ? (
             <div className="container text-center">
               <div

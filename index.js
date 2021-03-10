@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 
 //Models
 const Crime = require("./models/CrimeReport");
+const User = require("./models/User");
 
 // app connection
 app.use(cors());
@@ -25,7 +26,17 @@ if (process.env.NODE_ENV === "production") {
 /* Crime Reports*/
 //route for crime data
 app.use("/crimereports", require("./routes/crimereports"));
+
+/* News Scrapper*/
+//route for news feed
 app.use("/scrape", require("./routes/scrapper"));
+
+/* User */
+// user register and login
+app.use("/auth", require("./routes/jwtAuth"));
+
+// route for user functions
+app.use("/profile", require("./routes/profile"));
 
 //if a route is requested that doesnt exist
 if (process.env.NODE_ENV === "production") {

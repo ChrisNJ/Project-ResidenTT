@@ -1,22 +1,59 @@
 import "./App.css";
 import Home from "./pages/Home";
-import About from "./pages/About";
 import Map from "./pages/Map";
 import Stats from "./pages/Stats";
 import Feed from "./pages/NewsFeed";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Modal from "react-modal";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import Particles from "react-particles-js";
-import SideBar from "./components/Side Bar/sideBar";
+import NavBar from "./components/Nav Bar/Navbar";
 import Chat from "./components/Chat/Chat";
 import SimpleModal from "./components/Chat/Modal";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 
 function App() {
+  //variables used for setting authenticated and page loading
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  //Function passed to child components to set authentication
+  const setAuth = (boolean) => {
+    setIsAuthenticated(boolean);
+  };
+
+  //Send the token in local storage to verify the user
+  async function isAuth() {
+    try {
+      const res = await fetch("/auth/is-verify", {
+        method: "GET",
+        headers: { token: localStorage.token },
+      });
+
+      const parseRes = await res.json();
+      //If the auth (boolean) part of the response from the server is true then set authenticated
+      parseRes.auth === true
+        ? setIsAuthenticated(true)
+        : setIsAuthenticated(false);
+
+      console.log(isAuthenticated);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  //Calls isAuth on load and when state variables change
+  useEffect(() => {
+    isAuth();
+  }, []);
+
   return (
     <Router>
       <div className="App">
@@ -54,14 +91,39 @@ function App() {
             }}
           />
         </div>
-        <SideBar />
+        {/* Lets the navbar know whether a user is authenticated on every page */}
+        <NavBar userAuth={isAuthenticated} setAuth={setAuth} />
+
         <SimpleModal />
         <Switch>
-          <Route exact path="/about" render={(props) => <About {...props} />} />
           <Route exact path="/map" render={(props) => <Map {...props} />} />
           <Route exact path="/stats" render={(props) => <Stats {...props} />} />
           <Route exact path="/" render={(props) => <Home {...props} />} />
           <Route exact path="/feed" render={(props) => <Feed {...props} />} />
+          <Route
+            exact
+            path="/register"
+            render={(props) =>
+              !isAuthenticated ? (
+                <Register {...props} setAuth={setAuth} />
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/login"
+            render={(props) =>
+              !isAuthenticated ? (
+                <Login {...props} setAuth={setAuth} />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
+          />
+
+          <Redirect from="*" to="/" />
         </Switch>
       </div>
     </Router>

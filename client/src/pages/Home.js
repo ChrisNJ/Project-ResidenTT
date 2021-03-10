@@ -4,11 +4,11 @@ const Home = () => {
   return (
     <div>
       <div
-        class="d-flex flex-column  min-vh-100 justify-content-center align-items-center"
+        class="d-flex flex-column min-vh-100 justify-content-center align-items-center text-center"
         style={{ position: "relative" }}
       >
-        <h1 class="align-middle">Welcome to ResidenTT</h1>
-        <h3 class="align-middle">a crime prediction app</h3>
+        <h1>Welcome to ResidenTT</h1>
+        <h3>a crime prediction app</h3>
         <a href="/map" class="btn btn-outline-primary" role="button">
           Crime Map
         </a>
