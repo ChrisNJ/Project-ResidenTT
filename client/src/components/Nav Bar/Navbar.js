@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, useHistory} from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Navbar = ({ userAuth, setAuth }, props) => {
-  const { history } = props;
+  let history = useHistory();
 
   const [name, setName] = useState("");
   const [profileImage, setImage] = useState("");

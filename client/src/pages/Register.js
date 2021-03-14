@@ -90,7 +90,7 @@ const Register = ({ setAuth }) => (
                             <label htmlFor="lastName">Last Name</label>
                             <input
                               type="text"
-                              className="form-control"
+                              className="form-control" 
                               name="lastName"
                               placeholder="Last Name"
                               required
