@@ -25,11 +25,11 @@ const CrimeReport = db.define("crimereport", {
   },
   longitude: {
     allowNull: false,
-    type: Sequelize.STRING,
+    type: Sequelize.FLOAT,
   },
   latitude: {
     allowNull: false,
-    type: Sequelize.STRING,
+    type: Sequelize.FLOAT,
   },
   offences: {
     allowNull: false,
