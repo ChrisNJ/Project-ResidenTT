@@ -87,6 +87,15 @@ const Navbar = ({ userAuth, setAuth }, props) => {
             <a
               className="nav-link"
               href="javascript:;"
+              onClick={() => history.push("/reportcrime")}
+            >
+              Report Crime
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              href="javascript:;"
               onClick={() => history.push("/stats")}
             >
               Statistics
