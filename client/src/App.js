@@ -4,18 +4,15 @@ import Map from "./pages/Map";
 import Stats from "./pages/Stats";
 import Feed from "./pages/NewsFeed";
 import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Login from "./pages/Login"; 
 
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
-import Modal from "react-modal";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import Particles from "react-particles-js";
 import NavBar from "./components/Nav Bar/Navbar";
-import Chat from "./components/Chat/Chat";
-import SimpleModal from "./components/Chat/Modal";
+import SimpleModal from "./components/Chat/Modal"; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
@@ -93,7 +90,6 @@ function App() {
         </div>
         {/* Lets the navbar know whether a user is authenticated on every page */}
         <NavBar userAuth={isAuthenticated} setAuth={setAuth} />
-
         <SimpleModal />
         <Switch>
           <Route exact path="/map" render={(props) => <Map {...props} />} />
