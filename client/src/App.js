@@ -17,7 +17,33 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
-function App() {
+
+var deferredPrompt;
+
+if (!window.Promise) {
+  window.Promise = Promise;
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('/sw.js')
+    .then(function () {
+      console.log('Service worker registered!');
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+}
+
+window.addEventListener('beforeinstallprompt', function(event) {
+  console.log('beforeinstallprompt fired');
+  event.preventDefault();
+  deferredPrompt = event;
+  return false;
+});
+
+function App() { 
+
   //variables used for setting authenticated and page loading
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
