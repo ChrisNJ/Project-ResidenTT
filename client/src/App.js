@@ -4,7 +4,7 @@ import Map from "./pages/Map";
 import Stats from "./pages/Stats";
 import Feed from "./pages/NewsFeed";
 import Register from "./pages/Register";
-import Login from "./pages/Login"; 
+import Login from "./pages/Login";
 
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -12,11 +12,10 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import Particles from "react-particles-js";
 import NavBar from "./components/Nav Bar/Navbar";
-import SimpleModal from "./components/Chat/Modal"; 
+import SimpleModal from "./components/Chat/Modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
-
 
 var deferredPrompt;
 
@@ -24,26 +23,50 @@ if (!window.Promise) {
   window.Promise = Promise;
 }
 
-if ('serviceWorker' in navigator) {
+const convertedVapidKey = urlBase64ToUint8Array(
+  process.env.REACT_APP_PUBLIC_VAPID_KEY
+);
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, "+")
+    .replace(/_/g, "/");
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register('/sw.js')
-    .then(function () {
-      console.log('Service worker registered!');
+    .register("/sw.js")
+    .then((response) => {
+      console.log("Service worker registered!");
+      return response.pushManager.getSubscription().then((subscription) => {
+        return response.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: convertedVapidKey,
+        });
+      });
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.log(err);
     });
 }
 
-window.addEventListener('beforeinstallprompt', function(event) {
-  console.log('beforeinstallprompt fired');
+window.addEventListener("beforeinstallprompt", function (event) {
+  console.log("beforeinstallprompt fired");
   event.preventDefault();
   deferredPrompt = event;
   return false;
 });
 
-function App() { 
-
+function App() {
   //variables used for setting authenticated and page loading
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
