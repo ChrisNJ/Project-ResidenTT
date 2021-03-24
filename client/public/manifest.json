@@ -1,48 +1,11 @@
 {
-  "name": "ResidenTT Crime Prediction App",
+  "name": "ResidenTT",
   "short_name": "ResidenTT",
   "icons": [
     {
-      "src": "/src/images/logo_48*48.png",
+      "src": "/images/logo_144x144.png",
       "type": "image/png",
-      "sizes": "48x48", 
-      "purpose": "any maskable"
-      
-    },
-    {
-      "src": "/src/images/logo_96*96.png",
-      "type": "image/png",
-      "sizes": "96x96", 
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/src/images/logo_144*144.png",
-      "type": "image/png",
-      "sizes": "144x144", 
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/src/images/logo_192*192.png",
-      "type": "image/png",
-      "sizes": "192x192", 
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/src/images/logo_256*256.png",
-      "type": "image/png",
-      "sizes": "256x256", 
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/src/images/logo_384*384.png",
-      "type": "image/png",
-      "sizes": "384x384", 
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/src/images/logo_512*512.png",
-      "type": "image/png",
-      "sizes": "512x512", 
+      "sizes": "144x144 512x512",
       "purpose": "any maskable"
     }
   ],
@@ -52,7 +15,7 @@
   "orientation": "portrait-primary",
   "background_color": "#fff",
   "theme_color": "#3f51b5",
-  "description": "ResidenTT Crime Prediction App.",
+  "description": "ResidenTT Crime App.",
   "dir": "ltr",
   "lang": "en-US"
 }
