@@ -22,7 +22,19 @@ self.addEventListener("activate", function (event) {
 
 //Change residentt to localhost:3000 during dev
 self.addEventListener("fetch", function (event) {
-  console.warn("url", event.request.url)
+  if (!navigator.onLine) {
+    if (
+      event.request.url ===
+      "https://residentt.herokuapp.com/static/js/2.f407ea48.chunk.js"
+    ) {
+      event.waitUntil(
+        self.registration.showNotification("Internet", {
+          body: "internet disconnected",
+        })
+      );
+    }
+  }
+
   
   event.respondWith(
     caches.match(event.request).then(function (response) {
