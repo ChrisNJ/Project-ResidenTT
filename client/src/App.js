@@ -8,18 +8,64 @@ import Login from "./pages/Login";
 import ReportCrime from "./pages/ReportCrime"
 
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
-import Modal from "react-modal";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import Particles from "react-particles-js";
 import NavBar from "./components/Nav Bar/Navbar";
-import Chat from "./components/Chat/Chat";
 import SimpleModal from "./components/Chat/Modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
+
+var deferredPrompt;
+
+if (!window.Promise) {
+  window.Promise = Promise;
+}
+
+const convertedVapidKey = urlBase64ToUint8Array(
+  process.env.REACT_APP_PUBLIC_VAPID_KEY
+);
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, "+")
+    .replace(/_/g, "/");
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/sw.js")
+    .then((response) => {
+      console.log("Service worker registered!");
+      return response.pushManager.getSubscription().then((subscription) => {
+        return response.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: convertedVapidKey,
+        });
+      });
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+}
+
+window.addEventListener("beforeinstallprompt", function (event) {
+  console.log("beforeinstallprompt fired");
+  event.preventDefault();
+  deferredPrompt = event;
+  return false;
+});
 
 function App() {
   //variables used for setting authenticated and page loading
@@ -43,8 +89,6 @@ function App() {
       parseRes.auth === true
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
-
-      console.log(isAuthenticated);
     } catch (err) {
       console.error(err.message);
     }
@@ -94,7 +138,6 @@ function App() {
         </div>
         {/* Lets the navbar know whether a user is authenticated on every page */}
         <NavBar userAuth={isAuthenticated} setAuth={setAuth} />
-
         <SimpleModal />
         <Switch>
           <Route exact path="/map" render={(props) => <Map {...props} />} />
