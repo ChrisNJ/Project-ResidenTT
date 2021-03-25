@@ -136,7 +136,9 @@ const Navbar = ({ userAuth, setAuth }, props) => {
             style={{ marginRight: 10 }}
             onClick={handleOpen}
           >
+          
             Report
+          
           </button>
           {!userAuth ? (
             <li className="nav-item">

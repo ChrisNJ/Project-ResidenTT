@@ -5,7 +5,7 @@ import Stats from "./pages/Stats";
 import Feed from "./pages/NewsFeed";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import ReportCrime from "./pages/ReportCrime"
+import ReportCrime from "./pages/ReportCrime";
 
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -24,7 +24,7 @@ if (!window.Promise) {
   window.Promise = Promise;
 }
 
-const convertedVapidKey = urlBase64ToUint8Array(
+/*const convertedVapidKey = urlBase64ToUint8Array(
   process.env.REACT_APP_PUBLIC_VAPID_KEY
 );
 
@@ -41,19 +41,19 @@ function urlBase64ToUint8Array(base64String) {
     outputArray[i] = rawData.charCodeAt(i);
   }
   return outputArray;
-}
+}*/
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("/sw.js")
     .then((response) => {
       console.log("Service worker registered!");
-      return response.pushManager.getSubscription().then((subscription) => {
+     /* return response.pushManager.getSubscription().then((subscription) => {
         return response.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: convertedVapidKey,
         });
-      });
+      })*/
     })
     .catch(function (err) {
       console.log(err);

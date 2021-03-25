@@ -1,39 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import TimePicker from 'react-time-picker';
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const Report = () => {
+  const [startDate, setStartDate] = useState(new Date());
+  const [value, onChange] = useState(startDate);
   return (
       <div>
           <form>
+              
               <div class="form-group">
-                  <label for="exampleFormControlInput1">Email address</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"></input>
-                </div>
-                  <div class="form-group">
-                      <label for="exampleFormControlSelect1">Example select</label>
-                      <select class="form-control" id="exampleFormControlSelect1">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                      <label for="exampleFormControlSelect2">Example multiple select</label>
-                      <select multiple class="form-control" id="exampleFormControlSelect2">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                      <label for="exampleFormControlTextarea1">Example textarea</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                  </div>
-</form>
-    </div>
+                <label for="Report_Title">Report Title</label>
+                <textarea class="form-control" id="Report_Title"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="Report_Description">Report Description</label>
+                <textarea class="form-control" id="Report_Description"></textarea>
+              </div>
+
+              <div class="form-group">
+              <label>Report Date</label>
+                <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
+                <TimePicker onChange={onChange} value={value}/>
+              </div>
+
+              <div class="form-group">
+                <label for="Report_Image">Report Image</label>
+                <input type="file" class="form-control-file" id="Report_Image"/>
+              </div>
+
+              
+              <button type="submit" class="btn btn-primary">Submit</button>
+           </form>
+          
+       </div>
   );
 };
 
