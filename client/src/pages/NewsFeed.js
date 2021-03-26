@@ -54,7 +54,6 @@ class Feed extends Component {
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  alt="Contemplative Reptile"
                   height="140"
                   image = {cards[3]}
                   title= {cards[1]} 
