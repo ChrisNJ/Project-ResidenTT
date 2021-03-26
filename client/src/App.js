@@ -88,8 +88,6 @@ function App() {
       parseRes.auth === true
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
-
-      console.log(isAuthenticated);
     } catch (err) {
       console.error(err.message);
     }

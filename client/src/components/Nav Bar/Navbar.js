@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { Route, withRouter, useHistory} from "react-router-dom";
-import { toast } from "react-toastify"; 
+import { Route, withRouter, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import React from "react";
 
-
-
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal"; 
+import Modal from "@material-ui/core/Modal";
 import Report from "../../pages/Report";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
     /* bring your own prefixes */
     transform: "translate(-50%, -50%)",
   },
-})); 
+}));
 
-const Navbar = ({ userAuth, setAuth }, props) => {  
+const Navbar = ({ userAuth, setAuth }, props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -33,7 +31,7 @@ const Navbar = ({ userAuth, setAuth }, props) => {
 
   const body = (
     <div className={classes.paper}>
-      <Report/>
+      <Report />
     </div>
   );
   let history = useHistory();
@@ -99,20 +97,15 @@ const Navbar = ({ userAuth, setAuth }, props) => {
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a
-              className="nav-link"
-              href="javascript:;"
-              onClick={() => history.push("/")}
-            >
+            <a className="nav-link" href="#" onClick={() => history.push("/")}>
               Home
             </a>
           </li>
           <li className="nav-item">
             <a
               className="nav-link"
-              href="javascript:;"
+              href="#"
               onClick={() => history.push("/map")}
-              
             >
               Map
             </a>
@@ -120,7 +113,7 @@ const Navbar = ({ userAuth, setAuth }, props) => {
           <li className="nav-item">
             <a
               className="nav-link"
-              href="javascript:;"
+              href="#"
               onClick={() => history.push("/stats")}
             >
               Statistics
@@ -129,15 +122,22 @@ const Navbar = ({ userAuth, setAuth }, props) => {
           <li className="nav-item">
             <a
               className="nav-link"
-              href="javascript:;"
+              href="#"
               onClick={() => history.push("/feed")}
             >
               News Feed
             </a>
           </li>
-        </ul> 
-        <ul className="navbar-nav ml-auto"> 
-        <button class="btn btn-outline-success" type="button" style={{marginRight: 10}}onClick={handleOpen}>Report</button> 
+        </ul>
+        <ul className="navbar-nav ml-auto">
+          <button
+            className="btn btn-outline-success"
+            type="button"
+            style={{ marginRight: 10 }}
+            onClick={handleOpen}
+          >
+            Report
+          </button>
           {!userAuth ? (
             <li className="nav-item">
               <a className="btn btn-outline-info " href="/login">
@@ -179,11 +179,11 @@ const Navbar = ({ userAuth, setAuth }, props) => {
             //   <a className="btn btn-outline-info ">Chris</a>
             // </li>
           )}
-        </ul> 
-        
+        </ul>
+
         <Modal open={open} onClose={handleClose}>
-        {body}
-      </Modal>
+          {body}
+        </Modal>
       </div>
     </nav>
   );
