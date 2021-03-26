@@ -56,18 +56,6 @@ const Navbar = ({ userAuth, setAuth }, props) => {
     }
   };
 
-  //Logout user
-  const logout = async (e) => {
-    e.preventDefault();
-    try {
-      localStorage.removeItem("token");
-      setAuth(false);
-      toast.success("Logout successful");
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark bg-primary"
@@ -140,7 +128,11 @@ const Navbar = ({ userAuth, setAuth }, props) => {
           </button>
           {!userAuth ? (
             <li className="nav-item">
-              <a className="btn btn-outline-info " href="/login">
+              <a
+                className="btn btn-outline-info "
+                href="#"
+                onClick={() => history.push("/login")}
+              >
                 Log In
               </a>
             </li>
@@ -169,15 +161,16 @@ const Navbar = ({ userAuth, setAuth }, props) => {
                   className="dropdown-menu"
                   aria-labelledby="navbarDropdownMenuLink"
                 >
-                  <a className="btn dropdown-item" onClick={(e) => logout(e)}>
-                    Logout
+                  <a
+                    className="btn dropdown-item"
+                    href="#"
+                    onClick={() => history.push("/profile")}
+                  >
+                    Profile
                   </a>
                 </div>
               </li>
             ))
-            // <li className="nav-item">
-            //   <a className="btn btn-outline-info ">Chris</a>
-            // </li>
           )}
         </ul>
 

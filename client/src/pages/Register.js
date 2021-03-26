@@ -11,12 +11,15 @@ const Register = ({ setAuth }) => (
       lastName: "",
       userName: "",
       email: "",
+      DOB: "",
+      sex: "",
       password: "",
       confirmPass: "",
     }}
     //onSubmit send the data to the backend and if successful/unsuccessful call a toast function
     onSubmit={async (values, { setSubmitting }) => {
       try {
+        console.log(values.DOB);
         const res = await fetch("/auth/register", {
           method: "POST",
           headers: { "Content-type": "application/json" },
@@ -90,7 +93,7 @@ const Register = ({ setAuth }) => (
                             <label htmlFor="lastName">Last Name</label>
                             <input
                               type="text"
-                              className="form-control" 
+                              className="form-control"
                               name="lastName"
                               placeholder="Last Name"
                               required
@@ -132,6 +135,32 @@ const Register = ({ setAuth }) => (
                                 {errors.email}
                               </div>
                             )}
+                          </div>
+                          <div className="form-group">
+                            <label htmlFor="DOB">Date of Birth</label>
+                            <input
+                              type="date"
+                              className="form-control"
+                              name="DOB"
+                              placeholder="Date of Birth"
+                              required
+                              onChange={handleChange}
+                              value={values.DOB}
+                            ></input>
+                          </div>
+                          <div className="form-group">
+                            <label htmlFor="sex">Sex</label>
+                            <select
+                              className="form-control"
+                              name="sex"
+                              required
+                              onChange={handleChange}
+                              value={values.sex}
+                            >
+                              <option>Male</option>
+                              <option>Female</option>
+                              <option>Other</option>
+                            </select>
                           </div>
                           <div className="form-group">
                             <label htmlFor="password">Password</label>

@@ -5,6 +5,7 @@ import Stats from "./pages/Stats";
 import Feed from "./pages/NewsFeed";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -162,6 +163,17 @@ function App() {
                 <Login {...props} setAuth={setAuth} />
               ) : (
                 <Redirect to="/" />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/profile"
+            render={(props) =>
+              isAuthenticated ? (
+                <Profile {...props} setAuth={setAuth} />
+              ) : (
+                <Redirect to="/login" />
               )
             }
           />
