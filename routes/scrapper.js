@@ -14,47 +14,6 @@ router.get('/', (req, res) => {
     const puppeteer = require('puppeteer-extra');  
     const pluginStealth = require('puppeteer-extra-plugin-stealth');
     puppeteer.use(pluginStealth());  
- 
-//     async function scrapeSite(url){ 
-//     try{  
-//         const browser = await puppeteer.launch({
-//             userDataDir: 'C:\\tmp\\pptr', 
-//             slowmo: 250, 
-//             ignoreDefaultArgs: ['--disable-extensions'],
-//             args: ['--no-sandbox']
-//         }); 
-//         process.setMaxListeners(0);
-        
-//         const page = await browser.newPage();  
-//         await page.setDefaultNavigationTimeout(0); 
-    
-//         await page.goto(url);   
-
-//         const [el] = await page.$x('//*[@id="article-featured-image"]/img'); 
-//         const src = await el.getProperty('src'); 
-//         const srcTxt = await src.jsonValue();  
-        
-        
-//         const [el2] = await page.$x('//*[@id="page-content"]/div/article/header/h1'); 
-//         const txt = await el2.getProperty('textContent'); 
-//         const title = await txt.jsonValue();  
-
-        
-//         var data = [
-//             {
-//                 "img": srcTxt,
-//                 "title": title,
-//                 "url": url
-//             }
-//         ]; 
-//         stories.push(data);
-//         //console.log(res.json); 
-//         browser.close();
-//         } catch (err) {
-//             console.error(err);  
-//         }  
-        
-//     }
 
     async function crawlSite(){ 
         try{  
@@ -88,7 +47,7 @@ router.get('/', (req, res) => {
                     if(!list.includes(tmp)) list.push(tmp);     
                 }
             }  
-
+            console.log(list);
             const elementHandles2 = await page.$$('a');
             const propertyJsHandles2 = await Promise.all(
             elementHandles2.map(handle => handle.getProperty('innerHTML'))
@@ -99,49 +58,52 @@ router.get('/', (req, res) => {
             //res.json(hrefs2); 
             stories = imgStyles;  
             //scrappedLink.shift(21);  
-            for( n=0 ;n<20;n++) stories.shift() 
-            for( n=0 ;n<31;n++) stories.pop()
+            for( n=0 ;n<19;n++) stories.shift() 
+            for( n=0 ;n<28;n++) stories.pop()
             //console.log(stories);     
             index = 0
-            for(m=0;m<stories.length;m+=4){ 
-                arr = []
-                for(o = m;o<m+4;o++){ 
-                    arr.push(stories[o]) 
-                }   
-                arr.push(list[index++])
-                scrappedLink.push(arr)
+            for(m=0;m<=stories.length;m++){ 
+                arr = [] 
+                if (stories[m] == "News"){ 
+                    for(o = m;o<=m+2;o++){  
+                        //console.log(stories[o])
+                        arr.push(stories[o])   
+                    }     
+                    arr.push(stories[m-1]) 
+                    for(var x=0;x<list.length;x++){ 
+                        tmp = list[x] 
+                        tmp = list[x].split("/") 
+                        tmp2 = tmp[6]
+                        tmp2 = tmp2.replace(/-/g, ' ').replace(/ /g,'') 
+                        //console.log(tmp2);  
+                        tmp3 = arr[1].replace(/:/g,'').replace(/'/g,'').replace(/,/g,'').replace(/ /g,'')
+                        if (tmp2 == tmp3.toLowerCase()) arr.push(list[x])
+                    }
+
+                    scrappedLink.push(arr)
+                }
             } 
             
             scrappedLink.forEach(myFunction);
 
-            function myFunction(item) { 
-                tmp = item[3]
-                item[2] = item[2].substring(11,(item[2].length - 18))  
+            function myFunction(item) {  
+                console.log(item);
+                tmp = item[3]  
+                //console.log(tmp); 
+                item[2] = item[2].replace(/\t/g, '') 
                 result = /\(([^)]*)\)/.exec(tmp);    
-                console.log(result)
-                if (result){ 
-                    item[3] = result[1]  
-                }else{
-                    item[3] = 'https://res.cloudinary.com/dtqlgbedo/image/upload/v1614766622/info3604project/logo_ekkdfw.png'
-                } 
-                //item[3] = result[1]
+                //console.log(result)
+                // if (result){ 
+                //     item[3] = result[1]  
+                // }else{
+                //     item[3] = 'https://res.cloudinary.com/dtqlgbedo/image/upload/v1614766622/info3604project/logo_ekkdfw.png'
+                // } 
+                item[3] = result[1]
             }
-            console.log(scrappedLink); 
  
-            // var list = [];   
-            // for (var i=0;i<scrappedLink.length;i++){    
-            //     //console.log(this.state.scrappedLink[i]); 
-            //     var tmp = scrappedLink[i];
-            //     if (tmp.match("^https://newsday.co.tt/..../../../")){  
-            //         if(!list.includes(tmp)) list.push(tmp);     
-            //     }
-            // } 
-            // console.log(list);   
-
-            // for(var j = 0; j<list.length;j++) scrapeSite(list[j]); 
- 
+            
             res.json(scrappedLink);
-
+   
             browser.close();
         } catch (err) {
             console.error(err);
@@ -149,8 +111,6 @@ router.get('/', (req, res) => {
     } 
     
     crawlSite();   
-//   //scrapeSite("https://newsday.co.tt/2021/02/23/priest-covid19-protocols-are-lenten-acts-of-repentance-love/");
-
 }) 
      
 module.exports = router;
