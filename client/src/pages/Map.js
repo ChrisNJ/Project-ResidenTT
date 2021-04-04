@@ -67,7 +67,9 @@ const Map = () => {
 
   useEffect(() => {
     getCrimeData();
-    navigator.geolocation.getCurrentPosition(success);
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(success);
+    }
   }, []);
 
   const onSelect = (item) => {

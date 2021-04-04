@@ -99,6 +99,37 @@ function App() {
     isAuth();
   }, []);
 
+  //Get the window size to enable the reduction of particles for mobile
+  function useWindowSize() {
+    const [windowSize, setWindowSize] = useState({
+      width: undefined,
+      height: undefined,
+    });
+
+    useEffect(() => {
+      function handleResize() {
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }
+      window.addEventListener("resize", handleResize);
+      handleResize();
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return windowSize;
+  }
+
+  const size = useWindowSize().width;
+
+  let num_p;
+  if (size > 755) {
+    num_p = 100;
+  } else {
+    num_p = 20;
+  }
+
   return (
     <Router>
       <div className="App">
@@ -109,7 +140,7 @@ function App() {
             params={{
               particles: {
                 number: {
-                  value: 100,
+                  value: num_p,
                 },
                 size: {
                   value: 3,

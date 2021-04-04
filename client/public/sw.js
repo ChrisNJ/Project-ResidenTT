@@ -20,10 +20,13 @@ self.addEventListener("activate", function (event) {
   return self.clients.claim();
 });
 
-//Change residentt to localhost:3000 during dev
+//Change residentt the url
+// Dev:   http://localhost:3000/
+// Prod: https://residentt.herokuapp.com/static/js/2.f407ea48.chunk.js
 self.addEventListener("fetch", function (event) {
   if (!navigator.onLine) {
     if (
+      // console.warn(event.request.url)
       event.request.url ===
       "https://residentt.herokuapp.com/static/js/2.f407ea48.chunk.js"
     ) {
@@ -35,7 +38,6 @@ self.addEventListener("fetch", function (event) {
     }
   }
 
-  
   event.respondWith(
     caches.match(event.request).then(function (response) {
       if (response) {
