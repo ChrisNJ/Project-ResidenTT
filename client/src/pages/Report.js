@@ -41,6 +41,7 @@ const Report = () => {
   };
 
   const { location, error } = useCurrentLocation(geolocationOptions);
+
   return (
       <div>
           <form>
@@ -65,6 +66,7 @@ const Report = () => {
                 <label for="Report_Image">Report Image</label>
                 <input type="file" class="form-control-file" id="Report_Image"/>
               </div>
+              
               <div>
                 {location ? (
                   <code>
