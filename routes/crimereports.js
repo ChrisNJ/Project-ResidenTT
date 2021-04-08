@@ -5,44 +5,25 @@ const { Op } = require("sequelize");
 const sequelize = require("sequelize");
 const moment = require("moment");
 
+const getCrimeReports = async (range) => {
+  let reports;
+  reports = await CrimeReport.findAll({
+    where: { date: { [Op.gte]: moment().subtract(range, "months").toDate() } },
+  });
+  return reports;
+};
+
 //Return all crime reports
 router.post("/", async (req, res) => {
   try {
     const { range } = req.body;
     let reports;
 
-    if (range == 1) {
-      reports = await CrimeReport.findAll({
-        where: { date: { [Op.gte]: moment().subtract(3, "months").toDate() } },
-      });
-    } else if (range == 2) {
-      reports = await CrimeReport.findAll({
-        where: { date: { [Op.gte]: moment().subtract(6, "months").toDate() } },
-      });
-    } else if (range == 3) {
-      reports = await CrimeReport.findAll({
-        where: { date: { [Op.gte]: moment().subtract(1, "years").toDate() } },
-      });
-    } else if (range == 4) {
-      reports = await CrimeReport.findAll({
-        where: { date: { [Op.gte]: moment().subtract(2, "years").toDate() } },
-      });
-    } else if (range == 5) {
-      reports = await CrimeReport.findAll({
-        where: { date: { [Op.gte]: moment().subtract(3, "years").toDate() } },
-      });
-    } else if (range == 6) {
-      reports = await CrimeReport.findAll({
-        where: { date: { [Op.gte]: moment().subtract(4, "years").toDate() } },
-      });
-    } else if (range == 7) {
-      reports = await CrimeReport.findAll({
-        where: { date: { [Op.gte]: moment().subtract(5, "years").toDate() } },
-      });
-    } else if (range == 2020) {
-      // var count = await CrimeReport.findAll();
-      // console.log("count: " + count.length);
+    if (range && range != 2020) {
+      reports = await getCrimeReports(range);
+    }
 
+    if (range == 2020) {
       reports = await CrimeReport.findAll({
         where: {
           date: {

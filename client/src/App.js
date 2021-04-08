@@ -24,36 +24,11 @@ if (!window.Promise) {
   window.Promise = Promise;
 }
 
-const convertedVapidKey = urlBase64ToUint8Array(
-  process.env.REACT_APP_PUBLIC_VAPID_KEY
-);
-
-function urlBase64ToUint8Array(base64String) {
-  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding)
-    .replace(/\-/g, "+")
-    .replace(/_/g, "/");
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
-
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("/sw.js")
-    .then((response) => {
+    .then(function () {
       console.log("Service worker registered!");
-      return response.pushManager.getSubscription().then((subscription) => {
-        return response.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: convertedVapidKey,
-        });
-      });
     })
     .catch(function (err) {
       console.log(err);
@@ -70,6 +45,7 @@ window.addEventListener("beforeinstallprompt", function (event) {
 function App() {
   //variables used for setting authenticated and page loading
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   //Function passed to child components to set authentication
   const setAuth = (boolean) => {
@@ -89,6 +65,7 @@ function App() {
       parseRes.auth === true
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
+      setLoading(false);
     } catch (err) {
       console.error(err.message);
     }
@@ -128,6 +105,23 @@ function App() {
     num_p = 100;
   } else {
     num_p = 20;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="container text-center">
+        <div
+          className="spinner-grow text-info"
+          role="status"
+          style={{
+            width: "4rem",
+            height: "4rem",
+          }}
+        >
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   return (

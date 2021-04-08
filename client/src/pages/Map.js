@@ -24,7 +24,7 @@ const Map = () => {
   const [selected, setSelected] = useState({});
   const [currentPosition, setCurrentPosition] = useState({});
 
-  const getCrimeData = async (range = 1) => {
+  const getCrimeData = async (range = 3) => {
     try {
       let res;
       setLoading(true);
@@ -168,49 +168,49 @@ const Map = () => {
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={() => getCrimeData(1)}
+            onClick={() => getCrimeData(3)}
           >
             3 Months
           </button>
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={() => getCrimeData(2)}
+            onClick={() => getCrimeData(6)}
           >
             6 Months
           </button>
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={() => getCrimeData(3)}
+            onClick={() => getCrimeData(12)}
           >
             1 Year
           </button>
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={() => getCrimeData(4)}
+            onClick={() => getCrimeData(24)}
           >
             2 Years
           </button>
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={() => getCrimeData(5)}
+            onClick={() => getCrimeData(36)}
           >
             3 Years
           </button>
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={() => getCrimeData(6)}
+            onClick={() => getCrimeData(48)}
           >
             4 Years
           </button>
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={() => getCrimeData(7)}
+            onClick={() => getCrimeData(60)}
           >
             5 Years
           </button>
