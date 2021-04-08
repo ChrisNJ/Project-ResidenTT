@@ -44,48 +44,63 @@ const Report = () => {
   const { location, error } = useCurrentLocation(geolocationOptions);
   /*end of location code*/
   return (
-      <div style={{
-        backgroundColor: 'white'
+    
+      <div class="overflow-auto container" style={{
+        backgroundColor: 'gray',
+        justifyContent:'center', alignItems:'center'
       }}>
-          <form>
+      <span className="block-example border">
+          <form class="col-md-16" id="Crime_Report">
+            <label for="Crime_Report"><h1 style={{alignItems:'center'}}>Crime Report Form</h1></label>
               
               <div class="form-group">
-                <label for="Offense_Type">Crime Offense</label>
-                <select class="form-control" id="Offense_Type">
-                  <option>1</option>
+                <label style={{color:'black'}} for="Offence_Type">Crime Offence</label>
+                <select class="form-control" id="Offence_Type">
+                  <option selected>Choose an offence...</option>
+                  <option>Wounding/Shooting</option>
+                  <option>Robbery</option>
+                  <option>Drugs/Narcotic Trafficiking</option>
+                  <option>Fraud Offences</option>
+                  <option>General Larceny</option>
+                  <option>Larceny Motor Vehicle</option>
+                  <option>Larceny Dwelling House</option>
+                  <option>Breaking Offences</option>
+                  <option>Other Serious Crimes</option>
                 </select>
               </div>
 
               <div class="form-group">
-                <label for="Report_Description">Report Description</label>
+                <label style={{color:'black'}} for="Report_Description">Report Description</label>
                 <textarea style={{height: '250px'}} class="form-control" id="Report_Description"></textarea>
               </div>
 
               <div class="form-group">
-              <label>Report Date</label>
+              <label style={{color:'black'}}>Report Date </label>
                 <DatePicker selected={startDate} onChange={date => setStartDate(date)} />
                 <TimePicker onChange={onChange} value={value}/>
               </div>
 
               <div class="form-group">
-                <label for="Report_Image">Report Image</label>
+                <label style={{color:'black'}} for="Report_Image">Report Image</label>
                 <input type="file" class="form-control-file" id="Report_Image"/>
               </div>
               
               <div>
+                
                 {location ? (
-                  <code>
+                  <code style={{color:'black'}}>
                     Latitude: {location.latitude}, Longitude: {location.longitude}
                   </code>
                 ) : (
-                  <p>Loading...</p>
+                  <p>Loading your location...</p>
                 )}
                 {error && <p>Location Error: {error}</p>}
               </div>
-
+              <p></p>
               <button type="submit" class="btn btn-primary">Submit</button>
+             
            </form>
-          
+           </span>  
        </div>
   );
 };
