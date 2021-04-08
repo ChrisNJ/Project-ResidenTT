@@ -47,14 +47,16 @@ function urlBase64ToUint8Array(base64String) {
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("/sw.js")
-    .then((response) => {
+    .then(function () {
       console.log("Service worker registered!");
+
      /* return response.pushManager.getSubscription().then((subscription) => {
         return response.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: convertedVapidKey,
         });
       })*/
+
     })
     .catch(function (err) {
       console.log(err);
@@ -71,6 +73,7 @@ window.addEventListener("beforeinstallprompt", function (event) {
 function App() {
   //variables used for setting authenticated and page loading
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   //Function passed to child components to set authentication
   const setAuth = (boolean) => {
@@ -90,6 +93,7 @@ function App() {
       parseRes.auth === true
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
+      setLoading(false);
     } catch (err) {
       console.error(err.message);
     }
@@ -99,6 +103,54 @@ function App() {
   useEffect(() => {
     isAuth();
   }, []);
+
+  //Get the window size to enable the reduction of particles for mobile
+  function useWindowSize() {
+    const [windowSize, setWindowSize] = useState({
+      width: undefined,
+      height: undefined,
+    });
+
+    useEffect(() => {
+      function handleResize() {
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }
+      window.addEventListener("resize", handleResize);
+      handleResize();
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return windowSize;
+  }
+
+  const size = useWindowSize().width;
+
+  let num_p;
+  if (size > 755) {
+    num_p = 100;
+  } else {
+    num_p = 20;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="container text-center">
+        <div
+          className="spinner-grow text-info"
+          role="status"
+          style={{
+            width: "4rem",
+            height: "4rem",
+          }}
+        >
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <Router>
@@ -110,7 +162,7 @@ function App() {
             params={{
               particles: {
                 number: {
-                  value: 100,
+                  value: num_p,
                 },
                 size: {
                   value: 3,
