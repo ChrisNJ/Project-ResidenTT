@@ -7,6 +7,12 @@ import "react-datepicker/dist/react-datepicker.css";
 const Report = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [value, onChange] = useState(startDate);
+  
+  const successHandler = position => console.log(position.coord);
+  const errorHandler = error => console.error(error.message);
+  const locationWatchId = navigator.geolocation.watchPosition(successHandler, errorHandler);
+
+
   return (
       <div>
           <form>
@@ -32,7 +38,7 @@ const Report = () => {
                 <input type="file" class="form-control-file" id="Report_Image"/>
               </div>
 
-              
+
               <button type="submit" class="btn btn-primary">Submit</button>
            </form>
           
