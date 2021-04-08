@@ -59,7 +59,7 @@ const Report = () => {
                   <option selected>Choose an offence...</option>
                   <option>Wounding/Shooting</option>
                   <option>Robbery</option>
-                  <option>Drugs/Narcotic Trafficiking</option>
+                  <option>Poss of Narcotics for Trafficking</option>
                   <option>Fraud Offences</option>
                   <option>General Larceny</option>
                   <option>Larceny Motor Vehicle</option>
