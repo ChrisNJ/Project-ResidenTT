@@ -8,6 +8,7 @@ const Report = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [value, onChange] = useState(startDate);
 
+  /*start of location code*/
   const geolocationOptions = {
     timeout: 1000 * 60 * 1 
   };
@@ -41,7 +42,7 @@ const Report = () => {
   };
 
   const { location, error } = useCurrentLocation(geolocationOptions);
-
+  /*end of location code*/
   return (
       <div>
           <form>
