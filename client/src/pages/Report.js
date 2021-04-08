@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import TimePicker from 'react-time-picker';
 
@@ -7,12 +7,40 @@ import "react-datepicker/dist/react-datepicker.css";
 const Report = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [value, onChange] = useState(startDate);
-  
-  const successHandler = position => console.log(position.coord);
-  const errorHandler = error => console.error(error.message);
-  const locationWatchId = navigator.geolocation.watchPosition(successHandler, errorHandler);
 
+  const geolocationOptions = {
+    timeout: 1000 * 60 * 1 
+  };
 
+  const useCurrentLocation = (options = {}) => {
+    const [error, setError] = useState();
+    const [location, setLocation] = useState()
+
+    useEffect(() => {
+      navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+      if (!navigator.geolocation) {
+        setError('Geolocation is not supported.');
+        return;
+      }
+    }, [options]);
+
+    const handleSuccess = position => {
+    const { latitude, longitude } = position.coords;
+
+    setLocation({
+      latitude,
+      longitude
+    });
+   };
+
+    const handleError = error => {
+    setError(error.message);
+    };
+
+    return { location, error };
+  };
+
+  const { location, error } = useCurrentLocation(geolocationOptions);
   return (
       <div>
           <form>
@@ -37,7 +65,16 @@ const Report = () => {
                 <label for="Report_Image">Report Image</label>
                 <input type="file" class="form-control-file" id="Report_Image"/>
               </div>
-
+              <div>
+                {location ? (
+                  <code>
+                    Latitude: {location.latitude}, Longitude: {location.longitude}
+                  </code>
+                ) : (
+                  <p>Loading...</p>
+                )}
+                {error && <p>Location Error: {error}</p>}
+              </div>
 
               <button type="submit" class="btn btn-primary">Submit</button>
            </form>
