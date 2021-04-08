@@ -44,17 +44,21 @@ const Report = () => {
   const { location, error } = useCurrentLocation(geolocationOptions);
   /*end of location code*/
   return (
-      <div>
+      <div style={{
+        backgroundColor: 'white'
+      }}>
           <form>
               
               <div class="form-group">
-                <label for="Report_Title">Report Title</label>
-                <textarea class="form-control" id="Report_Title"></textarea>
+                <label for="Offense_Type">Crime Offense</label>
+                <select class="form-control" id="Offense_Type">
+                  <option>1</option>
+                </select>
               </div>
 
               <div class="form-group">
                 <label for="Report_Description">Report Description</label>
-                <textarea class="form-control" id="Report_Description"></textarea>
+                <textarea style={{height: '250px'}} class="form-control" id="Report_Description"></textarea>
               </div>
 
               <div class="form-group">
