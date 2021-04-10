@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker";
 import TimePicker from 'react-time-picker';
 
 import "react-datepicker/dist/react-datepicker.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Report = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -45,12 +46,11 @@ const Report = () => {
   /*end of location code*/
   return (
     
-      <div class="overflow-auto container" style={{
-        backgroundColor: 'gray',
-        justifyContent:'center', alignItems:'center'
+      <div class="overflow-auto container"  style={{
+        backgroundColor: 'gray' 
       }}>
       <span className="block-example border">
-          <form class="col-md-16" id="Crime_Report">
+          <form id="Crime_Report">
             <label for="Crime_Report"><h1 style={{alignItems:'center'}}>Crime Report Form</h1></label>
               
               <div class="form-group">
@@ -71,7 +71,7 @@ const Report = () => {
 
               <div class="form-group">
                 <label style={{color:'black'}} for="Report_Description">Report Description</label>
-                <textarea style={{height: '250px'}} class="form-control" id="Report_Description"></textarea>
+                <textarea style={{height: '125px'}} class="form-control" id="Report_Description"></textarea>
               </div>
 
               <div class="form-group">
@@ -84,12 +84,49 @@ const Report = () => {
                 <label style={{color:'black'}} for="Report_Image">Report Image</label>
                 <input type="file" class="form-control-file" id="Report_Image"/>
               </div>
-              
+
+              <div class="form-row">
+              <div class="col">
+              <div class="form-group">
+                <label style={{color:'black'}} for="Division">Division</label>
+                <select class="form-control" id="Division">
+                  <option selected>Choose an division...</option>
+                  <option>Wounding/Shooting</option>
+                  <option>Robbery</option>
+                  <option>Poss of Narcotics for Trafficking</option>
+                  <option>Fraud Offences</option>
+                  <option>General Larceny</option>
+                  <option>Larceny Motor Vehicle</option>
+                  <option>Larceny Dwelling House</option>
+                  <option>Breaking Offences</option>
+                  <option>Other Serious Crimes</option>
+                </select>
+                </div>
+                <div class="col">
+              <div class="form-group">
+                <label style={{color:'black'}} for="location">Town/City</label>
+                <select class="form-control" id="location">
+                  <option selected>Choose a location...</option>
+                  <option>Wounding/Shooting</option>
+                  <option>Robbery</option>
+                  <option>Poss of Narcotics for Trafficking</option>
+                  <option>Fraud Offences</option>
+                  <option>General Larceny</option>
+                  <option>Larceny Motor Vehicle</option>
+                  <option>Larceny Dwelling House</option>
+                  <option>Breaking Offences</option>
+                  <option>Other Serious Crimes</option>
+                </select>
+              </div>
+              </div>
+              </div>
+              </div>
+
               <div>
                 
                 {location ? (
                   <code style={{color:'black'}}>
-                    Latitude: {location.latitude}, Longitude: {location.longitude}
+                    Latitude: {location.latitude.toFixed(2)}, Longitude: {location.longitude.toFixed(2)}
                   </code>
                 ) : (
                   <p>Loading your location...</p>
@@ -97,7 +134,7 @@ const Report = () => {
                 {error && <p>Location Error: {error}</p>}
               </div>
               <p></p>
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="col md-1 btn btn-primary">Submit</button>
              
            </form>
            </span>  
