@@ -90,35 +90,20 @@ const Report = () => {
               <div class="form-group">
                 <label style={{color:'black'}} for="Division">Division</label>
                 <select class="form-control" id="Division">
-                  <option selected>Choose an division...</option>
-                  <option>Wounding/Shooting</option>
-                  <option>Robbery</option>
-                  <option>Poss of Narcotics for Trafficking</option>
-                  <option>Fraud Offences</option>
-                  <option>General Larceny</option>
-                  <option>Larceny Motor Vehicle</option>
-                  <option>Larceny Dwelling House</option>
-                  <option>Breaking Offences</option>
-                  <option>Other Serious Crimes</option>
+                  <option selected>Choose a division...</option>
+                  <option>CENTRAL</option>
+                  <option>EASTERN</option>
+                  <option>MORUGA</option>
+                  <option>NORTH EASTERN</option>
+                  <option>NORTHERN</option>
+                  <option>PORT OF SPAIN</option>
+                  <option>SOUTH WESTERN</option>
+                  <option>SOUTHERN</option>
+                  <option>TOBAGO</option>
+                  <option>WESTERN</option>
                 </select>
                 </div>
-                <div class="col">
-              <div class="form-group">
-                <label style={{color:'black'}} for="location">Town/City</label>
-                <select class="form-control" id="location">
-                  <option selected>Choose a location...</option>
-                  <option>Wounding/Shooting</option>
-                  <option>Robbery</option>
-                  <option>Poss of Narcotics for Trafficking</option>
-                  <option>Fraud Offences</option>
-                  <option>General Larceny</option>
-                  <option>Larceny Motor Vehicle</option>
-                  <option>Larceny Dwelling House</option>
-                  <option>Breaking Offences</option>
-                  <option>Other Serious Crimes</option>
-                </select>
-              </div>
-              </div>
+      
               </div>
               </div>
 
@@ -134,8 +119,13 @@ const Report = () => {
                 {error && <p>Location Error: {error}</p>}
               </div>
               <p></p>
-              <button type="submit" class="col md-1 btn btn-primary">Submit</button>
-             
+              <div class="container">
+                <div class="row justify-content-center">
+                   <div class="col"></div>
+                      <button type="submit" class="col md-1 btn btn-primary">Submit</button>
+                    </div>
+                  </div>
+               
            </form>
            </span>  
        </div>
