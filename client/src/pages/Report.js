@@ -121,8 +121,8 @@ const Report = () => {
               <p></p>
               <div class="container">
                 <div class="row justify-content-center">
-                   <div class="col"></div>
-                      <button type="submit" class="col md-1 btn btn-primary">Submit</button>
+                   <div class="col-xs-4 col-xs-offset-3"></div>
+                      <button type="submit" style = {{width: '20em',height: '3em'}} class="col-md-2 btn btn-primary">Submit</button>
                     </div>
                   </div>
                
