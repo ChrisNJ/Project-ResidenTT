@@ -5,7 +5,6 @@ import Stats from "./pages/Stats";
 import Feed from "./pages/NewsFeed";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import ReportCrime from "./pages/ReportCrime";
 import Profile from "./pages/Profile";
 
 import React, { useState, useEffect } from "react";
@@ -107,7 +106,7 @@ function App() {
   } else {
     num_p = 20;
   }
-
+/*
   if (isLoading) {
     return (
       <div className="container text-center">
@@ -124,7 +123,7 @@ function App() {
       </div>
     );
   }
-
+*/
   return (
     <Router>
       <div className="App">
@@ -170,11 +169,6 @@ function App() {
           <Route exact path="/stats" render={(props) => <Stats {...props} />} />
           <Route exact path="/" render={(props) => <Home {...props} />} />
           <Route exact path="/feed" render={(props) => <Feed {...props} />} />
-          <Route
-            exact
-            path="/reportcrime"
-            render={(props) => <ReportCrime {...props} />}
-          />
           <Route
             exact
             path="/register"

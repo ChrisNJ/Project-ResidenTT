@@ -3,6 +3,7 @@ import { Route, withRouter, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import React from "react";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Report from "../../pages/Report";
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     top: "54%",
     right: "50%",
-    /* bring your own prefixes */
+    /* bring your own prefixes f*/
     transform: "translate(-50%, -50%)",
   },
 }));
@@ -30,8 +31,8 @@ const Navbar = ({ userAuth, setAuth }, props) => {
   };
 
   const body = (
-    <div className={classes.paper}>
-      <Report />
+    <div  className={classes.paper}>
+      <Report/>
     </div>
   );
   let history = useHistory();
