@@ -16,55 +16,95 @@ import SimpleModal from "./components/Chat/Modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
+ 
+var deferredPrompt; 
+var enableNotificationsButtons = document.querySelectorAll('.enable-notifications');
 
-var deferredPrompt;
 
 if (!window.Promise) {
   window.Promise = Promise;
 }
 
-const convertedVapidKey = urlBase64ToUint8Array(
-  process.env.REACT_APP_PUBLIC_VAPID_KEY
-);
+// const convertedVapidKey = urlBase64ToUint8Array(
+//   process.env.REACT_APP_PUBLIC_VAPID_KEY
+// );
 
-function urlBase64ToUint8Array(base64String) {
-  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding)
-    .replace(/\-/g, "+")
-    .replace(/_/g, "/");
+// function urlBase64ToUint8Array(base64String) {
+//   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+//   const base64 = (base64String + padding)
+//     .replace(/\-/g, "+")
+//     .replace(/_/g, "/");
 
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
+//   const rawData = window.atob(base64);
+//   const outputArray = new Uint8Array(rawData.length);
 
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
+//   for (let i = 0; i < rawData.length; ++i) {
+//     outputArray[i] = rawData.charCodeAt(i);
+//   }
+//   return outputArray;
+// }
 
-if ("serviceWorker" in navigator) {
+// if ("serviceWorker" in navigator) {
+//   navigator.serviceWorker
+//     .register("/sw.js")
+//     .then((response) => {
+//       console.log("Service worker registered!");
+//       return response.pushManager.getSubscription().then((subscription) => {
+//         // return response.pushManager.subscribe({
+//         //   userVisibleOnly: true,
+//         //   applicationServerKey: convertedVapidKey,
+//         // });
+//       });
+//     })
+//     .catch(function (err) {
+//       console.log(err);
+//     });
+// } 
+
+if ('serviceWorker' in navigator) {
   navigator.serviceWorker
-    .register("/sw.js")
-    .then((response) => {
-      console.log("Service worker registered!");
-      return response.pushManager.getSubscription().then((subscription) => {
-        return response.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: convertedVapidKey,
-        });
-      });
+    .register('/sw.js')
+    .then(function () {
+      console.log('Service worker registered!');
     })
-    .catch(function (err) {
+    .catch(function(err) {
       console.log(err);
     });
 }
-
-window.addEventListener("beforeinstallprompt", function (event) {
-  console.log("beforeinstallprompt fired");
+ 
+window.addEventListener('beforeinstallprompt', function(event) {
+  console.log('beforeinstallprompt fired');
   event.preventDefault();
   deferredPrompt = event;
   return false;
 });
+
+
+function displayConfirmNotification() {
+  var options = {
+    body: 'You successfully subscribed to our Notification service!'
+  };
+  new Notification('Successfully subscribed!', options);
+}
+
+function askForNotificationPermission() {
+  Notification.requestPermission(function(result) {
+    console.log('User Choice', result);
+    if (result !== 'granted') {
+      console.log('No notification permission granted!');
+    } else {
+      displayConfirmNotification();
+    }
+  });
+}
+askForNotificationPermission() 
+
+// if ('Notification' in window) {
+//   for (var i = 0; i < enableNotificationsButtons.length; i++) {
+//     enableNotificationsButtons[i].style.display = 'inline-block';
+//     enableNotificationsButtons[i].addEventListener('click', askForNotificationPermission);
+//   }
+// }
 
 function App() {
   //variables used for setting authenticated and page loading
