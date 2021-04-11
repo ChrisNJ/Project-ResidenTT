@@ -13,6 +13,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import Particles from "react-particles-js";
 import NavBar from "./components/Nav Bar/Navbar";
+import ReportModal from "./pages/Report";
 import SimpleModal from "./components/Chat/Modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -106,24 +107,29 @@ function App() {
   } else {
     num_p = 20;
   }
-/*
+
   if (isLoading) {
     return (
-      <div className="container text-center">
-        <div
-          className="spinner-grow text-info"
-          role="status"
-          style={{
-            width: "4rem",
-            height: "4rem",
-          }}
-        >
+      <div
+        className="container text-center"
+        style={{
+          backgroundColor: "#181515",
+          minHeight: "100vh",
+          minWidth: "100%",
+          display: "flex",
+          flexDirection: "column",
+          color: "white",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div className="spinner-border text-primary" role="status">
           <span className="sr-only">Loading...</span>
         </div>
       </div>
     );
   }
-*/
+
   return (
     <Router>
       <div className="App">
@@ -163,6 +169,7 @@ function App() {
         </div>
         {/* Lets the navbar know whether a user is authenticated on every page */}
         <NavBar userAuth={isAuthenticated} setAuth={setAuth} />
+        <ReportModal />
         <SimpleModal />
         <Switch>
           <Route exact path="/map" render={(props) => <Map {...props} />} />

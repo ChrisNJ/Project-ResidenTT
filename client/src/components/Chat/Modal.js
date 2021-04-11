@@ -7,7 +7,7 @@ import MessageParser from "./MessageParser";
 import config from "./config";
 
 import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@material-ui/icons/HelpOutlineOutlined";
 
 const style = {
   margin: 0,
@@ -53,7 +53,7 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <Fab color="primary" aria-label="add" onClick={handleOpen} style={style}>
+      <Fab color="primary" aria-label="help" onClick={handleOpen} style={style}>
         <AddIcon />
       </Fab>
       <Modal open={open} onClose={handleClose}>

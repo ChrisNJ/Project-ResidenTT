@@ -1,11 +1,15 @@
 import React from "react";
-import SimpleModal from "../components/Chat/Modal";
 const Home = () => {
   return (
     <div>
       <div
-        className="d-flex flex-column min-vh-100 justify-content-center align-items-center text-center"
-        style={{ position: "relative" }}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translateX(-50%) translateY(-50%)",
+          textAlign: "center",
+        }}
       >
         <h1>Welcome to ResidenTT</h1>
         <h3>a crime prediction app</h3>
@@ -13,7 +17,6 @@ const Home = () => {
           Crime Map
         </a>
       </div>
-      <SimpleModal />
     </div>
   );
 };

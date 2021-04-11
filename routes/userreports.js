@@ -96,7 +96,7 @@ router.post("/create", authorization, async (req, res) => {
       });
     }
 
-    res.status(200).json("Report added successfully");
+    res.status(200).json("Report added successfully!");
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Server Error");

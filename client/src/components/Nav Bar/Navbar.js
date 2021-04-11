@@ -3,38 +3,18 @@ import { Route, withRouter, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import React from "react";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Report from "../../pages/Report";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "fixed",
     top: "54%",
     right: "50%",
-    /* bring your own prefixes f*/
     transform: "translate(-50%, -50%)",
   },
 }));
 
 const Navbar = ({ userAuth, setAuth }, props) => {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const body = (
-    <div  className={classes.paper}>
-      <Report/>
-    </div>
-  );
   let history = useHistory();
 
   const [name, setName] = useState("");
@@ -119,16 +99,6 @@ const Navbar = ({ userAuth, setAuth }, props) => {
           </li>
         </ul>
         <ul className="navbar-nav ml-auto">
-          <button
-            className="btn btn-outline-success"
-            type="button"
-            style={{ marginRight: 10 }}
-            onClick={handleOpen}
-          >
-          
-            Report
-          
-          </button>
           {!userAuth ? (
             <li className="nav-item">
               <a
@@ -176,10 +146,6 @@ const Navbar = ({ userAuth, setAuth }, props) => {
             ))
           )}
         </ul>
-
-        <Modal open={open} onClose={handleClose}>
-          {body}
-        </Modal>
       </div>
     </nav>
   );
