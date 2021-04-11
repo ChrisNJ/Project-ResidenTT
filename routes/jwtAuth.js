@@ -9,7 +9,15 @@ const authorization = require("../middleware/authorization");
 router.post("/register", async (req, res) => {
   try {
     //destructure data passed from register form
-    const { firstName, lastName, userName, email, password } = req.body;
+    const {
+      firstName,
+      lastName,
+      userName,
+      email,
+      DOB,
+      sex,
+      password,
+    } = req.body;
 
     //check if user exists
     //userName is the same as ---    userName : `${userName}`
@@ -31,6 +39,8 @@ router.post("/register", async (req, res) => {
       lastName,
       userName,
       email,
+      DOB,
+      sex,
       password: bcryptPassword,
       profileImage:
         "https://www.searchpng.com/wp-content/uploads/2019/02/Profile-ICon.png",

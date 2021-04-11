@@ -1,5 +1,7 @@
 const { Sequelize } = require("sequelize");
 const db = require("../db");
+const UserReport = require("./UserReport");
+const Media = require("./Media");
 
 // User model
 const User = db.define("user", {
@@ -19,6 +21,14 @@ const User = db.define("user", {
     allowNull: false,
     type: Sequelize.STRING,
   },
+  DOB: {
+    allowNull: false,
+    type: Sequelize.DATEONLY,
+  },
+  sex: {
+    allowNull: false,
+    type: Sequelize.STRING,
+  },
   password: {
     allowNull: false,
     type: Sequelize.STRING,
@@ -28,5 +38,13 @@ const User = db.define("user", {
     type: Sequelize.STRING,
   },
 });
+
+// User.associate = () => {
+//   User.belongsToMany(UserReport, {
+//     through: Media,
+//     as: "userreports",
+//     foreignKey: "userId",
+//   });
+// };
 
 module.exports = User;

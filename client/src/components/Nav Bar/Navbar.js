@@ -4,36 +4,17 @@ import { toast } from "react-toastify";
 import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Report from "../../pages/Report";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "fixed",
     top: "54%",
     right: "50%",
-    /* bring your own prefixes */
     transform: "translate(-50%, -50%)",
   },
 }));
 
 const Navbar = ({ userAuth, setAuth }, props) => {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const body = (
-    <div className={classes.paper}>
-      <Report />
-    </div>
-  );
   let history = useHistory();
 
   const [name, setName] = useState("");
@@ -51,18 +32,6 @@ const Navbar = ({ userAuth, setAuth }, props) => {
 
       setName(parseData.userName);
       setImage(parseData.profileImage);
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
-  //Logout user
-  const logout = async (e) => {
-    e.preventDefault();
-    try {
-      localStorage.removeItem("token");
-      setAuth(false);
-      toast.success("Logout successful");
     } catch (err) {
       console.error(err.message);
     }
@@ -139,17 +108,13 @@ const Navbar = ({ userAuth, setAuth }, props) => {
           </li>
         </ul>
         <ul className="navbar-nav ml-auto">
-          <button
-            className="btn btn-outline-success"
-            type="button"
-            style={{ marginRight: 10 }}
-            onClick={handleOpen}
-          >
-            Report
-          </button>
           {!userAuth ? (
             <li className="nav-item">
-              <a className="btn btn-outline-info " href="/login">
+              <a
+                className="btn btn-outline-info "
+                href="#"
+                onClick={() => history.push("/login")}
+              >
                 Log In
               </a>
             </li>
@@ -178,21 +143,18 @@ const Navbar = ({ userAuth, setAuth }, props) => {
                   className="dropdown-menu"
                   aria-labelledby="navbarDropdownMenuLink"
                 >
-                  <a className="btn dropdown-item" onClick={(e) => logout(e)}>
-                    Logout
+                  <a
+                    className="btn dropdown-item"
+                    href="#"
+                    onClick={() => history.push("/profile")}
+                  >
+                    Profile
                   </a>
                 </div>
               </li>
             ))
-            // <li className="nav-item">
-            //   <a className="btn btn-outline-info ">Chris</a>
-            // </li>
           )}
         </ul>
-
-        <Modal open={open} onClose={handleClose}>
-          {body}
-        </Modal>
       </div>
     </nav>
   );
