@@ -214,6 +214,17 @@ function App() {
               )
             }
           />
+          <Route
+            exact
+            path="/profile"
+            render={(props) =>
+              isAuthenticated ? (
+                <Profile {...props} setAuth={setAuth} />
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
 
           <Redirect from="*" to="/" />
         </Switch>
