@@ -3,9 +3,11 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import { toast } from "react-toastify";
-import $ from "jquery";
+import $ from "jquery"; 
+import "../Report/Report.css";
 
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import GoogleMapReact from "google-map-react"; 
+const Marker = ({ children }) => children;
 
 const useStyles = makeStyles({
   root: {
@@ -378,17 +380,16 @@ const Report = ({ userAuth }) => {
                                 onChange={(e) => onChange(e)}
                               >
                                 <option selected>Choose an division...</option>
-                                <option>Wounding/Shooting</option>
-                                <option>Robbery</option>
-                                <option>
-                                  Poss of Narcotics for Trafficking
-                                </option>
-                                <option>Fraud Offences</option>
-                                <option>General Larceny</option>
-                                <option>Larceny Motor Vehicle</option>
-                                <option>Larceny Dwelling House</option>
-                                <option>Breaking Offences</option>
-                                <option>Other Serious Crimes</option>
+                                <option>CENTRAL</option>
+                                <option>EASTERN</option>
+                                <option>MORUGA</option>
+                                <option>NORTH EASTERN</option>
+                                <option>NORTHERN</option>
+                                <option>PORT OF SPAIN</option>
+                                <option>SOUTH WESTERN</option>
+                                <option>SOUTHERN</option>
+                                <option>TOBAGO</option>
+                                <option>WESTERN</option>
                               </select>
                             </div>
                           </div>
@@ -398,26 +399,29 @@ const Report = ({ userAuth }) => {
                             {" "}
                             Select location of crime:{" "}
                           </label>
-                          <LoadScript
-                            googleMapsApiKey={process.env.REACT_APP_mapKey}
-                          >
-                            <GoogleMap
-                              mapContainerStyle={containerStyle}
-                              center={center}
-                              zoom={zoom}
+
+                            <GoogleMapReact 
+                              style={{ width: "100%",
+                              height: "30vh",}}
+                              //mapContainerStyle={containerStyle}
+                              bootstrapURLKeys={{key: "AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg"}}
+                              defaultCenter={center} 
+                              defaultZoom={zoom} 
+                              yesIWantToUseGoogleMapApiInternals
                               onClick={(e) => changeMarkerPositon(e)}
                             >
                               {currentPosition.lat && (
                                 <Marker
-                                  icon={
-                                    "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-                                  }
-                                  position={currentPosition}
+                                  lat = {currentPosition.lat} 
+                                  lng = {currentPosition.lng}
                                   onClick={() => onSelect(currentPosition)}
-                                />
+                                > 
+                                <button  className="crime-marker"> 
+                                  <img src="https://maps.google.com/mapfiles/ms/icons/blue-dot.png" alt="User" />
+                                </button>
+                                </Marker>
                               )}
-                            </GoogleMap>
-                          </LoadScript>
+                            </GoogleMapReact>
                         </div>
                         <div>
                           {currentPosition ? (

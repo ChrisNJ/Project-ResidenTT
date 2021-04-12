@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, componentDidMount } from "react";
+import React, { useEffect, useState, useRef ,componentDidMount} from "react"; 
 
 // import {
 //   GoogleMap,
@@ -23,7 +23,7 @@ import React, { useEffect, useState, useRef, componentDidMount } from "react";
 //   });
 //   const zoom = 9;
 //   const [selected, setSelected] = useState({});
-//   const [currentPosition, setCurrentPosition] = useState({});
+//   const [currentPosition, setCurrentPosition] = useState({}); 
 
 //   const mapRef = useRef();
 
@@ -73,13 +73,15 @@ import React, { useEffect, useState, useRef, componentDidMount } from "react";
 //     if (navigator.geolocation) {
 //       navigator.geolocation.watchPosition(success,
 //         data => {
-//           console.log(data)
-
+//           console.log(data)  
+          
 //         },
 //       )
-//     }
+//     } 
+    
+//   }, []); 
 
-//   }, []);
+  
 
 //   const onSelect = (item) => {
 //     setSelected(item);
@@ -123,11 +125,11 @@ import React, { useEffect, useState, useRef, componentDidMount } from "react";
 //             <GoogleMap
 //               mapContainerStyle={containerStyle}
 //               center={center}
-//               zoom={zoom}
-//               yesIWantToUseGoogleMapApiInternals
+//               zoom={zoom}  
+//               yesIWantToUseGoogleMapApiInternals 
 //               onBoundsChanged = {({map}) => {
 //                 mapRef.current = map;
-//               }}
+//               }} 
 //             >
 //               {currentPosition.lat && (
 //                 <Marker
@@ -141,18 +143,18 @@ import React, { useEffect, useState, useRef, componentDidMount } from "react";
 
 //               <MarkerClusterer options={options}>
 //                 {(clusterer) =>
-//                   crimeData.map((item) => (
-//                     <Marker
+//                   crimeData.map((item) => ( 
+//                     <Marker 
 //                       icon={
 //                         "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
 //                       }
 //                       key={item.id}
 //                       position={item.location}
 //                       clusterer={clusterer}
-//                       onClick={() => onSelect(item)}
-//                     />
-//                   ))
-//                 }
+//                       onClick={() => onSelect(item)} 
+//                     />  
+//                   ))  
+//                 }   
 //               </MarkerClusterer>
 //               {selected.location && (
 //                 <InfoWindow
@@ -181,7 +183,7 @@ import React, { useEffect, useState, useRef, componentDidMount } from "react";
 //           <button
 //             type="button"
 //             className="btn btn-secondary"
-//             onClick={() => getCrimeData(1)}
+//             onClick={() => getCrimeData(1)} 
 //           >
 //             3 Months
 //           </button>
@@ -233,10 +235,10 @@ import React, { useEffect, useState, useRef, componentDidMount } from "react";
 //   );
 // };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////  
 import GoogleMapReact from "google-map-react";
-import useSupercluster from "use-supercluster";
-import Supercluster from "supercluster";
+import useSupercluster from "use-supercluster";  
+import Supercluster from 'supercluster';
 import "./Map.css";
 
   const Marker = ({ children }) => children;
@@ -554,76 +556,8 @@ import "./Map.css";
             </div>
         </div> 
 
-          return (
-            <Marker
-              key={`crime-${cluster.properties.crimeId}`}
-              lat={latitude}
-              lng={longitude}
-            >
-              <button className="crime-marker">
-                <img
-                  src="https://maps.google.com/mapfiles/ms/icons/red-dot.png"
-                  alt="crime"
-                />
-              </button>
-            </Marker>
-          );
-        })}
-      </GoogleMapReact>
-
-      <div className="btn-group" role="group" aria-label="Basic example">
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(1)}
-        >
-          3 Months
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(2)}
-        >
-          6 Months
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(3)}
-        >
-          1 Year
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(4)}
-        >
-          2 Years
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(5)}
-        >
-          3 Years
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(6)}
-        >
-          4 Years
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => getCrimeData(7)}
-        >
-          5 Years
-        </button>
-      </div>
-    </div>
-  );
-}; //end Map()
+        
+    ); 
+  }//end Map() 
 
 export default Map;
