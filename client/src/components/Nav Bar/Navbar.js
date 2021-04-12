@@ -106,6 +106,15 @@ const Navbar = ({ userAuth, setAuth }, props) => {
               Enable Notifications
             </a>
           </li>
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              href="#"
+              onClick={() => history.push("/reportsfeed")}
+            >
+              User Reports
+            </a>
+          </li>
         </ul>
         <ul className="navbar-nav ml-auto">
           {!userAuth ? (

@@ -5,6 +5,8 @@ import Stats from "./pages/Stats";
 import Feed from "./pages/NewsFeed";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import ReportsFeed from "./pages/ReportsFeed";
 
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -12,14 +14,16 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import Particles from "react-particles-js";
 import NavBar from "./components/Nav Bar/Navbar";
+import ReportModal from "./components/Report/Report";
 import SimpleModal from "./components/Chat/Modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
- 
-var deferredPrompt; 
-var enableNotificationsButtons = document.querySelectorAll('.enable-notifications');
 
+var deferredPrompt;
+var enableNotificationsButtons = document.querySelectorAll(
+  ".enable-notifications"
+);
 
 if (!window.Promise) {
   window.Promise = Promise;
@@ -59,45 +63,44 @@ if (!window.Promise) {
 //     .catch(function (err) {
 //       console.log(err);
 //     });
-// } 
+// }
 
-if ('serviceWorker' in navigator) {
+if ("serviceWorker" in navigator) {
   navigator.serviceWorker
-    .register('/sw.js')
+    .register("/sw.js")
     .then(function () {
-      console.log('Service worker registered!');
+      console.log("Service worker registered!");
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.log(err);
     });
 }
- 
-window.addEventListener('beforeinstallprompt', function(event) {
-  console.log('beforeinstallprompt fired');
+
+window.addEventListener("beforeinstallprompt", function (event) {
+  console.log("beforeinstallprompt fired");
   event.preventDefault();
   deferredPrompt = event;
   return false;
 });
 
-
 function displayConfirmNotification() {
   var options = {
-    body: 'You successfully subscribed to our Notification service!'
+    body: "You successfully subscribed to our Notification service!",
   };
-  new Notification('Successfully subscribed!', options);
+  new Notification("Successfully subscribed!", options);
 }
 
 function askForNotificationPermission() {
-  Notification.requestPermission(function(result) {
-    console.log('User Choice', result);
-    if (result !== 'granted') {
-      console.log('No notification permission granted!');
+  Notification.requestPermission(function (result) {
+    console.log("User Choice", result);
+    if (result !== "granted") {
+      console.log("No notification permission granted!");
     } else {
       displayConfirmNotification();
     }
   });
 }
-askForNotificationPermission() 
+askForNotificationPermission();
 
 // if ('Notification' in window) {
 //   for (var i = 0; i < enableNotificationsButtons.length; i++) {
@@ -177,12 +180,18 @@ function App() {
         </div>
         {/* Lets the navbar know whether a user is authenticated on every page */}
         <NavBar userAuth={isAuthenticated} setAuth={setAuth} />
+        <ReportModal userAuth={isAuthenticated} />
         <SimpleModal />
         <Switch>
           <Route exact path="/map" render={(props) => <Map {...props} />} />
           <Route exact path="/stats" render={(props) => <Stats {...props} />} />
           <Route exact path="/" render={(props) => <Home {...props} />} />
           <Route exact path="/feed" render={(props) => <Feed {...props} />} />
+          <Route
+            exact
+            path="/reportsfeed"
+            render={(props) => <ReportsFeed {...props} />}
+          />
           <Route
             exact
             path="/register"

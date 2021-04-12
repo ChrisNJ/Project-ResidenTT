@@ -1,30 +1,40 @@
-import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
-import TimePicker from "react-time-picker";
+import React, { useState } from "react";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import "react-datepicker/dist/react-datepicker.css";
+import { makeStyles } from "@material-ui/core/styles";
 import { toast } from "react-toastify";
+import $ from "jquery";
 
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
-const style = {
-  margin: 0,
-  top: "auto",
-  right: 20,
-  bottom: 85,
-  left: "auto",
-  position: "fixed",
-};
+const useStyles = makeStyles({
+  root: {
+    margin: 0,
+    top: "auto",
+    right: 20,
+    bottom: 85,
+    left: "auto",
+    position: "fixed",
+    "&$disabled": {
+      background: "rgba(100, 0, 0, 0.9)",
+      color: "white",
+    },
+  },
+  disabled: {},
+});
 
-const Report = () => {
-  const [startDate, setStartDate] = useState(new Date());
+const Report = ({ userAuth }) => {
+  console.log(new Date().toISOString());
+  const classes = useStyles();
+  const [startDate, setStartDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [startTime, setStartTime] = useState(
     new Date().toLocaleTimeString("it-IT")
   );
   const [loading, setLoading] = useState(false);
   const [crimeImage, setImage] = useState(
-    "https://icons-for-free.com/iconfiles/png/512/box+document+outline+share+top+upload+icon-1320195323221671611.png"
+    "https://cdn2.iconfinder.com/data/icons/picons-essentials/71/gallery-512.png"
   );
   const [contentType, setContentType] = useState(undefined);
   const containerStyle = {
@@ -39,6 +49,7 @@ const Report = () => {
   const zoom = 9;
 
   const [currentPosition, setCurrentPosition] = useState({});
+  const [coordsError, setCoordsError] = useState(undefined);
 
   const [inputs, setInputs] = useState({
     offences: "",
@@ -53,11 +64,18 @@ const Report = () => {
   const onChange = (e) =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
 
-  useEffect(() => {
+  const getLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success);
+      navigator.geolocation.getCurrentPosition(success, setErrorDesc);
+    } else {
+      toast("Sorry, your browser does not support this feature");
     }
-  }, []);
+  };
+
+  const setErrorDesc = (error) => {
+    setCoordsError("Sorry, this feature requires your location.");
+    toast("Sorry, this feature requires your location.");
+  };
 
   const onSelect = (item) => {
     setCenter(item.location);
@@ -99,7 +117,7 @@ const Report = () => {
       toast.error("Please upload an image or video");
     }
 
-    //Cloudinary upload preset
+    //Upload image/video to Cloudinary
     if (content) {
       console.log("type", contentType);
       console.log("typereally", content);
@@ -171,14 +189,25 @@ const Report = () => {
     }
   };
 
+  //Change name on file input
+  $(".custom-file-input").on("change", function () {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  });
+
   return (
     <div>
       <Fab
-        color="secondary"
+        color="default"
         aria-label="report"
         data-toggle="modal"
         data-target="#reportModal"
-        style={style}
+        disabled={!userAuth}
+        classes={{
+          root: classes.root,
+          disabled: classes.disabled,
+        }}
+        onClick={() => getLocation()}
       >
         <AddIcon />
       </Fab>
@@ -206,6 +235,7 @@ const Report = () => {
                 class="close"
                 data-dismiss="modal"
                 aria-label="Close"
+                style={{ color: "lightgray" }}
               >
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -218,7 +248,7 @@ const Report = () => {
                       <h5 class="mb-0">
                         <button
                           type="button"
-                          class="btn btn-link collapsed"
+                          class="btn btn-link btn-block text-left"
                           data-toggle="collapse"
                           data-target="#collapseOne"
                           aria-expanded="true"
@@ -281,16 +311,29 @@ const Report = () => {
                           ></textarea>
                         </div>
 
-                        <div class="form-group" style={{ color: "lightgray" }}>
-                          <label>Report Date </label>
-                          <DatePicker
-                            selected={startDate}
-                            onChange={(date) => setStartDate(date)}
-                          />
-                          <TimePicker
+                        <label style={{ color: "lightgray" }}>
+                          Report Date & Time{" "}
+                        </label>
+                        <div
+                          class="form-group form-inline"
+                          style={{ color: "lightgray" }}
+                        >
+                          <input
+                            type="date"
+                            className="form-control"
+                            required
+                            style={{ width: "10rem" }}
+                            onChange={(e) => setStartDate(e)}
+                            defaultValue={startDate}
+                          ></input>
+                          <input
+                            type="time"
+                            className="form-control"
+                            required
+                            style={{ width: "10rem" }}
                             onChange={(e) => setStartTime(e)}
-                            value={startTime}
-                          />
+                            defaultValue={startTime}
+                          ></input>
                         </div>
                       </div>
                     </div>
@@ -300,7 +343,7 @@ const Report = () => {
                       <h5 class="mb-0">
                         <button
                           type="button"
-                          class="btn btn-link collapsed"
+                          class="btn btn-link btn-block text-left"
                           data-toggle="collapse"
                           data-target="#collapseTwo"
                           aria-expanded="false"
@@ -400,7 +443,7 @@ const Report = () => {
                       <h5 class="mb-0">
                         <button
                           type="button"
-                          class="btn btn-link collapsed"
+                          class="btn btn-link btn-block text-left"
                           data-toggle="collapse"
                           data-target="#collapseThree"
                           aria-expanded="false"
@@ -446,12 +489,18 @@ const Report = () => {
                           >
                             Report Image/Video
                           </label>
-                          <input
-                            type="file"
-                            class="form-control-file"
-                            id="Report_Image"
-                            onChange={(e) => fileSelectedHandler(e)}
-                          />
+                          <div class="custom-file mb-3">
+                            <input
+                              type="file"
+                              class="custom-file-input"
+                              id="Report_Image customFile"
+                              name="filename"
+                              onChange={(e) => fileSelectedHandler(e)}
+                            />
+                            <label class="custom-file-label" for="customFile">
+                              Choose file
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -468,14 +517,12 @@ const Report = () => {
                 Close
               </button>
               <button
-                // type="button"
                 type="submit"
                 form="Crime_Report"
-                class="btn btn-primary"
-                // data-dismiss="modal"
-                disabled={loading}
+                class="btn btn-primary "
+                disabled={loading || coordsError}
               >
-                Report
+                Save Report
               </button>
             </div>
           </div>
