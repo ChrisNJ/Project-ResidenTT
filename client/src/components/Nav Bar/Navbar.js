@@ -96,6 +96,15 @@ const Navbar = ({ userAuth, setAuth }, props) => {
             >
               News Feed
             </a>
+          </li> 
+          <li className="enable-notifications nav-item">
+            <a
+              className="nav-link"
+              href="#"
+              //onClick={}
+            >
+              Enable Notifications
+            </a>
           </li>
           <li className="nav-item">
             <a

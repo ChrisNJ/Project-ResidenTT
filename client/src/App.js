@@ -21,10 +21,49 @@ import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 var deferredPrompt;
+var enableNotificationsButtons = document.querySelectorAll(
+  ".enable-notifications"
+);
 
 if (!window.Promise) {
   window.Promise = Promise;
 }
+
+// const convertedVapidKey = urlBase64ToUint8Array(
+//   process.env.REACT_APP_PUBLIC_VAPID_KEY
+// );
+
+// function urlBase64ToUint8Array(base64String) {
+//   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+//   const base64 = (base64String + padding)
+//     .replace(/\-/g, "+")
+//     .replace(/_/g, "/");
+
+//   const rawData = window.atob(base64);
+//   const outputArray = new Uint8Array(rawData.length);
+
+//   for (let i = 0; i < rawData.length; ++i) {
+//     outputArray[i] = rawData.charCodeAt(i);
+//   }
+//   return outputArray;
+// }
+
+// if ("serviceWorker" in navigator) {
+//   navigator.serviceWorker
+//     .register("/sw.js")
+//     .then((response) => {
+//       console.log("Service worker registered!");
+//       return response.pushManager.getSubscription().then((subscription) => {
+//         // return response.pushManager.subscribe({
+//         //   userVisibleOnly: true,
+//         //   applicationServerKey: convertedVapidKey,
+//         // });
+//       });
+//     })
+//     .catch(function (err) {
+//       console.log(err);
+//     });
+// }
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
@@ -44,10 +83,35 @@ window.addEventListener("beforeinstallprompt", function (event) {
   return false;
 });
 
+function displayConfirmNotification() {
+  var options = {
+    body: "You successfully subscribed to our Notification service!",
+  };
+  new Notification("Successfully subscribed!", options);
+}
+
+function askForNotificationPermission() {
+  Notification.requestPermission(function (result) {
+    console.log("User Choice", result);
+    if (result !== "granted") {
+      console.log("No notification permission granted!");
+    } else {
+      displayConfirmNotification();
+    }
+  });
+}
+askForNotificationPermission();
+
+// if ('Notification' in window) {
+//   for (var i = 0; i < enableNotificationsButtons.length; i++) {
+//     enableNotificationsButtons[i].style.display = 'inline-block';
+//     enableNotificationsButtons[i].addEventListener('click', askForNotificationPermission);
+//   }
+// }
+
 function App() {
   //variables used for setting authenticated and page loading
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setLoading] = useState(true);
 
   //Function passed to child components to set authentication
   const setAuth = (boolean) => {
@@ -67,7 +131,6 @@ function App() {
       parseRes.auth === true
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
-      setLoading(false);
     } catch (err) {
       console.error(err.message);
     }
@@ -77,59 +140,6 @@ function App() {
   useEffect(() => {
     isAuth();
   }, []);
-
-  //Get the window size to enable the reduction of particles for mobile
-  function useWindowSize() {
-    const [windowSize, setWindowSize] = useState({
-      width: undefined,
-      height: undefined,
-    });
-
-    useEffect(() => {
-      function handleResize() {
-        setWindowSize({
-          width: window.innerWidth,
-          height: window.innerHeight,
-        });
-      }
-      window.addEventListener("resize", handleResize);
-      handleResize();
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    return windowSize;
-  }
-
-  const size = useWindowSize().width;
-
-  let num_p;
-  if (size > 755) {
-    num_p = 100;
-  } else {
-    num_p = 20;
-  }
-
-  if (isLoading) {
-    return (
-      <div
-        className="container text-center"
-        style={{
-          backgroundColor: "#181515",
-          minHeight: "100vh",
-          minWidth: "100%",
-          display: "flex",
-          flexDirection: "column",
-          color: "white",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <div className="spinner-border text-primary" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <Router>
@@ -141,7 +151,7 @@ function App() {
             params={{
               particles: {
                 number: {
-                  value: num_p,
+                  value: 100,
                 },
                 size: {
                   value: 3,
@@ -201,17 +211,6 @@ function App() {
                 <Login {...props} setAuth={setAuth} />
               ) : (
                 <Redirect to="/" />
-              )
-            }
-          />
-          <Route
-            exact
-            path="/profile"
-            render={(props) =>
-              isAuthenticated ? (
-                <Profile {...props} setAuth={setAuth} />
-              ) : (
-                <Redirect to="/login" />
               )
             }
           />

@@ -87,3 +87,7 @@ h6 {
   font-size: calc(10px + 2vmin);
   color: white;
 } */
+
+.enable-notifications {
+  display: none;
+}
