@@ -344,13 +344,15 @@ import "./Map.css";
               console.log(Math.abs(currentPosition.lng - c_lng))
               if((Math.abs(currentPosition.lat - c_lat) < 0.003) && (Math.abs(currentPosition.lng - c_lng) < 0.005)){  
                 console.log("Near Crime"); 
-                if(sendNotif == false){
+
+                if(sendNotif === false){
                   var options = {
                     body: 'You Near Crime Buddy'
                   };
                   new Notification('Crime Alert', options); 
                 } 
-                clusters[x].alerted = true;
+                clusters[x].alerted = true; 
+                //console.log(clusters[x].alerted);
               } 
               
             }
@@ -505,49 +507,49 @@ import "./Map.css";
             <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => getCrimeData(1)} 
+                onClick={() => getCrimeData(3)} 
             >
                 3 Months
             </button>
             <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => getCrimeData(2)}
+                onClick={() => getCrimeData(6)}
             >
                 6 Months
             </button>
             <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => getCrimeData(3)}
+                onClick={() => getCrimeData(12)}
             >
                 1 Year
             </button>
             <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => getCrimeData(4)}
+                onClick={() => getCrimeData(24)}
             >
                 2 Years
             </button>
             <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => getCrimeData(5)}
+                onClick={() => getCrimeData(36)}
             >
                 3 Years
             </button>
             <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => getCrimeData(6)}
+                onClick={() => getCrimeData(48)}
             >
                 4 Years
             </button>
             <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => getCrimeData(7)}
+                onClick={() => getCrimeData(60)}
             >
                 5 Years
             </button>
