@@ -6,6 +6,7 @@ import Feed from "./pages/NewsFeed";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
+import ReportsFeed from "./pages/ReportsFeed";
 
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -13,7 +14,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import Particles from "react-particles-js";
 import NavBar from "./components/Nav Bar/Navbar";
-import ReportModal from "./pages/Report";
+import ReportModal from "./components/Report/Report";
 import SimpleModal from "./components/Chat/Modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -169,13 +170,18 @@ function App() {
         </div>
         {/* Lets the navbar know whether a user is authenticated on every page */}
         <NavBar userAuth={isAuthenticated} setAuth={setAuth} />
-        <ReportModal />
+        <ReportModal userAuth={isAuthenticated} />
         <SimpleModal />
         <Switch>
           <Route exact path="/map" render={(props) => <Map {...props} />} />
           <Route exact path="/stats" render={(props) => <Stats {...props} />} />
           <Route exact path="/" render={(props) => <Home {...props} />} />
           <Route exact path="/feed" render={(props) => <Feed {...props} />} />
+          <Route
+            exact
+            path="/reportsfeed"
+            render={(props) => <ReportsFeed {...props} />}
+          />
           <Route
             exact
             path="/register"

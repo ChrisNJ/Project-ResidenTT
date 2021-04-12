@@ -35,10 +35,12 @@ h6 {
 
 .modal-footer {
   background-color: #253348;
+  border-top: 1px solid #bab4b4;
 }
 
 .modal-header {
   background-color: #253348;
+  border-bottom: 1px solid #bab4b4;
 }
 
 .card-body {

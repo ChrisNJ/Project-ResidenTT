@@ -28,7 +28,7 @@ const Map = () => {
     try {
       let res;
       setLoading(true);
-      if (range >= 1) {
+      if (range >= 3) {
         const body = { range };
 
         res = await fetch("/crimereports/", {
