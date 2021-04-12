@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
-import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import $ from "jquery";
 
