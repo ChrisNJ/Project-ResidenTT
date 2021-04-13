@@ -2,17 +2,9 @@ import { useState } from "react";
 import { Route, withRouter, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import React from "react";
+import $ from "jquery";
 
 import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: "fixed",
-    top: "54%",
-    right: "50%",
-    transform: "translate(-50%, -50%)",
-  },
-}));
 
 const Navbar = ({ userAuth, setAuth }, props) => {
   let history = useHistory();
@@ -36,6 +28,12 @@ const Navbar = ({ userAuth, setAuth }, props) => {
       console.error(err.message);
     }
   };
+
+  $(function () {
+    window.$(document).click(function (event) {
+      window.$(".navbar-collapse").collapse("hide");
+    });
+  });
 
   return (
     <nav
@@ -96,7 +94,7 @@ const Navbar = ({ userAuth, setAuth }, props) => {
             >
               News Feed
             </a>
-          </li> 
+          </li>
           <li className="enable-notifications nav-item">
             <a
               className="nav-link"

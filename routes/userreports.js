@@ -15,7 +15,7 @@ const getReports = async (range) => {
     include: [
       {
         model: User,
-        attributes: ["id", "userName"],
+        attributes: ["id", "userName", "profileImage"],
       },
       {
         model: Media,
@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
         include: [
           {
             model: User,
-            attributes: ["id", "userName"],
+            attributes: ["id", "userName", "profileImage"],
           },
           {
             model: Media,
@@ -89,7 +89,10 @@ router.post("/create", authorization, async (req, res) => {
       userId: req.user, //authorization middleware returns the user's id upon verification of jwtToken
     });
 
-    if (mediaUrl) {
+    if (
+      mediaUrl !=
+      "https://cdn2.iconfinder.com/data/icons/picons-essentials/71/gallery-512.png"
+    ) {
       Media.create({
         userId: req.user,
         reportId: userreport.id,

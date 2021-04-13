@@ -3,10 +3,10 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import { toast } from "react-toastify";
-import $ from "jquery"; 
+import $ from "jquery";
 import "../Report/Report.css";
 
-import GoogleMapReact from "google-map-react"; 
+import GoogleMapReact from "google-map-react";
 const Marker = ({ children }) => children;
 
 const useStyles = makeStyles({
@@ -20,13 +20,13 @@ const useStyles = makeStyles({
     "&$disabled": {
       background: "rgba(100, 0, 0, 0.9)",
       color: "white",
+      pointerEvents: "auto",
     },
   },
   disabled: {},
 });
 
 const Report = ({ userAuth }) => {
-  console.log(new Date().toISOString());
   const classes = useStyles();
   const [startDate, setStartDate] = useState(
     new Date().toISOString().split("T")[0]
@@ -39,10 +39,6 @@ const Report = ({ userAuth }) => {
     "https://cdn2.iconfinder.com/data/icons/picons-essentials/71/gallery-512.png"
   );
   const [contentType, setContentType] = useState(undefined);
-  const containerStyle = {
-    width: "100%",
-    height: "30vh",
-  };
 
   const [center, setCenter] = useState({
     lat: 10.40493623435229,
@@ -93,8 +89,8 @@ const Report = ({ userAuth }) => {
 
   const changeMarkerPositon = (e) => {
     const newPosition = {
-      lat: e.latLng.lat(),
-      lng: e.latLng.lng(),
+      lat: e.lat,
+      lng: e.lng,
     };
     setCurrentPosition(newPosition);
   };
@@ -121,8 +117,6 @@ const Report = ({ userAuth }) => {
 
     //Upload image/video to Cloudinary
     if (content) {
-      console.log("type", contentType);
-      console.log("typereally", content);
       fd.append("upload_preset", "info3604project");
 
       setLoading(true);
@@ -136,8 +130,6 @@ const Report = ({ userAuth }) => {
       );
 
       const file = await res.json();
-
-      console.log(file.secure_url);
       //Change to file uploaded image
       setImage(file.secure_url);
       setLoading(false);
@@ -148,6 +140,7 @@ const Report = ({ userAuth }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
+      // console.log("crimeinfo");
       const body = {
         offences,
         crimeInfo,
@@ -180,14 +173,14 @@ const Report = ({ userAuth }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          // onClose: () => (window.location.href = "/posts"),
+          onClose: () => (window.location.href = "/reportsfeed"),
         });
       } else {
         toast.error(parseRes);
       }
     } catch (err) {
       console.error(err.message);
-      toast.error("Error creating post");
+      toast.error("Error creating report");
     }
   };
 
@@ -197,6 +190,47 @@ const Report = ({ userAuth }) => {
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
   });
 
+  // Show tooltips
+  $(function () {
+    window.$('[data-toggle="tooltip"]').tooltip();
+  });
+
+  $(function () {
+    window.$(":submit").on("click", function (event) {
+      // traverse all the required inputs to find empty ones
+      $("#Crime_Report :input[required='required']").each(function () {
+        // if the value of the input is empty then open the accordion tab where its located
+        if ($(this).val() === "" || $.isEmptyObject($(this).val())) {
+          console.log("testingempty");
+          $(".collapse.show").removeClass("show");
+          $(this).closest(".collapse").addClass("show");
+
+          return false;
+        }
+      });
+    });
+  });
+
+  // Toggle right and down arrow icon on show hide of collapse element
+  $(function () {
+    window
+      .$(".collapse")
+      .on("show.bs.collapse", function () {
+        $(this)
+          .prev(".card-header")
+          .find(".fa")
+          .removeClass("fa-angle-right")
+          .addClass("fa-angle-down");
+      })
+      .on("hide.bs.collapse", function () {
+        $(this)
+          .prev(".card-header")
+          .find(".fa")
+          .removeClass("fa-angle-down")
+          .addClass("fa-angle-right");
+      });
+  });
+
   return (
     <div>
       <Fab
@@ -204,6 +238,8 @@ const Report = ({ userAuth }) => {
         aria-label="report"
         data-toggle="modal"
         data-target="#reportModal"
+        data-placement="left"
+        title="Report (Login Required)"
         disabled={!userAuth}
         classes={{
           root: classes.root,
@@ -244,7 +280,7 @@ const Report = ({ userAuth }) => {
             </div>
             <div class="modal-body">
               <form id="Crime_Report" onSubmit={onSubmit}>
-                <div id="accordion">
+                <div class="accordion" id="accordion">
                   <div class="card">
                     <div class="card-header" id="headingOne">
                       <h5 class="mb-0">
@@ -256,6 +292,7 @@ const Report = ({ userAuth }) => {
                           aria-expanded="true"
                           aria-controls="collapseOne"
                         >
+                          <i class="fa fa-angle-right"></i>
                           Step 1 of 3: General Information
                         </button>
                       </h5>
@@ -283,7 +320,9 @@ const Report = ({ userAuth }) => {
                             value={offences}
                             onChange={(e) => onChange(e)}
                           >
-                            <option selected>Choose an offence...</option>
+                            <option value="" disabled selected>
+                              Choose an offence...
+                            </option>
                             <option>Wounding/Shooting</option>
                             <option>Robbery</option>
                             <option>Poss of Narcotics for Trafficking</option>
@@ -308,6 +347,7 @@ const Report = ({ userAuth }) => {
                             class="form-control"
                             id="Report_Description"
                             name="crimeInfo"
+                            required
                             value={crimeInfo}
                             onChange={(e) => onChange(e)}
                           ></textarea>
@@ -322,18 +362,20 @@ const Report = ({ userAuth }) => {
                         >
                           <input
                             type="date"
+                            name="date"
                             className="form-control"
                             required
                             style={{ width: "10rem" }}
-                            onChange={(e) => setStartDate(e)}
+                            onChange={(e) => setStartDate(e.target.value)}
                             defaultValue={startDate}
                           ></input>
                           <input
                             type="time"
+                            step="60"
                             className="form-control"
                             required
                             style={{ width: "10rem" }}
-                            onChange={(e) => setStartTime(e)}
+                            onChange={(e) => setStartTime(e.target.value)}
                             defaultValue={startTime}
                           ></input>
                         </div>
@@ -351,6 +393,7 @@ const Report = ({ userAuth }) => {
                           aria-expanded="false"
                           aria-controls="collapseTwo"
                         >
+                          <i class="fa fa-angle-right"></i>
                           Step 2 of 3: Location
                         </button>
                       </h5>
@@ -379,7 +422,9 @@ const Report = ({ userAuth }) => {
                                 value={location}
                                 onChange={(e) => onChange(e)}
                               >
-                                <option selected>Choose an division...</option>
+                                <option value="" disabled selected>
+                                  Choose an division...
+                                </option>
                                 <option>CENTRAL</option>
                                 <option>EASTERN</option>
                                 <option>MORUGA</option>
@@ -399,29 +444,41 @@ const Report = ({ userAuth }) => {
                             {" "}
                             Select location of crime:{" "}
                           </label>
-
-                            <GoogleMapReact 
-                              style={{ width: "100%",
-                              height: "30vh",}}
-                              //mapContainerStyle={containerStyle}
-                              bootstrapURLKeys={{key: "AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg"}}
-                              defaultCenter={center} 
-                              defaultZoom={zoom} 
-                              yesIWantToUseGoogleMapApiInternals
-                              onClick={(e) => changeMarkerPositon(e)}
-                            >
-                              {currentPosition.lat && (
-                                <Marker
-                                  lat = {currentPosition.lat} 
-                                  lng = {currentPosition.lng}
-                                  onClick={() => onSelect(currentPosition)}
-                                > 
-                                <button  className="crime-marker"> 
-                                  <img src="https://maps.google.com/mapfiles/ms/icons/blue-dot.png" alt="User" />
-                                </button>
-                                </Marker>
-                              )}
-                            </GoogleMapReact>
+                          <div style={{ width: "100%", height: "30vh" }}>
+                            {coordsError ? (
+                              <h6 style={{ textAlign: "center", color: "red" }}>
+                                {" "}
+                                Sorry, you need to allow location tracking for
+                                this feature.
+                              </h6>
+                            ) : (
+                              <GoogleMapReact
+                                bootstrapURLKeys={{
+                                  key:
+                                    "AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg",
+                                }}
+                                defaultCenter={center}
+                                defaultZoom={zoom}
+                                yesIWantToUseGoogleMapApiInternals
+                                onClick={(e) => changeMarkerPositon(e)}
+                              >
+                                {currentPosition.lat && (
+                                  <Marker
+                                    lat={currentPosition.lat}
+                                    lng={currentPosition.lng}
+                                    onClick={() => onSelect(currentPosition)}
+                                  >
+                                    <button className="crime-marker">
+                                      <img
+                                        src="https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                                        alt="User"
+                                      />
+                                    </button>
+                                  </Marker>
+                                )}
+                              </GoogleMapReact>
+                            )}
+                          </div>
                         </div>
                         <div>
                           {currentPosition ? (
@@ -453,6 +510,7 @@ const Report = ({ userAuth }) => {
                           aria-expanded="false"
                           aria-controls="collapseThree"
                         >
+                          <i class="fa fa-angle-right"></i>
                           Step 3 of 3: Upload Images/Video (Optional)
                         </button>
                       </h5>
@@ -464,13 +522,13 @@ const Report = ({ userAuth }) => {
                       data-parent="#accordion"
                     >
                       <div class="card-body">
-                        <div className="col-md2 text-center">
+                        <div className="col text-center">
                           {loading ? (
                             <h5>Loading...</h5>
                           ) : contentType == "raw" ? (
                             <video
-                              width="100%"
-                              height="80%"
+                              width="80%"
+                              height="70%"
                               controls
                               src={crimeImage}
                             >
@@ -480,8 +538,8 @@ const Report = ({ userAuth }) => {
                             <img
                               id="image"
                               src={crimeImage}
-                              width="171"
-                              height="180"
+                              width="60%"
+                              height="50%"
                               alt="loading img"
                             />
                           )}
@@ -493,7 +551,7 @@ const Report = ({ userAuth }) => {
                           >
                             Report Image/Video
                           </label>
-                          <div class="custom-file mb-3">
+                          <div class="custom-file">
                             <input
                               type="file"
                               class="custom-file-input"
