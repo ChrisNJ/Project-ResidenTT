@@ -12,6 +12,10 @@ const Clusters = db.define(
     latitude: {
       allowNull: false,
       type: Sequelize.FLOAT,
+    }, 
+    alerted: {
+      allowNull: false,
+      type: Sequelize.BOOLEAN,
     },
   },
   { timestamps: false }

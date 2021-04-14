@@ -84,8 +84,9 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); 
   const [crimeData, setCrimeData] = useState([]);   
   const [currentPosition, setCurrentPosition] = useState({});  
-  const firstCLuster = useRef()
-
+  const firstCLuster = useRef() 
+  
+  const [clusters, setCluster] = useState({}); 
 
   const [isLoading, setLoading] = useState(true);
 
@@ -157,31 +158,60 @@ function App() {
 
      
 
-  // const nearCrime = useCallback(() => { 
-  //   getCrimeData(6) 
-  //   console.log(clusters);
-  //   if(currentPosition){ 
-  //     for(var x in clusters){
-  //       console.log(clusters[x].geometry.coordinates);  
-  //       //console.log(currentPosition);
-  //       var c_lng = clusters[x].geometry.coordinates[0]; 
-  //       var c_lat = clusters[x].geometry.coordinates[1]  
-  //       //console.log(c_lng,c_lat);
-  //       // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){  
-  //       //   console.log("Near Crime");
-  //       // }   
-  //       //console.log(Math.abs(currentPosition.lat - c_lat))
-  //       if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){
-  //         console.log("Near Crime");
-  //         var options = {
-  //           body: 'You Near Crime Buddy'
-  //         };
-  //         new Notification('Crime Alert', options);
-  //       }
-  //     }
+  const nearCrime = useCallback(() => {  
+    console.log(clusters);
+    if(currentPosition){ 
+      for(var x in clusters){ 
+        //console.log(x); 
+        //console.log(currentPosition);
+        var c_lng = clusters[x].longitude; 
+        var c_lat = clusters[x].latitude;  
+        //console.log(c_lng,c_lat);
+        // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){  
+        //   console.log("Near Crime");
+        // }   
+        console.log(Math.abs(currentPosition.lat - c_lat)) 
+        if(Math.abs(currentPosition.lat - c_lat) < 0.005){ 
+          if(!clusters[x].alerted){
+            console.log("Near Crime");
+            var options = {
+              body: 'You Near Crime Buddy'
+            };
+            new Notification('Crime Alert', options); 
+          } 
+          clusters[x].alerted = true
+        }
+      }
     
-  //   }
-  // }, [clusters, currentPosition]);
+    }
+  }, [currentPosition]);  
+
+  nearCrime()
+
+
+  async function loadCluster(){ 
+    try { 
+      let res
+      res = await fetch("/clusters/", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+
+    const parseData = await res.json();   
+    
+    setCluster(parseData) 
+    //console.log(parseData);
+
+    //const parseData = await res.json();
+      
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  //loadCluster()
 
   //Send the token in local storage to verify the user
   async function isAuth() {
@@ -219,7 +249,10 @@ function App() {
         setCurrentPosition(pos);  
         //console.log(pos);
         //nearCrime()
-    },()=>null)        
+    },()=>null)     
+    loadCluster()     
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); 
 
 
