@@ -133,7 +133,7 @@ const ReportsFeed = () => {
 
   return (
     <div className="container-fluid">
-      <h1 className="mt-5 text-center">Crime Reports by Users</h1>
+      <h1 className="mb-2 mt-2 text-center">Crime Reports by Users</h1>
       <div className="row mb-4">
         <div className="col-md-2 offset-md-1">
           <div className="dropdown">
@@ -172,24 +172,6 @@ const ReportsFeed = () => {
           </div>
         </div>
         <div className="col-md-2 offset-md-7">
-          {/* <button
-            className="btn btn-primary"
-            onClick={() => {
-              verified.auth
-                ? (window.location.href = "/createposts")
-                : toast.error("You need to be logged in", {
-                    position: "top-right",
-                    autoClose: 1750,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-            }}
-          >
-            Create Post
-          </button> */}
           <div class="custom-control custom-switch custom-switch-md">
             {verified.auth ? (
               <input
@@ -207,6 +189,8 @@ const ReportsFeed = () => {
                 class="custom-control-input"
                 disabled
                 id="customSwitch1"
+                title="Login required"
+                style={{ pointerEvents: "auto" }}
               />
             )}
             <label class="custom-control-label text-white" for="customSwitch1">

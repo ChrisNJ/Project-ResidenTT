@@ -98,7 +98,6 @@ function App() {
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
       setLoading(false);
-      console.log(parseRes.userID);
     } catch (err) {
       console.error(err.message);
     }

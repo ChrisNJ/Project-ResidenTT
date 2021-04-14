@@ -29,15 +29,12 @@ const getReports = async (range) => {
 //Return user reports
 router.post("/", async (req, res) => {
   try {
-    console.log("stufg");
     const { range } = req.body;
     let reports;
 
     if (range && range != 2020) {
       reports = await getReports(range);
-    }
-
-    if (range == 2020) {
+    } else if (range == 2020) {
       reports = await UserReport.findAll({
         where: {
           date: {

@@ -190,11 +190,7 @@ const Report = ({ userAuth }) => {
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
   });
 
-  // Show tooltips
-  $(function () {
-    window.$('[data-toggle="tooltip"]').tooltip();
-  });
-
+  //Input Validation Check for Accordion
   $(function () {
     window.$(":submit").on("click", function (event) {
       // traverse all the required inputs to find empty ones
