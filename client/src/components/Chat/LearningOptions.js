@@ -14,7 +14,8 @@ const LearningOptions = (props) => {
       handler: props.actionProvider.handleMagCourtList,
       id: 2 
     },
-    { text: "Supreme Court", handler: () => {}, id: 3 },
+    { text: "Supreme Court", handler: () => {}, id: 3 }, 
+    { text: "Emergency Numbers", handler: props.actionProvider.handleNumbersList, id: 4 },
   ];
 
   const optionsMarkup = options.map((option) => (

@@ -23,13 +23,13 @@ const config = {
           {
             text: "Magisterial Applications",
             url:
-            "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/child-maintenance",
+            "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/magisterial-applications",
             id: 1,
           },
           {
             text: "Child Maintenance",
             url:
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide",
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/child-maintenance",
             id: 2,
           },
           {

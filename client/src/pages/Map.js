@@ -238,7 +238,7 @@ import React, { useEffect, useState, useRef ,componentDidMount} from "react";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////  
 import GoogleMapReact from "google-map-react";
 import useSupercluster from "use-supercluster";  
-import Supercluster from 'supercluster';
+import {supercluster} from 'supercluster';
 import "./Map.css";
 
   const Marker = ({ children }) => children;
@@ -256,7 +256,9 @@ import "./Map.css";
     const [loading, setLoading] = useState(false);
     const [crimeData, setCrimeData] = useState([]);  
     const [selected, setSelected] = useState({});
-    const [currentPosition, setCurrentPosition] = useState({});   
+    const [currentPosition, setCurrentPosition] = useState({});    
+    const first = useRef(true) 
+    const firstCLuster = useRef()
     
     const alerted = false; 
 
@@ -278,7 +280,13 @@ import "./Map.css";
         bounds,
         zoom,
         options: { radius: 75, maxZoom: 20 } 
-      });   
+      });     
+
+      
+
+
+    //console.log(clusters);
+
     
     // const onSelect = (item) => {
     //   setSelected(item);
@@ -328,37 +336,8 @@ import "./Map.css";
             }
           };  
 
-          const nearCrime = () =>{  
 
-            for(var x in clusters){ 
-              console.log(clusters[x]);
-              // console.log(clusters[x].geometry.coordinates);  
-              // console.log(currentPosition); 
-              var sendNotif = clusters[x].alerted;
-              var c_lng = clusters[x].geometry.coordinates[0]; 
-              var c_lat = clusters[x].geometry.coordinates[1]; 
-              // console.log(c_lat,c_lng);
-              // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){  
-              //   console.log("Near Crime");
-              // }   
-              console.log(Math.abs(currentPosition.lng - c_lng))
-              if((Math.abs(currentPosition.lat - c_lat) < 0.003) && (Math.abs(currentPosition.lng - c_lng) < 0.005)){  
-                console.log("Near Crime"); 
-
-                if(sendNotif === false){
-                  var options = {
-                    body: 'You Near Crime Buddy'
-                  };
-                  new Notification('Crime Alert', options); 
-                } 
-                clusters[x].alerted = true; 
-                //console.log(clusters[x].alerted);
-              } 
-              
-            }
-          }
-          
-          nearCrime() 
+        
 
           useEffect(() => {
             getCrimeData() 
@@ -405,9 +384,9 @@ import "./Map.css";
                 defaultZoom={9} 
                 yesIWantToUseGoogleMapApiInternals
                 onGoogleApiLoaded={({ map }) => {
-                  mapRef.current = map;
+                  mapRef.current = map; 
                 }}  
-                onChange={({ zoom, bounds }) => {
+                onChange={({ zoom, bounds }) => { 
                   setZoom(zoom);
                   setBounds([
                     bounds.nw.lng,
@@ -415,30 +394,10 @@ import "./Map.css";
                     bounds.se.lng,
                     bounds.nw.lat
                   ]);   
-                   
-                  
-                  //nearCrime()
-                  // for(var x in clusters){
-                  //   console.log(clusters[x].geometry.coordinates);  
-                  //   //console.log(currentPosition);
-                  //   var c_lng = clusters[x].geometry.coordinates[1]; 
-                  //   var c_lat = clusters[x].geometry.coordinates[0] 
-                  //   // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){  
-                  //   //   console.log("Near Crime");
-                  //   // }   
-                  //   console.log(Math.abs(currentPosition.lat - c_lng))
-                  //   if(Math.abs(currentPosition.lat - c_lng) < 0.005){  
-                  //     console.log("Near Crime");
-                  //     var options = {
-                  //       body: 'You Near Crime Buddy'
-                  //     };
-                  //     new Notification('Successfully subscribed!', options);
-                  //   }
-                  // }
                 }}
             >  
-            {/* {console.log(zoom)}
-            {console.log(currentPosition)} */}
+            {/* {console.log(bounds)} */}
+
             {currentPosition && (
                 <Marker 
                   lat = {currentPosition.lat} 
@@ -486,7 +445,8 @@ import "./Map.css";
                     </div>
                   </Marker>
                 );
-              }
+              } 
+
 
               return (
                 <Marker
@@ -499,8 +459,9 @@ import "./Map.css";
                   </button>
                 </Marker>
               );
-            })}
+            })} 
 
+            
             </GoogleMapReact> 
 
             <div className="btn-group" role="group" aria-label="Basic example">
@@ -508,7 +469,7 @@ import "./Map.css";
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => getCrimeData(3)} 
-            >
+            >  
                 3 Months
             </button>
             <button

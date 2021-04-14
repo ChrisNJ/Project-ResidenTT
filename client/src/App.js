@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import ReportsFeed from "./pages/ReportsFeed";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef, useCallback} from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -17,7 +17,11 @@ import NavBar from "./components/Nav Bar/Navbar";
 import ReportModal from "./components/Report/Report";
 import SimpleModal from "./components/Chat/Modal";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css"; 
+
+import useSupercluster from "use-supercluster";  
+import {supercluster} from 'supercluster';  
+
 toast.configure();
 
 var deferredPrompt;
@@ -27,7 +31,9 @@ var enableNotificationsButtons = document.querySelectorAll(
 
 if (!window.Promise) {
   window.Promise = Promise;
-}
+} 
+
+
 
 // const convertedVapidKey = urlBase64ToUint8Array(
 //   process.env.REACT_APP_PUBLIC_VAPID_KEY
@@ -109,14 +115,109 @@ askForNotificationPermission();
 //   }
 // }
 
-function App() {
+function App() { 
   //variables used for setting authenticated and page loading
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); 
+  const [loading, setLoading] = useState(false); 
+  const [crimeData, setCrimeData] = useState([]);   
+  const [currentPosition, setCurrentPosition] = useState({});  
+  const firstCLuster = useRef()
+
+
 
   //Function passed to child components to set authentication
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
-  };
+  }; 
+
+  // const getCrimeData = async (range = 1) => {
+  //   try {
+  //     let res;
+  //     setLoading(true);
+  //     if (range >= 1) {
+  //       const body = { range };
+
+  //       res = await fetch("/crimereports/", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-type": "application/json",
+  //         },
+  //         body: JSON.stringify(body),
+  //       });
+  //     }
+
+  //     const parseData = await res.json();
+  //     let newData = parseData.map((element) => {
+  //       return {
+  //         createdAt: element.createdAt,
+  //         date: element.date,
+  //         division: element.divison,
+  //         id: element.id,
+  //         address: element.location,
+  //         offences: element.offences,
+  //         station: element.station,
+  //         time: element.time,
+  //         updatedAt: element.updatedAt,
+  //         location: {
+  //           lat: element.latitude,
+  //           lng: element.longitude,
+  //         },
+  //       };
+  //     });
+  //     setCrimeData(newData);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // };      
+
+  
+  // const points = crimeData.map(crime => ({ 
+  //   type: "Feature",
+  //   properties: { cluster: false, crimeId: crime.id,category: crime.offences},
+  //   geometry: {
+  //     type: "Point",
+  //     coordinates: [
+  //       parseFloat(crime.location.lng),
+  //       parseFloat(crime.location.lat), 
+  //     ]
+  //   } 
+  // }));  
+
+  // const { clusters } = useSupercluster({
+  //   points, 
+  //   bounds:[-61.83980640485659, 10.121933582359432, -60.96090015485659, 11.206971508949579],
+  //   zoom:9,
+  //   options: { radius: 75, maxZoom: 20 } 
+  // });     
+
+     
+
+  // const nearCrime = useCallback(() => { 
+  //   getCrimeData(6) 
+  //   console.log(clusters);
+  //   if(currentPosition){ 
+  //     for(var x in clusters){
+  //       console.log(clusters[x].geometry.coordinates);  
+  //       //console.log(currentPosition);
+  //       var c_lng = clusters[x].geometry.coordinates[0]; 
+  //       var c_lat = clusters[x].geometry.coordinates[1]  
+  //       //console.log(c_lng,c_lat);
+  //       // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){  
+  //       //   console.log("Near Crime");
+  //       // }   
+  //       //console.log(Math.abs(currentPosition.lat - c_lat))
+  //       if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){
+  //         console.log("Near Crime");
+  //         var options = {
+  //           body: 'You Near Crime Buddy'
+  //         };
+  //         new Notification('Crime Alert', options);
+  //       }
+  //     }
+    
+  //   }
+  // }, [clusters, currentPosition]);
 
   //Send the token in local storage to verify the user
   async function isAuth() {
@@ -136,10 +237,28 @@ function App() {
     }
   }
 
+  // useCallback(() => {
+  //   getCrimeData(6) 
+  // },[])
+
   //Calls isAuth on load and when state variables change
-  useEffect(() => {
-    isAuth();
-  }, []);
+  useEffect(() => { 
+    isAuth(); 
+    navigator.geolocation.watchPosition((position)=>{ 
+      const pos  = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+        //console.log(position); 
+        setCurrentPosition(pos);  
+        //console.log(pos);
+        //nearCrime()
+    },()=>null)        
+  }, []); 
+
+
+
+  
 
   return (
     <Router>
