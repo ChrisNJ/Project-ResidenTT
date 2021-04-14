@@ -25,37 +25,7 @@ h6 {
   user-select: none;
 }
 
-.modal-body {
-  background-color: #253348;
-}
-
-.modal-content {
-  background-color: #253348;
-}
-
-.modal-footer {
-  background-color: #253348;
-  border-top: 1px solid #bab4b4;
-}
-
-.modal-header {
-  background-color: #253348;
-  border-bottom: 1px solid #bab4b4;
-}
-
-.card-body {
-  background-color: #253348;
-}
-
-.card-header {
-  background-color: #253348;
-}
-
-.card {
-  border-color: #4e5155;
-}
-
-.spinner-border {
+.spinner-border .spinner-grow {
   position: fixed;
   z-index: 99; /* make higher than whatever is on the page */
   top: 0;
@@ -66,6 +36,33 @@ h6 {
   /* background: red; */
   width: 4rem;
   height: 4rem;
+}
+
+.embed-responsive .card-img-bottom {
+  object-fit: scale-down;
+}
+
+.custom-switch.custom-switch-md .custom-control-label {
+  padding-left: 2rem;
+  padding-bottom: 1.5rem;
+}
+
+.custom-switch.custom-switch-md .custom-control-label::before {
+  height: 1.5rem;
+  width: calc(2rem + 0.75rem);
+  border-radius: 3rem;
+}
+
+.custom-switch.custom-switch-md .custom-control-label::after {
+  width: calc(1.5rem - 4px);
+  height: calc(1.5rem - 4px);
+  border-radius: calc(2rem - (1.5rem / 2));
+}
+
+.custom-switch.custom-switch-md
+  .custom-control-input:checked
+  ~ .custom-control-label::after {
+  transform: translateX(calc(1.5rem - 0.25rem));
 }
 
 /* 

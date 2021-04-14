@@ -14,6 +14,7 @@ const User = require("./models/User");
 const UserReport = require("./models/UserReport");
 const Media = require("./models/Media");
 const News = require("./models/News");
+const Clusters = require("./models/Clusters");
 
 // setup relationships in models
 User.hasMany(UserReport, { as: "userreport" });
@@ -47,6 +48,9 @@ app.use("/crimereports", require("./routes/crimereports"));
 
 //route for user reports
 app.use("/userreports", require("./routes/userreports"));
+
+//route for retrieving cluster points
+app.use("/clusters", require("./routes/clusters"));
 
 /* News Scrapper*/
 //route for news feed

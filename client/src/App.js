@@ -35,42 +35,6 @@ if (!window.Promise) {
 
 
 
-// const convertedVapidKey = urlBase64ToUint8Array(
-//   process.env.REACT_APP_PUBLIC_VAPID_KEY
-// );
-
-// function urlBase64ToUint8Array(base64String) {
-//   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-//   const base64 = (base64String + padding)
-//     .replace(/\-/g, "+")
-//     .replace(/_/g, "/");
-
-//   const rawData = window.atob(base64);
-//   const outputArray = new Uint8Array(rawData.length);
-
-//   for (let i = 0; i < rawData.length; ++i) {
-//     outputArray[i] = rawData.charCodeAt(i);
-//   }
-//   return outputArray;
-// }
-
-// if ("serviceWorker" in navigator) {
-//   navigator.serviceWorker
-//     .register("/sw.js")
-//     .then((response) => {
-//       console.log("Service worker registered!");
-//       return response.pushManager.getSubscription().then((subscription) => {
-//         // return response.pushManager.subscribe({
-//         //   userVisibleOnly: true,
-//         //   applicationServerKey: convertedVapidKey,
-//         // });
-//       });
-//     })
-//     .catch(function (err) {
-//       console.log(err);
-//     });
-// }
-
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("/sw.js")
@@ -118,12 +82,12 @@ askForNotificationPermission();
 function App() { 
   //variables used for setting authenticated and page loading
   const [isAuthenticated, setIsAuthenticated] = useState(false); 
-  const [loading, setLoading] = useState(false); 
   const [crimeData, setCrimeData] = useState([]);   
   const [currentPosition, setCurrentPosition] = useState({});  
   const firstCLuster = useRef()
 
 
+  const [isLoading, setLoading] = useState(true);
 
   //Function passed to child components to set authentication
   const setAuth = (boolean) => {
@@ -228,10 +192,12 @@ function App() {
       });
 
       const parseRes = await res.json();
+
       //If the auth (boolean) part of the response from the server is true then set authenticated
       parseRes.auth === true
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
+      setLoading(false);
     } catch (err) {
       console.error(err.message);
     }
@@ -260,6 +226,58 @@ function App() {
 
   
 
+  //Get the window size to enable the reduction of particles for mobile
+  function useWindowSize() {
+    const [windowSize, setWindowSize] = useState({
+      width: undefined,
+      height: undefined,
+    });
+
+    useEffect(() => {
+      function handleResize() {
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }
+      window.addEventListener("resize", handleResize);
+      handleResize();
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return windowSize;
+  }
+
+  const size = useWindowSize().width;
+
+  let num_p;
+  if (size > 755) {
+    num_p = 100;
+  } else {
+    num_p = 20;
+  }
+
+  if (isLoading) {
+    return (
+      <div
+        className="container text-center"
+        style={{
+          backgroundColor: "#181515",
+          minHeight: "100vh",
+          minWidth: "100%",
+          display: "flex",
+          flexDirection: "column",
+          color: "white",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div className="spinner-border text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <Router>
       <div className="App">
@@ -270,7 +288,7 @@ function App() {
             params={{
               particles: {
                 number: {
-                  value: 100,
+                  value: num_p,
                 },
                 size: {
                   value: 3,
@@ -299,8 +317,10 @@ function App() {
         </div>
         {/* Lets the navbar know whether a user is authenticated on every page */}
         <NavBar userAuth={isAuthenticated} setAuth={setAuth} />
-        <ReportModal userAuth={isAuthenticated} />
-        <SimpleModal />
+        <div>
+          <ReportModal userAuth={isAuthenticated} />
+          <SimpleModal />
+        </div>
         <Switch>
           <Route exact path="/map" render={(props) => <Map {...props} />} />
           <Route exact path="/stats" render={(props) => <Stats {...props} />} />
@@ -309,7 +329,7 @@ function App() {
           <Route
             exact
             path="/reportsfeed"
-            render={(props) => <ReportsFeed {...props} />}
+            render={(props) => <ReportsFeed />}
           />
           <Route
             exact

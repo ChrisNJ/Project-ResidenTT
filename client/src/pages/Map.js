@@ -1,436 +1,366 @@
-import React, { useEffect, useState, useRef ,componentDidMount} from "react"; 
+import React, { useEffect, useState, useRef, componentDidMount } from "react";
 
-// import {
-//   GoogleMap,
-//   LoadScript,
-//   Marker,
-//   InfoWindow,
-//   MarkerClusterer,
-// } from "@react-google-maps/api";
-// require("dotenv").config();
-
-// const containerStyle = {
-//   width: "100%",
-//   height: "60vh",
-// };
-
-// const Map = () => {
-//   const [loading, setLoading] = useState(false);
-//   const [crimeData, setCrimeData] = useState([]);
-//   const [center, setCenter] = useState({
-//     lat: 10.66493623435229,
-//     lng: -61.40035327985661,
-//   });
-//   const zoom = 9;
-//   const [selected, setSelected] = useState({});
-//   const [currentPosition, setCurrentPosition] = useState({}); 
-
-//   const mapRef = useRef();
-
-//   const getCrimeData = async (range = 1) => {
-//     try {
-//       let res;
-//       setLoading(true);
-//       if (range >= 1) {
-//         const body = { range };
-
-//         res = await fetch("/crimereports/", {
-//           method: "POST",
-//           headers: {
-//             "Content-type": "application/json",
-//           },
-//           body: JSON.stringify(body),
-//         });
-//       }
-
-//       const parseData = await res.json();
-//       let newData = parseData.map((element) => {
-//         return {
-//           createdAt: element.createdAt,
-//           date: element.date,
-//           division: element.divison,
-//           id: element.id,
-//           address: element.location,
-//           offences: element.offences,
-//           station: element.station,
-//           time: element.time,
-//           updatedAt: element.updatedAt,
-//           location: {
-//             lat: element.latitude,
-//             lng: element.longitude,
-//           },
-//         };
-//       });
-//       setCrimeData(newData);
-//       setLoading(false);
-//     } catch (err) {
-//       console.error(err.message);
-//     }
-//   };
-
-//   useEffect(() => {
-//     getCrimeData()
-//     if (navigator.geolocation) {
-//       navigator.geolocation.watchPosition(success,
-//         data => {
-//           console.log(data)  
-          
-//         },
-//       )
-//     } 
-    
-//   }, []); 
-
-  
-
-//   const onSelect = (item) => {
-//     setSelected(item);
-//     setCenter(item.location);
-//   };
-
-//   const success = (position) => {
-//     const currentPosition = {
-//       lat: position.coords.latitude,
-//       lng: position.coords.longitude,
-//     };
-//     setCurrentPosition(currentPosition);
-//   };
-
-//   const options = {
-//     imagePath:
-//       "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-//   };
-
-//   return (
-//     <div>
-//       <br />
-//       <h1 style={{ textAlign: "center" }}>Trinidad and Tobago Crime Map</h1>
-//       <br />
-//       <div className="container">
-//         <LoadScript googleMapsApiKey="AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg">
-//           {loading ? (
-//             <div className="container text-center">
-//               <div
-//                 className="spinner-grow text-info"
-//                 role="status"
-//                 style={{
-//                   width: "4rem",
-//                   height: "4rem",
-//                 }}
-//               >
-//                 <span className="sr-only">Loading...</span>
-//               </div>
-//             </div>
-//           ) : (
-//             <GoogleMap
-//               mapContainerStyle={containerStyle}
-//               center={center}
-//               zoom={zoom}  
-//               yesIWantToUseGoogleMapApiInternals 
-//               onBoundsChanged = {({map}) => {
-//                 mapRef.current = map;
-//               }} 
-//             >
-//               {currentPosition.lat && (
-//                 <Marker
-//                   icon={
-//                     "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-//                   }
-//                   position={currentPosition}
-//                   onClick={() => onSelect(currentPosition)}
-//                 />
-//               )}
-
-//               <MarkerClusterer options={options}>
-//                 {(clusterer) =>
-//                   crimeData.map((item) => ( 
-//                     <Marker 
-//                       icon={
-//                         "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
-//                       }
-//                       key={item.id}
-//                       position={item.location}
-//                       clusterer={clusterer}
-//                       onClick={() => onSelect(item)} 
-//                     />  
-//                   ))  
-//                 }   
-//               </MarkerClusterer>
-//               {selected.location && (
-//                 <InfoWindow
-//                   position={selected.location}
-//                   clickable={true}
-//                   onCloseClick={() => setSelected({})}
-//                 >
-//                   <div>
-//                     <p style={{ color: "black" }}>
-//                       <b>Offence:</b> {selected.offences}
-//                     </p>
-//                     <p style={{ color: "black" }}>
-//                       <b>Date:</b> {selected.date}
-//                     </p>
-//                     <p style={{ color: "black" }}>
-//                       <b>Time:</b> {selected.time}
-//                     </p>
-//                   </div>
-//                 </InfoWindow>
-//               )}
-//             </GoogleMap>
-//           )}
-//         </LoadScript>
-
-//         <div className="btn-group" role="group" aria-label="Basic example">
-//           <button
-//             type="button"
-//             className="btn btn-secondary"
-//             onClick={() => getCrimeData(1)} 
-//           >
-//             3 Months
-//           </button>
-//           <button
-//             type="button"
-//             className="btn btn-secondary"
-//             onClick={() => getCrimeData(2)}
-//           >
-//             6 Months
-//           </button>
-//           <button
-//             type="button"
-//             className="btn btn-secondary"
-//             onClick={() => getCrimeData(3)}
-//           >
-//             1 Year
-//           </button>
-//           <button
-//             type="button"
-//             className="btn btn-secondary"
-//             onClick={() => getCrimeData(4)}
-//           >
-//             2 Years
-//           </button>
-//           <button
-//             type="button"
-//             className="btn btn-secondary"
-//             onClick={() => getCrimeData(5)}
-//           >
-//             3 Years
-//           </button>
-//           <button
-//             type="button"
-//             className="btn btn-secondary"
-//             onClick={() => getCrimeData(6)}
-//           >
-//             4 Years
-//           </button>
-//           <button
-//             type="button"
-//             className="btn btn-secondary"
-//             onClick={() => getCrimeData(7)}
-//           >
-//             5 Years
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////  
 import GoogleMapReact from "google-map-react";
-import useSupercluster from "use-supercluster";  
-import {supercluster} from 'supercluster';
+import useSupercluster from "use-supercluster";
+import Supercluster from "supercluster";
 import "./Map.css";
 
-  const Marker = ({ children }) => children;
+const Marker = ({ children }) => children;
 
-  // load and prepare data 
-  // get map bounds
-  // get clusters
-  
-  // return map 
-  const Map = () => {  
+// load and prepare data
+// get map bounds
+// get clusters
 
-    const mapRef = useRef();  
-    const [bounds, setBounds] = useState(null);
-    const [zoom, setZoom] = useState(11); 
-    const [loading, setLoading] = useState(false);
-    const [crimeData, setCrimeData] = useState([]);  
-    const [selected, setSelected] = useState({});
-    const [currentPosition, setCurrentPosition] = useState({});    
-    const first = useRef(true) 
-    const firstCLuster = useRef()
-    
-    const alerted = false; 
+// return map
+const Map = () => {
+  const mapRef = useRef();
+  const [bounds, setBounds] = useState(null);
+  const [zoom, setZoom] = useState(11);
+  const [loading, setLoading] = useState(false);
+  const [crimeData, setCrimeData] = useState([]);
+  const [userReports, setUserReports] = useState([]);
+  const [selected, setSelected] = useState({});
+  const [currentPosition, setCurrentPosition] = useState({});
+  const [activeData, setActiveData] = useState("");
 
-    const points = crimeData.map(crime => ({ 
-        type: "Feature",
-        properties: { cluster: false, crimeId: crime.id,category: crime.offences,name:false},
-        geometry: {
-          type: "Point",
-          coordinates: [
-            parseFloat(crime.location.lng),
-            parseFloat(crime.location.lat), 
-          ]
-        } 
-      }));  
+  const alerted = false;
 
-    const { clusters, supercluster } = useSupercluster({
-        points, 
-        alerted,
-        bounds,
-        zoom,
-        options: { radius: 75, maxZoom: 20 } 
-      });     
+  const points = crimeData.map((crime) => ({
+    type: "Feature",
+    properties: {
+      cluster: false,
+      crimeId: crime.id,
+      category: crime.offences,
+      name: false,
+    },
+    geometry: {
+      type: "Point",
+      coordinates: [
+        parseFloat(crime.location.lng),
+        parseFloat(crime.location.lat),
+      ],
+    },
+  }));
 
-      
+  const { clusters, supercluster } = useSupercluster({
+    points,
+    alerted,
+    bounds,
+    zoom,
+    options: { radius: 75, maxZoom: 20 },
+  });
 
+  // const onSelect = (item) => {
+  //   setSelected(item);
+  //   //setCurrentPosition(item.location);
+  // };
 
-    //console.log(clusters);
+  const getCrimeData = async (range = 3) => {
+    try {
+      let res;
+      let res2;
+      setLoading(true);
+      if (range) {
+        const body = { range };
 
-    
-    // const onSelect = (item) => {
-    //   setSelected(item);
-    //   //setCurrentPosition(item.location);
-    // };
+        //Get Official Crime Reports
+        res = await fetch("/crimereports/", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
 
+        //Get User Reports
+        res2 = await fetch("/userreports/", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+      }
 
+      const parseData = await res.json();
+      let newData = parseData.map((element) => {
+        return {
+          createdAt: element.createdAt,
+          date: element.date,
+          division: element.divison,
+          id: element.id,
+          address: element.location,
+          offences: element.offences,
+          station: element.station,
+          time: element.time,
+          updatedAt: element.updatedAt,
+          location: {
+            lat: element.latitude,
+            lng: element.longitude,
+          },
+        };
+      });
 
-    const getCrimeData = async (range = 1) => {
-            try {
-              let res;
-              setLoading(true);
-              if (range >= 1) {
-                const body = { range };
-        
-                res = await fetch("/crimereports/", {
-                  method: "POST",
-                  headers: {
-                    "Content-type": "application/json",
-                  },
-                  body: JSON.stringify(body),
-                });
+      const parseData2 = await res2.json();
+      let newData2 = parseData2.map((element) => {
+        return {
+          id: element.id,
+          division: element.location,
+          offences: element.offences,
+          date: element.date,
+          time: element.time,
+          createdAt: element.createdAt,
+          updatedAt: element.updatedAt,
+          location: {
+            lat: element.latitude,
+            lng: element.longitude,
+          },
+        };
+      });
+      console.log(newData2);
+
+      setCrimeData(newData);
+      setUserReports(newData2);
+      setActiveData(range);
+      setLoading(false);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const nearCrime = () => {
+    for (var x in clusters) {
+      console.log(clusters[x]);
+      // console.log(clusters[x].geometry.coordinates);
+      // console.log(currentPosition);
+      var sendNotif = clusters[x].alerted;
+      var c_lng = clusters[x].geometry.coordinates[0];
+      var c_lat = clusters[x].geometry.coordinates[1];
+      // console.log(c_lat,c_lng);
+      // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){
+      //   console.log("Near Crime");
+      // }
+      console.log(Math.abs(currentPosition.lng - c_lng));
+      if (
+        Math.abs(currentPosition.lat - c_lat) < 0.003 &&
+        Math.abs(currentPosition.lng - c_lng) < 0.005
+      ) {
+        console.log("Near Crime");
+
+        if (sendNotif === false) {
+          var options = {
+            body: "You Near Crime Buddy",
+          };
+          new Notification("Crime Alert", options);
+        }
+        clusters[x].alerted = true;
+        //console.log(clusters[x].alerted);
+      }
+    }
+  };
+
+  nearCrime();
+
+  useEffect(() => {
+    getCrimeData();
+    navigator.geolocation.watchPosition(
+      (position) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        //console.log(position);
+        setCurrentPosition(pos);
+        //nearCrime()
+      },
+      () => null
+    );
+
+    // if(currentPosition){
+    //   for(var x in clusters){
+    //     console.log(clusters[x].geometry.coordinates);
+    //     //console.log(currentPosition);
+    //     var c_lng = clusters[x].geometry.coordinates[1];
+    //     var c_lat = clusters[x].geometry.coordinates[0]
+    //     // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){
+    //     //   console.log("Near Crime");
+    //     // }
+    //     console.log(Math.abs(currentPosition.lat - c_lng))
+    //     if(Math.abs(currentPosition.lat - c_lng) < 0.005){
+    //       console.log("Near Crime");
+    //       var options = {
+    //         body: 'You Near Crime Buddy'
+    //       };
+    //       new Notification('Successfully subscribed!', options);
+    //     }
+    //   }
+
+    // }
+  }, []);
+
+  return (
+    <div>
+      <h1 className="mb-2 mt-2 text-center">Crime Map</h1>
+      <div className="container-lg mb-3">
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary btn-md dropdown-toggle mb-4"
+            type="button"
+            id="dropdownMenu2"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Sort by time
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <button
+              className={
+                activeData === 3 ? "dropdown-item active" : "dropdown-item"
               }
-        
-              const parseData = await res.json();
-              let newData = parseData.map((element) => {
-                return {
-                  createdAt: element.createdAt,
-                  date: element.date,
-                  division: element.divison,
-                  id: element.id,
-                  address: element.location,
-                  offences: element.offences,
-                  station: element.station,
-                  time: element.time,
-                  updatedAt: element.updatedAt,
-                  location: {
-                    lat: element.latitude,
-                    lng: element.longitude,
-                  },
-                };
-              });
-              setCrimeData(newData);
-              setLoading(false);
-            } catch (err) {
-              console.error(err.message);
-            }
-          };  
-
-
-        
-
-          useEffect(() => {
-            getCrimeData() 
-            navigator.geolocation.watchPosition((position)=>{ 
-              const pos  = {
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude,
-                    };
-                //console.log(position); 
-                setCurrentPosition(pos); 
-                //nearCrime()
-            },()=>null)          
-
-            // if(currentPosition){ 
-            //   for(var x in clusters){
-            //     console.log(clusters[x].geometry.coordinates);  
-            //     //console.log(currentPosition);
-            //     var c_lng = clusters[x].geometry.coordinates[1]; 
-            //     var c_lat = clusters[x].geometry.coordinates[0] 
-            //     // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){  
-            //     //   console.log("Near Crime");
-            //     // }   
-            //     console.log(Math.abs(currentPosition.lat - c_lng))
-            //     if(Math.abs(currentPosition.lat - c_lng) < 0.005){  
-            //       console.log("Near Crime");
-            //       var options = {
-            //         body: 'You Near Crime Buddy'
-            //       };
-            //       new Notification('Successfully subscribed!', options);
-            //     }
-            //   }
-            
-            // }
-          
-          }, []); 
-          
-          
-
-    return (
+              type="button"
+              onClick={() => getCrimeData(3)}
+            >
+              3 Months
+            </button>
+            <button
+              className={
+                activeData === 6 ? "dropdown-item active" : "dropdown-item"
+              }
+              type="button"
+              onClick={() => {
+                getCrimeData(6);
+              }}
+            >
+              6 Months
+            </button>
+            <button
+              className={
+                activeData === 12 ? "dropdown-item active" : "dropdown-item"
+              }
+              type="button"
+              onClick={() => {
+                getCrimeData(12);
+              }}
+            >
+              1 Year
+            </button>
+            <button
+              className={
+                activeData === 24 ? "dropdown-item active" : "dropdown-item"
+              }
+              type="button"
+              onClick={() => getCrimeData(24)}
+            >
+              2 Years
+            </button>
+            <button
+              className={
+                activeData === 36 ? "dropdown-item active" : "dropdown-item"
+              }
+              type="button"
+              onClick={() => getCrimeData(36)}
+            >
+              3 Years
+            </button>
+            <button
+              className={
+                activeData === 48 ? "dropdown-item active" : "dropdown-item"
+              }
+              type="button"
+              onClick={() => getCrimeData(48)}
+            >
+              4 Years
+            </button>
+            <button
+              className={
+                activeData === 60 ? "dropdown-item active" : "dropdown-item"
+              }
+              type="button"
+              onClick={() => getCrimeData(60)}
+            >
+              {" "}
+              5 Years
+            </button>
+          </div>
+        </div>
         <div style={{ height: "60vh", width: "100%" }}>
-            <GoogleMapReact
-                bootstrapURLKeys={{key: "AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg"}}
-                defaultCenter={{ lat: 10.66493623435229, lng: -61.40035327985661 }} 
-                defaultZoom={9} 
-                yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={({ map }) => {
-                  mapRef.current = map; 
-                }}  
-                onChange={({ zoom, bounds }) => { 
-                  setZoom(zoom);
-                  setBounds([
-                    bounds.nw.lng,
-                    bounds.se.lat,
-                    bounds.se.lng,
-                    bounds.nw.lat
-                  ]);   
-                }}
-            >  
-            {/* {console.log(bounds)} */}
+          <GoogleMapReact
+            bootstrapURLKeys={{
+              key: "AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg",
+            }}
+            defaultCenter={{ lat: 10.66493623435229, lng: -61.40035327985661 }}
+            defaultZoom={9}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={({ map }) => {
+              mapRef.current = map;
+            }}
+            onChange={({ zoom, bounds }) => {
+              setZoom(zoom);
+              setBounds([
+                bounds.nw.lng,
+                bounds.se.lat,
+                bounds.se.lng,
+                bounds.nw.lat,
+              ]);
 
+              //nearCrime()
+              // for(var x in clusters){
+              //   console.log(clusters[x].geometry.coordinates);
+              //   //console.log(currentPosition);
+              //   var c_lng = clusters[x].geometry.coordinates[1];
+              //   var c_lat = clusters[x].geometry.coordinates[0]
+              //   // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){
+              //   //   console.log("Near Crime");
+              //   // }
+              //   console.log(Math.abs(currentPosition.lat - c_lng))
+              //   if(Math.abs(currentPosition.lat - c_lng) < 0.005){
+              //     console.log("Near Crime");
+              //     var options = {
+              //       body: 'You Near Crime Buddy'
+              //     };
+              //     new Notification('Successfully subscribed!', options);
+              //   }
+              // }
+            }}
+          >
+            {/* {console.log(zoom)}
+            {console.log(currentPosition)} */}
             {currentPosition && (
-                <Marker 
-                  lat = {currentPosition.lat} 
-                  lng = {currentPosition.lng}
-                  //onClick={() => onSelect(currentPosition)}
-                > 
-                  <button className="crime-marker">
-                    <img src="https://maps.google.com/mapfiles/ms/icons/blue-dot.png" alt="User" />
-                  </button>   
-                </Marker>
-              )} 
+              <Marker
+                lat={currentPosition.lat}
+                lng={currentPosition.lng}
+                //onClick={() => onSelect(currentPosition)}
+              >
+                <button className="crime-marker">
+                  <img
+                    src="https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                    alt="User"
+                  />
+                </button>
+              </Marker>
+            )}
 
-            {clusters.map(cluster => {
-              const [longitude, latitude] = cluster.geometry.coordinates;  
+            {clusters.map((cluster) => {
+              const [longitude, latitude] = cluster.geometry.coordinates;
               cluster.alerted = false;
-              const { 
-                cluster: isCluster, 
-                point_count: pointCount,   
-              } = cluster.properties; 
+              const {
+                cluster: isCluster,
+                point_count: pointCount,
+              } = cluster.properties;
 
-              if (isCluster) { 
+              if (isCluster) {
                 return (
                   <Marker
                     key={`cluster-${cluster.id}`}
                     lat={latitude}
-                    lng={longitude} 
-
+                    lng={longitude}
                   >
                     <div
                       className="cluster-marker"
                       style={{
                         width: `${10 + (pointCount / points.length) * 40}px`,
-                        height: `${10 + (pointCount / points.length) * 40}px`
+                        height: `${10 + (pointCount / points.length) * 40}px`,
                       }}
                       onClick={() => {
                         const expansionZoom = Math.min(
@@ -455,70 +385,19 @@ import "./Map.css";
                   lng={longitude}
                 >
                   <button className="crime-marker">
-                    <img src="https://maps.google.com/mapfiles/ms/icons/red-dot.png" alt="crime" />
+                    <img
+                      src="https://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                      alt="crime"
+                    />
                   </button>
                 </Marker>
               );
-            })} 
-
-            
-            </GoogleMapReact> 
-
-            <div className="btn-group" role="group" aria-label="Basic example">
-            <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => getCrimeData(3)} 
-            >  
-                3 Months
-            </button>
-            <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => getCrimeData(6)}
-            >
-                6 Months
-            </button>
-            <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => getCrimeData(12)}
-            >
-                1 Year
-            </button>
-            <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => getCrimeData(24)}
-            >
-                2 Years
-            </button>
-            <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => getCrimeData(36)}
-            >
-                3 Years
-            </button>
-            <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => getCrimeData(48)}
-            >
-                4 Years
-            </button>
-            <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => getCrimeData(60)}
-            >
-                5 Years
-            </button>
-            </div>
-        </div> 
-
-        
-    ); 
-  }//end Map() 
+            })}
+          </GoogleMapReact>
+        </div>
+      </div>
+    </div>
+  );
+}; //end Map()
 
 export default Map;

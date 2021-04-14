@@ -31,10 +31,7 @@ const Stats = () => {
 
   return (
     <div>
-      <br />
-      <h1 style={{ textAlign: "center" }}>
-        Trinidad and Tobago Crime Statistics
-      </h1>
+      <h1 className="mb-2 mt-2 text-center">Crime Statistics</h1>
       <p style={{ textAlign: "center", color: "lightslategray" }}>
         <small>
           <i>
