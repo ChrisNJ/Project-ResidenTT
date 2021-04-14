@@ -98,4 +98,21 @@ router.post("/add", async (req, res) => {
   }
 });
 
+router.get("/getpred", async (req, res) => {
+  try {
+    const res = router.get(
+      "https://github.com/ProjectSakura/OTA/blob/10/changelog/changelog_beryllium.txt"
+    );
+    console.log("Response is ", res);
+
+    const preds = await res.json();
+
+    console.log("DATA: ", preds);
+    res.json(preds);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json("Server Error");
+  }
+});
+
 module.exports = router;

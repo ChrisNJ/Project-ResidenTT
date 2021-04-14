@@ -6,15 +6,11 @@ const Stats = () => {
 
   const getCrimeData = async () => {
     try {
-      let range = 2020;
-      const body = { range };
-
-      const res = await fetch("/crimereports/", {
-        method: "POST",
+      const res = await fetch("/crimereports/getpred", {
+        method: "GET",
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify(body),
       });
 
       const parseData = await res.json();
