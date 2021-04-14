@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
       return res.status(403).json("Not Authorized");
     }
     //Verify the jwtToken using the secretkey in the process.env (dotenv for local, config vars for heroku)
-    const payload = jwt.verify(jwtToken, process.env.jwtSecret);
+    const payload = jwt.verify(jwtToken, "cat123");
 
     //Return the user's id
     req.user = payload.user;

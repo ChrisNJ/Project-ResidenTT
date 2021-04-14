@@ -1,5 +1,5 @@
-var CACHE_STATIC_NAME = 'static-v2';
-var CACHE_DYNAMIC_NAME = 'dynamic-v2';
+var CACHE_STATIC_NAME = 'static-v3';
+var CACHE_DYNAMIC_NAME = 'dynamic-v3';
 
 /* eslint-disable no-restricted-globals */
 self.addEventListener("install", function (event) {

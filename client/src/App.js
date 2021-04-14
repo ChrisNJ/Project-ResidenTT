@@ -175,7 +175,7 @@ function App() {
           if(!clusters[x].alerted){
             console.log("Near Crime");
             var options = {
-              body: 'You Near Crime Buddy'
+              body: 'Crime Reported in Your Area'
             };
             new Notification('Crime Alert', options); 
           } 
