@@ -112,7 +112,7 @@ const Map = () => {
           },
         };
       });
-      console.log(newData2);
+      // console.log(newData2);
 
       setCrimeData(newData);
       setUserReports(newData2);
@@ -123,6 +123,38 @@ const Map = () => {
     }
   };
 
+  const nearCrime = () => {
+    for (var x in clusters) {
+      // console.log(clusters[x]);
+      // console.log(clusters[x].geometry.coordinates);
+      // console.log(currentPosition);
+      var sendNotif = clusters[x].alerted;
+      var c_lng = clusters[x].geometry.coordinates[0];
+      var c_lat = clusters[x].geometry.coordinates[1];
+      // console.log(c_lat,c_lng);
+      // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){
+      //   console.log("Near Crime");
+      // }
+      // console.log(Math.abs(currentPosition.lng - c_lng));
+      if (
+        Math.abs(currentPosition.lat - c_lat) < 0.003 &&
+        Math.abs(currentPosition.lng - c_lng) < 0.005
+      ) {
+        // console.log("Near Crime");
+
+        if (sendNotif === false) {
+          var options = {
+            body: "You Near Crime Buddy",
+          };
+          new Notification("Crime Alert", options);
+        }
+        clusters[x].alerted = true;
+        //console.log(clusters[x].alerted);
+      }
+    }
+  };
+
+  nearCrime();
 
   useEffect(() => {
     getCrimeData();
@@ -260,23 +292,19 @@ const Map = () => {
                   />
                 </button>
               </Marker>
-            )} 
+            )}
 
-            {userReports.map((reports) => { 
-
-                return ( 
-                  <Marker
-                      lat={reports.location.lat}
-                      lng={reports.location.lng} 
-                  > 
-                     <button className="crime-marker">
-                        <img
-                          src="https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
-                          alt="crime"
-                        />
-                      </button>
-                  </Marker>
-                );
+            {userReports.map((reports) => {
+              return (
+                <Marker lat={reports.location.lat} lng={reports.location.lng}>
+                  <button className="crime-marker">
+                    <img
+                      src="https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+                      alt="crime"
+                    />
+                  </button>
+                </Marker>
+              );
             })}
 
             {clusters.map((cluster) => {
@@ -313,8 +341,7 @@ const Map = () => {
                     </div>
                   </Marker>
                 );
-              } 
-
+              }
 
               return (
                 <Marker
@@ -328,7 +355,7 @@ const Map = () => {
                       alt="crime"
                     />
                   </button>
-                </Marker> 
+                </Marker>
               );
             })}
           </GoogleMapReact>

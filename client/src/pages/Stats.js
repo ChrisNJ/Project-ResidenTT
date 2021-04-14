@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
+import axios from "axios";
 
 const Stats = () => {
-  const [crimeData, setCrimeData] = useState([]);
+  const [crimeData, setCrimeData] = useState();
 
   const getCrimeData = async () => {
     try {
-      const res = await fetch("/crimereports/getpred", {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
-
-      const parseData = await res.json();
-      console.log(parseData);
-      setCrimeData(parseData);
+      axios
+        .get(
+          "https://raw.githubusercontent.com/ChrisNJ/ResidenTT/main/AllPredictions.txt"
+        )
+        .then((res) => {
+          console.log("Org data", res.data.Overall.Total.data);
+          // const overallData = Object.values(res.data.Overall);
+          // console.log("parsed Data", overallData);
+          setCrimeData(res);
+        })
+        .catch((err) => {});
     } catch (err) {
       console.error(err.message);
     }
