@@ -10,7 +10,12 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
+<<<<<<< Updated upstream
 import Typography from "@material-ui/core/Typography";
+=======
+import Typography from "@material-ui/core/Typography"; 
+
+>>>>>>> Stashed changes
 
 const useStyles = (theme) => ({
   root: {
