@@ -94,72 +94,9 @@ function App() {
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
   }; 
-
-  // const getCrimeData = async (range = 1) => {
-  //   try {
-  //     let res;
-  //     setLoading(true);
-  //     if (range >= 1) {
-  //       const body = { range };
-
-  //       res = await fetch("/crimereports/", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-type": "application/json",
-  //         },
-  //         body: JSON.stringify(body),
-  //       });
-  //     }
-
-  //     const parseData = await res.json();
-  //     let newData = parseData.map((element) => {
-  //       return {
-  //         createdAt: element.createdAt,
-  //         date: element.date,
-  //         division: element.divison,
-  //         id: element.id,
-  //         address: element.location,
-  //         offences: element.offences,
-  //         station: element.station,
-  //         time: element.time,
-  //         updatedAt: element.updatedAt,
-  //         location: {
-  //           lat: element.latitude,
-  //           lng: element.longitude,
-  //         },
-  //       };
-  //     });
-  //     setCrimeData(newData);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     console.error(err.message);
-  //   }
-  // };      
-
-  
-  // const points = crimeData.map(crime => ({ 
-  //   type: "Feature",
-  //   properties: { cluster: false, crimeId: crime.id,category: crime.offences},
-  //   geometry: {
-  //     type: "Point",
-  //     coordinates: [
-  //       parseFloat(crime.location.lng),
-  //       parseFloat(crime.location.lat), 
-  //     ]
-  //   } 
-  // }));  
-
-  // const { clusters } = useSupercluster({
-  //   points, 
-  //   bounds:[-61.83980640485659, 10.121933582359432, -60.96090015485659, 11.206971508949579],
-  //   zoom:9,
-  //   options: { radius: 75, maxZoom: 20 } 
-  // });     
-
-     
-
+ 
   const nearCrime = useCallback(() => {  
-    console.log(clusters);
+    //console.log(clusters);
     if(currentPosition){ 
       for(var x in clusters){ 
         //console.log(x); 
@@ -170,7 +107,7 @@ function App() {
         // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){  
         //   console.log("Near Crime");
         // }   
-        console.log(Math.abs(currentPosition.lat - c_lat)) 
+        //console.log(Math.abs(currentPosition.lat - c_lat)) 
         if(Math.abs(currentPosition.lat - c_lat) < 0.005){ 
           if(!clusters[x].alerted){
             console.log("Near Crime");

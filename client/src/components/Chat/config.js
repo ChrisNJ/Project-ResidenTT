@@ -1,4 +1,5 @@
-import React from "react";
+import React from "react"; 
+import * as react-chatbot-kit from "react-chatbot-kit";
 import  createChatBotMessage  from "react-chatbot-kit";
 
 import LearningOptions from "./LearningOptions"; 
