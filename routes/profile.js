@@ -5,12 +5,15 @@ const authorization = require("../middleware/authorization");
 //Return username and profile image to profile
 router.post("/", authorization, async (req, res) => {
   try {
-    const user = await User.findOne({
-      attributes: ["userName", "DOB", "sex", "profileImage"],
-      where: { id: `${req.user}` },
-    });
-
-    res.json(user);
+    if (req.user) {
+      const user = await User.findOne({
+        attributes: ["userName", "DOB", "sex", "profileImage"],
+        where: { id: `${req.user}` },
+      });
+      res.status(200).json(user);
+    } else {
+      res.status(401).json("Invalid token");
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Server Error");

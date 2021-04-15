@@ -17,6 +17,7 @@ router.post("/", async (req, res) => {
   try {
     const { range } = req.body;
     let reports;
+    console.log(range);
 
     if (range && range != 2020) {
       reports = await getCrimeReports(range);
@@ -59,7 +60,7 @@ router.post("/", async (req, res) => {
       }
     }
 
-    res.json(reports);
+    res.status(200).json(reports);
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Server Error");

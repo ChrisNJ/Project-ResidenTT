@@ -266,23 +266,19 @@ const Map = () => {
                   />
                 </button>
               </Marker>
-            )} 
+            )}
 
-            {userReports.map((reports) => { 
-
-                return ( 
-                  <Marker
-                      lat={reports.location.lat}
-                      lng={reports.location.lng} 
-                  > 
-                     <button className="crime-marker">
-                        <img
-                          src="https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
-                          alt="crime"
-                        />
-                      </button>
-                  </Marker>
-                );
+            {userReports.map((reports) => {
+              return (
+                <Marker lat={reports.location.lat} lng={reports.location.lng}>
+                  <button className="crime-marker">
+                    <img
+                      src="https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+                      alt="crime"
+                    />
+                  </button>
+                </Marker>
+              );
             })}
 
             {clusters.map((cluster) => {
@@ -319,8 +315,7 @@ const Map = () => {
                     </div>
                   </Marker>
                 );
-              } 
-
+              }
 
               return (
                 <Marker
@@ -335,7 +330,7 @@ const Map = () => {
                       alt="crime"
                     />
                   </button>
-                </Marker> 
+                </Marker>
               );
             })} 
 
@@ -355,6 +350,10 @@ const Map = () => {
 
           </GoogleMapReact>
         </div>
+        <small>
+          Blue circles shows clusters of crimes, the number within the circle
+          represents the total number of crimes that occurred in the cluster
+        </small>
       </div>
     </div>
   );
