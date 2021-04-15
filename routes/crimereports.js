@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const db = require("../db");
 const CrimeReport = require("../models/CrimeReport");
 const { Op } = require("sequelize");
 const sequelize = require("sequelize");
@@ -92,23 +91,6 @@ router.post("/add", async (req, res) => {
     });
 
     res.status(201).json("Report added");
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json("Server Error");
-  }
-});
-
-router.get("/getpred", async (req, res) => {
-  try {
-    const res = router.get(
-      "https://github.com/ProjectSakura/OTA/blob/10/changelog/changelog_beryllium.txt"
-    );
-    console.log("Response is ", res);
-
-    const preds = await res.json();
-
-    console.log("DATA: ", preds);
-    res.json(preds);
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Server Error");

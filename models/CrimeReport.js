@@ -4,23 +4,23 @@ const db = require("../db");
 //CrimeReport model
 const CrimeReport = db.define("crimereport", {
   date: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.DATEONLY,
   },
   time: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.TIME,
   },
   station: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.STRING,
   },
   division: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.STRING,
   },
   location: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.STRING,
   },
   longitude: {
