@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, componentDidMount } from "react";
 
 import GoogleMapReact from "google-map-react";
+import InfoWindow from "google-map-react";
 import useSupercluster from "use-supercluster";
 import Supercluster from "supercluster";
 import "./Map.css";
@@ -123,7 +124,6 @@ const Map = () => {
     }
   };
 
-
   useEffect(() => {
     getCrimeData();
     navigator.geolocation.watchPosition(
@@ -139,6 +139,12 @@ const Map = () => {
       () => null
     );
   }, []);
+
+  const onSelect = (item) => {
+    console.log("tired");
+    setSelected(item);
+    // setCenter(item.location);
+  };
 
   return (
     <div>
@@ -260,23 +266,19 @@ const Map = () => {
                   />
                 </button>
               </Marker>
-            )} 
+            )}
 
-            {userReports.map((reports) => { 
-
-                return ( 
-                  <Marker
-                      lat={reports.location.lat}
-                      lng={reports.location.lng} 
-                  > 
-                     <button className="crime-marker">
-                        <img
-                          src="https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
-                          alt="crime"
-                        />
-                      </button>
-                  </Marker>
-                );
+            {userReports.map((reports) => {
+              return (
+                <Marker lat={reports.location.lat} lng={reports.location.lng}>
+                  <button className="crime-marker">
+                    <img
+                      src="https://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+                      alt="crime"
+                    />
+                  </button>
+                </Marker>
+              );
             })}
 
             {clusters.map((cluster) => {
@@ -313,14 +315,14 @@ const Map = () => {
                     </div>
                   </Marker>
                 );
-              } 
-
+              }
 
               return (
                 <Marker
                   key={`crime-${cluster.properties.crimeId}`}
                   lat={latitude}
                   lng={longitude}
+                  onClick={() => onSelect(cluster)}
                 >
                   <button className="crime-marker">
                     <img
@@ -328,11 +330,34 @@ const Map = () => {
                       alt="crime"
                     />
                   </button>
-                </Marker> 
+                </Marker>
               );
             })}
+            {selected.location && (
+              <InfoWindow
+                position={selected.location}
+                clickable={true}
+                onCloseClick={() => setSelected({})}
+              >
+                <div>
+                  <p style={{ color: "black" }}>
+                    <b>Offence:</b> {selected.offences}
+                  </p>
+                  <p style={{ color: "black" }}>
+                    <b>Date:</b> {selected.date}
+                  </p>
+                  <p style={{ color: "black" }}>
+                    <b>Time:</b> {selected.time}
+                  </p>
+                </div>
+              </InfoWindow>
+            )}
           </GoogleMapReact>
         </div>
+        <small>
+          Blue circles shows clusters of crimes, the number within the circle
+          represents the total number of crimes that occurred in the cluster
+        </small>
       </div>
     </div>
   );

@@ -197,7 +197,6 @@ const Report = ({ userAuth }) => {
       $("#Crime_Report :input[required='required']").each(function () {
         // if the value of the input is empty then open the accordion tab where its located
         if ($(this).val() === "" || $.isEmptyObject($(this).val())) {
-          console.log("testingempty");
           $(".collapse.show").removeClass("show");
           $(this).closest(".collapse").addClass("show");
 
