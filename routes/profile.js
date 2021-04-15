@@ -68,6 +68,7 @@ router.post("/userExists", authorization, async (req, res) => {
     }
   } catch (err) {
     console.error(err.message);
+    res.status(500).json("Server Error");
   }
 });
 module.exports = router;

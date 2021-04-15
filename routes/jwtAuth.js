@@ -49,7 +49,7 @@ router.post("/register", async (req, res) => {
     // creates jwt token
     const token = jwtGenerator(newUser.id);
 
-    res.json({ token });
+    res.status(201).json({ token });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -79,7 +79,7 @@ router.post("/login", async (req, res) => {
 
     //send client jwt token
     const token = jwtGenerator(user.id);
-    res.json({ token });
+    res.status(200).json({ token });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
