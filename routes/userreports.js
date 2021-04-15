@@ -55,7 +55,7 @@ router.post("/", async (req, res) => {
       });
     }
 
-    res.json(reports);
+    res.status(200).json(reports);
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Server Error");
@@ -97,7 +97,7 @@ router.post("/create", authorization, async (req, res) => {
       });
     }
 
-    res.status(200).json("Report added successfully!");
+    res.status(201).json("Report added successfully!");
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Server Error");
@@ -124,7 +124,7 @@ router.put("/update", authorization, async (req, res) => {
     });
 
     if (userreport === null) {
-      res.status(500).json("Could not locate report");
+      res.status(404).json("Could not locate report");
     } else {
       userreport.offences = offences;
       userreport.crimeInfo = crimeInfo;
@@ -172,9 +172,10 @@ router.delete("/delete", authorization, async (req, res) => {
     //Destroy the report
     if (userreport) {
       await userreport.destroy();
+      res.status(204).json("Report deleted!");
+    } else {
+      res.status(404).json("Report does not exist");
     }
-
-    res.status(204).json("Report deleted!");
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Server Error");
