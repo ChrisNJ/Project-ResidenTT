@@ -1,4 +1,4 @@
-import { React, Component } from "react";
+import { React, Component, useState, useEffect } from "react";
 import axios from "axios";
 
 //import { makeStyles } from '@material-ui/core/styles';
@@ -10,7 +10,8 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography"; 
+import LoadingScreen from '../react-loading-screen'
 
 const useStyles = (theme) => ({
   root: {
@@ -32,8 +33,9 @@ class Feed extends Component {
     };
   }
 
-  componentDidMount = () => {
-    this.state.loading = true;
+  componentDidMount = () => { 
+    this.state.loading = true; 
+
     axios.get("/scrape").then((response) => {
       this.setState({
         scrappedLink: response.data,
@@ -44,7 +46,7 @@ class Feed extends Component {
     this.state.loading = false;
   };
 
-  render() {
+  render() { 
     const { classes } = this.props;
     var data = this.state.scrappedLink;
     return (

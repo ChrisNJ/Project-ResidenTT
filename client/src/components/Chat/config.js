@@ -1,14 +1,13 @@
 import React from "react"; 
-import * as react-chatbot-kit from "react-chatbot-kit";
-import  createChatBotMessage  from "react-chatbot-kit";
+import  {createChatBotMessage}  from "react-chatbot-kit";
 
 import LearningOptions from "./LearningOptions"; 
 import LinkList from "./LinkList";
 
 const config = { 
-  botName: "LearningBot",
+  botName: "ResidenTT BOT",
   initialMessages: [
-    createChatBotMessage("Hi, I'm here to help. What do you want to learn?", {
+    createChatBotMessage("Hi, I'm here to help. What do you need to know?", {
       widget: "learningOptions",
     }),
   ], 

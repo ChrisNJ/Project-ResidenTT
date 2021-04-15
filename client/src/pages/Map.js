@@ -1,6 +1,8 @@
-import React, { useEffect, useState, useRef, componentDidMount } from "react";
+import React, { useEffect, useState, useRef, componentDidMount, componentWillUnmount } from "react";
 
-import GoogleMapReact from "google-map-react";
+import GoogleMapReact from "google-map-react"; 
+import InfoWindow from "google-map-react";
+
 import useSupercluster from "use-supercluster";
 import Supercluster from "supercluster";
 import "./Map.css";
@@ -23,7 +25,7 @@ const Map = () => {
   const [currentPosition, setCurrentPosition] = useState({});
   const [activeData, setActiveData] = useState("");
 
-  const alerted = false;
+  const alerted = false; 
 
   const points = crimeData.map((crime) => ({
     type: "Feature",
@@ -123,6 +125,10 @@ const Map = () => {
     }
   };
 
+  const onSelect = (item) => {
+    setSelected(item);
+    //setCenter(item.location);
+  };
 
   useEffect(() => {
     getCrimeData();
@@ -292,7 +298,7 @@ const Map = () => {
                   <Marker
                     key={`cluster-${cluster.id}`}
                     lat={latitude}
-                    lng={longitude}
+                    lng={longitude}  
                   >
                     <div
                       className="cluster-marker"
@@ -320,7 +326,8 @@ const Map = () => {
                 <Marker
                   key={`crime-${cluster.properties.crimeId}`}
                   lat={latitude}
-                  lng={longitude}
+                  lng={longitude} 
+                  onClick={() => onSelect(this.key)}
                 >
                   <button className="crime-marker">
                     <img
@@ -330,7 +337,22 @@ const Map = () => {
                   </button>
                 </Marker> 
               );
-            })}
+            })} 
+
+              {selected.coordinates && (
+                <InfoWindow
+                  position={selected.coordinates}
+                  clickable={true}
+                  onCloseClick={() => setSelected({})}
+                >
+                  <div>
+                    <p style={{ color: "black" }}>
+                      <b>Offence:</b> {selected.offences}
+                    </p>
+                  </div>
+                </InfoWindow>
+              )}
+
           </GoogleMapReact>
         </div>
       </div>
