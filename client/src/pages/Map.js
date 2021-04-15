@@ -247,7 +247,7 @@ const Map = () => {
               ]);
             }}
           >
-            {currentPosition && (
+            {currentPosition.lat && (
               <Marker
                 lat={currentPosition.lat}
                 lng={currentPosition.lng}
