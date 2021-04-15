@@ -174,7 +174,7 @@ router.delete("/delete", authorization, async (req, res) => {
       await userreport.destroy();
     }
 
-    res.status(200).json("Report deleted!");
+    res.status(204).json("Report deleted!");
   } catch (err) {
     console.error(err.message);
     res.status(500).json("Server Error");
