@@ -1,46 +1,48 @@
-import { createChatBotMessage } from 'react-chatbot-kit';
+import React from "react";
+import createChatBotMessage from "react-chatbot-kit";
 
-import LearningOptions from "./LearningOptions"; 
+import LearningOptions from "./LearningOptions";
 import LinkList from "./LinkList";
 
-const config = { 
+const config = {
   botName: "LearningBot",
   initialMessages: [
     createChatBotMessage("Hi, I'm here to help. What do you want to learn?", {
       widget: "learningOptions",
     }),
-  ], 
+  ],
   widgets: [
     {
       widgetName: "learningOptions",
-     widgetFunc: (props) => <LearningOptions {...props} />,
-    }, 
+      widgetFunc: (props) => <LearningOptions {...props} />,
+    },
     {
       widgetName: "FamilyCourtLinks",
-      widgetFunc: (props) => <LinkList {...props} />, 
+      widgetFunc: (props) => <LinkList {...props} />,
       props: {
         options: [
           {
             text: "Magisterial Applications",
             url:
-            "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/child-maintenance",
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/magisterial-applications",
             id: 1,
           },
           {
             text: "Child Maintenance",
             url:
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide",
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/child-maintenance",
             id: 2,
           },
           {
             text: "Cohabitational Relationships",
-            url: "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/co-habitational-relationships",
+            url:
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/co-habitational-relationships",
             id: 3,
-          }, 
+          },
           {
             text: "Beyond Control",
             url:
-            "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/beyond-control",
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/beyond-control",
             id: 4,
           },
           {
@@ -51,13 +53,14 @@ const config = {
           },
           {
             text: "Variation of Orders",
-            url: "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/variation-of-orders",
+            url:
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/variation-of-orders",
             id: 6,
-          }, 
+          },
           {
             text: "Attachment of Earnings",
             url:
-            "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/attachment-of-earnings",
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/attachment-of-earnings",
             id: 7,
           },
           {
@@ -68,22 +71,22 @@ const config = {
           },
           {
             text: "Court Pay",
-            url: "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/courtpay",
+            url:
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/family-court/courtpay",
             id: 7,
           },
         ],
-      },  
-      
-    }, 
+      },
+    },
     {
       widgetName: "MagCourtLinks",
-      widgetFunc: (props) => <LinkList {...props} />, 
+      widgetFunc: (props) => <LinkList {...props} />,
       props: {
         options: [
           {
             text: "Criminal Registry",
             url:
-            "https://www.ttlawcourts.org/index.php/public-guidance/faqs/magistrates-court/criminal-registry",
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/magistrates-court/criminal-registry",
             id: 1,
           },
           {
@@ -94,13 +97,14 @@ const config = {
           },
           {
             text: "Liquor Licences",
-            url: "https://www.ttlawcourts.org/index.php/public-guidance/faqs/magistrates-court/liquor-licences",
+            url:
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/magistrates-court/liquor-licences",
             id: 3,
-          }, 
+          },
           {
             text: "Magistrates' Court Extract",
             url:
-            "https://www.ttlawcourts.org/index.php/public-guidance/faqs/magistrates-court/magistrates-court-extract",
+              "https://www.ttlawcourts.org/index.php/public-guidance/faqs/magistrates-court/magistrates-court-extract",
             id: 4,
           },
           {
@@ -110,8 +114,7 @@ const config = {
             id: 5,
           },
         ],
-      },  
-      
+      },
     },
   ],
   customStyles: {
@@ -122,6 +125,6 @@ const config = {
       backgroundColor: "#376B7E",
     },
   },
-}
+};
 
-export default config
+export default config;

@@ -5,7 +5,7 @@ class ActionProvider {
     this.createClientMessage = createClientMessage;
   }
 
-  handleFamilyCourtList = () => {
+  handleFamilyCourtList() {
     const message = this.createChatBotMessage(
       "Are any of these what you're looking for?",
       {
@@ -14,9 +14,9 @@ class ActionProvider {
     );
 
     this.updateChatbotState(message);
-  };  
+  }  
 
-  handleMagCourtList = () => {
+  handleMagCourtList() {
     const message = this.createChatBotMessage(
       "Are any of these what you're looking for?",
       {
@@ -25,7 +25,31 @@ class ActionProvider {
     );
 
     this.updateChatbotState(message);
-  }; 
+  }
+
+  handleNumbersList() {
+    const greetingMessage = this.createChatBotMessage("Here's a List of Emergency Numbers");
+
+    const emergency = this.createChatBotMessage("Emergency: 911"); 
+    const police = this.createChatBotMessage("Police: 999");  
+    const fire = this.createChatBotMessage("Fire: 990"); 
+    const ambulance = this.createChatBotMessage("Ambulance: 811"); 
+    const stoppers = this.createChatBotMessage("Crime Stoppers: 800-TIPS"); 
+    const anticrime = this.createChatBotMessage("Anti-Crime Hotline: 555"); 
+    const odpm = this.createChatBotMessage("ODPM: 800-ODPM"); 
+
+
+    this.updateChatbotState(greetingMessage);  
+    this.updateChatbotState(emergency);  
+    this.updateChatbotState(police); 
+    this.updateChatbotState(fire);
+    this.updateChatbotState(ambulance);
+    this.updateChatbotState(stoppers);
+    this.updateChatbotState(anticrime);
+    this.updateChatbotState(odpm);
+
+    
+  }
 
   horn() {
     const greetingMessage = this.createChatBotMessage("That's Rough Buddy.");

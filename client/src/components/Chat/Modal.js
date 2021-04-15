@@ -53,7 +53,15 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <Fab color="primary" aria-label="help" onClick={handleOpen} style={style}>
+      <Fab
+        color="primary"
+        aria-label="help"
+        data-toggle="tooltip"
+        data-placement="left"
+        title="Chatbot"
+        onClick={handleOpen}
+        style={style}
+      >
         <AddIcon />
       </Fab>
       <Modal open={open} onClose={handleClose}>

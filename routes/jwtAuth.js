@@ -24,7 +24,7 @@ router.post("/register", async (req, res) => {
     const user = await User.findOne({ where: { userName } });
 
     if (user !== null) {
-      return res.status(401).json("User already exists");
+      return res.status(409).json("user already exists");
     }
 
     //encrypt user password
@@ -47,9 +47,8 @@ router.post("/register", async (req, res) => {
     });
 
     // creates jwt token
-    const token = jwtGenerator(newUser.id);
-
-    res.json({ token });
+    // const token = jwtGenerator(newUser.id);
+    res.status(201).json("user created");
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -74,12 +73,12 @@ router.post("/login", async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
-      return res.status(401).json("Password or Username is invalid");
+      return res.status(401).json("Password is invalid");
     }
 
     //send client jwt token
     const token = jwtGenerator(user.id);
-    res.json({ token });
+    res.status(200).json({ token });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

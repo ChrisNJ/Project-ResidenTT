@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import ReportsFeed from "./pages/ReportsFeed";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef, useCallback} from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -17,7 +17,11 @@ import NavBar from "./components/Nav Bar/Navbar";
 import ReportModal from "./components/Report/Report";
 import SimpleModal from "./components/Chat/Modal";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css"; 
+
+import useSupercluster from "use-supercluster";  
+import {supercluster} from 'supercluster';  
+
 toast.configure();
 
 var deferredPrompt;
@@ -27,43 +31,9 @@ var enableNotificationsButtons = document.querySelectorAll(
 
 if (!window.Promise) {
   window.Promise = Promise;
-}
+} 
 
-// const convertedVapidKey = urlBase64ToUint8Array(
-//   process.env.REACT_APP_PUBLIC_VAPID_KEY
-// );
 
-// function urlBase64ToUint8Array(base64String) {
-//   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-//   const base64 = (base64String + padding)
-//     .replace(/\-/g, "+")
-//     .replace(/_/g, "/");
-
-//   const rawData = window.atob(base64);
-//   const outputArray = new Uint8Array(rawData.length);
-
-//   for (let i = 0; i < rawData.length; ++i) {
-//     outputArray[i] = rawData.charCodeAt(i);
-//   }
-//   return outputArray;
-// }
-
-// if ("serviceWorker" in navigator) {
-//   navigator.serviceWorker
-//     .register("/sw.js")
-//     .then((response) => {
-//       console.log("Service worker registered!");
-//       return response.pushManager.getSubscription().then((subscription) => {
-//         // return response.pushManager.subscribe({
-//         //   userVisibleOnly: true,
-//         //   applicationServerKey: convertedVapidKey,
-//         // });
-//       });
-//     })
-//     .catch(function (err) {
-//       console.log(err);
-//     });
-// }
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
@@ -109,14 +79,76 @@ askForNotificationPermission();
 //   }
 // }
 
-function App() {
+function App() { 
   //variables used for setting authenticated and page loading
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); 
+  const [crimeData, setCrimeData] = useState([]);   
+  const [currentPosition, setCurrentPosition] = useState({});  
+  const firstCLuster = useRef() 
+  
+  const [clusters, setCluster] = useState({}); 
+
+  const [isLoading, setLoading] = useState(true);
 
   //Function passed to child components to set authentication
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
-  };
+  }; 
+ 
+  const nearCrime = useCallback(() => {  
+    //console.log(clusters);
+    if(currentPosition){ 
+      for(var x in clusters){ 
+        //console.log(x); 
+        //console.log(currentPosition);
+        var c_lng = clusters[x].longitude; 
+        var c_lat = clusters[x].latitude;  
+        //console.log(c_lng,c_lat);
+        // if((currentPosition.lat == c_lat) && (currentPosition.lng == c_lng)){  
+        //   console.log("Near Crime");
+        // }   
+        //console.log(Math.abs(currentPosition.lat - c_lat)) 
+        if(Math.abs(currentPosition.lat - c_lat) < 0.005){ 
+          if(!clusters[x].alerted){
+            console.log("Near Crime");
+            var options = {
+              body: 'Crime Reported in Your Area'
+            };
+            new Notification('Crime Alert', options); 
+          } 
+          clusters[x].alerted = true
+        }
+      }
+    
+    }
+  }, [currentPosition]);  
+
+  nearCrime()
+
+
+  async function loadCluster(){ 
+    try { 
+      let res
+      res = await fetch("/clusters/", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+
+    const parseData = await res.json();   
+    
+    setCluster(parseData) 
+    //console.log(parseData);
+
+    //const parseData = await res.json();
+      
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  //loadCluster()
 
   //Send the token in local storage to verify the user
   async function isAuth() {
@@ -127,20 +159,95 @@ function App() {
       });
 
       const parseRes = await res.json();
+
       //If the auth (boolean) part of the response from the server is true then set authenticated
       parseRes.auth === true
         ? setIsAuthenticated(true)
         : setIsAuthenticated(false);
+      setLoading(false);
     } catch (err) {
       console.error(err.message);
     }
   }
 
-  //Calls isAuth on load and when state variables change
-  useEffect(() => {
-    isAuth();
-  }, []);
+  // useCallback(() => {
+  //   getCrimeData(6) 
+  // },[])
 
+  //Calls isAuth on load and when state variables change
+  useEffect(() => { 
+    isAuth(); 
+    navigator.geolocation.watchPosition((position)=>{ 
+      const pos  = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+        //console.log(position); 
+        setCurrentPosition(pos);  
+        //console.log(pos);
+        //nearCrime()
+    },()=>null)     
+    loadCluster()     
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); 
+
+
+
+  
+
+  //Get the window size to enable the reduction of particles for mobile
+  function useWindowSize() {
+    const [windowSize, setWindowSize] = useState({
+      width: undefined,
+      height: undefined,
+    });
+
+    useEffect(() => {
+      function handleResize() {
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }
+      window.addEventListener("resize", handleResize);
+      handleResize();
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return windowSize;
+  }
+
+  const size = useWindowSize().width;
+
+  let num_p;
+  if (size > 755) {
+    num_p = 100;
+  } else {
+    num_p = 20;
+  }
+
+  if (isLoading) {
+    return (
+      <div
+        className="container text-center"
+        style={{
+          backgroundColor: "#181515",
+          minHeight: "100vh",
+          minWidth: "100%",
+          display: "flex",
+          flexDirection: "column",
+          color: "white",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div className="spinner-border text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <Router>
       <div className="App">
@@ -151,7 +258,7 @@ function App() {
             params={{
               particles: {
                 number: {
-                  value: 100,
+                  value: num_p,
                 },
                 size: {
                   value: 3,
@@ -180,8 +287,10 @@ function App() {
         </div>
         {/* Lets the navbar know whether a user is authenticated on every page */}
         <NavBar userAuth={isAuthenticated} setAuth={setAuth} />
-        <ReportModal userAuth={isAuthenticated} />
-        <SimpleModal />
+        <div>
+          <ReportModal userAuth={isAuthenticated} />
+          <SimpleModal />
+        </div>
         <Switch>
           <Route exact path="/map" render={(props) => <Map {...props} />} />
           <Route exact path="/stats" render={(props) => <Stats {...props} />} />
@@ -190,7 +299,7 @@ function App() {
           <Route
             exact
             path="/reportsfeed"
-            render={(props) => <ReportsFeed {...props} />}
+            render={(props) => <ReportsFeed />}
           />
           <Route
             exact

@@ -1,9 +1,46 @@
+.modal-body {
+  background-color: #253348;
+}
 
-  .crime-marker {
-    background: none;
-    border: none;
-  }
-  
-  .crime-marker img {
-    width: 25px;
-  }
+.modal-content {
+  background-color: #253348;
+}
+
+.modal-footer {
+  background-color: #253348;
+  border-top: 1px solid #bab4b4;
+}
+
+.modal-header {
+  background-color: #253348;
+  border-bottom: 1px solid #bab4b4;
+}
+
+.card-body {
+  background-color: #253348;
+}
+
+.card-header {
+  background-color: #253348;
+}
+
+.card {
+  border-color: #4e5155;
+}
+
+.crime-marker {
+  background: none;
+  border: none;
+}
+
+.crime-marker img {
+  width: 25px;
+}
+
+.accordion .fa {
+  margin-right: 0.5rem;
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  top: 2px;
+}

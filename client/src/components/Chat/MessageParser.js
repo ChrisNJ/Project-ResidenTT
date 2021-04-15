@@ -20,6 +20,10 @@ class MessageParser {
       this.actionProvider.handleMagCourtList();
     }
 
+    if (lowerCaseMessage.includes("Emergency Numbers")) {
+      this.actionProvider.handleNumberstList();
+    }
+
     if (lowerCaseMessage.includes("horn")) {
       this.actionProvider.horn();
     }
@@ -32,7 +36,7 @@ class MessageParser {
     if (lowerCaseMessage.includes("criminal registry located") || (lowerCaseMessage.includes("crime registry location"))) {
       this.actionProvider.crim_reg();
     } 
-    if (lowerCaseMessage.includes("What bail")) {
+    if (lowerCaseMessage.includes("is bail")) {
       this.actionProvider.what_is_bail();
     }
   }
