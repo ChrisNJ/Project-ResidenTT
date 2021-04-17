@@ -451,7 +451,7 @@ const Report = ({ userAuth }) => {
                               <GoogleMapReact
                                 bootstrapURLKeys={{
                                   key:
-                                    "AIzaSyC3pOnLyggdgCYC7Mv8CWSaeGNUUox2Qrg",
+                                  process.env.REACT_APP_mapKey,
                                 }}
                                 defaultCenter={center}
                                 defaultZoom={zoom}

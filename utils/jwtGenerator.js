@@ -10,7 +10,7 @@ function jwtGenerator(id) {
   const payload = {
     user: id,
   };
-  return jwt.sign(payload, "cat123", { expiresIn: "7d" }); // set time period for jwt expiration
+  return jwt.sign(payload, process.env.jwtSecret, { expiresIn: "7d" }); // set time period for jwt expiration
 }
 
 module.exports = jwtGenerator;
